@@ -15,6 +15,7 @@ from slowapi.util import get_remote_address
 from app.auth.middleware import get_auth_context
 from app.config import Settings, get_settings
 from app.dcr import dcr_router
+from app.mcp import mcp_router
 from app.utils.exceptions import MCPError
 from app.utils.logging import get_logger, setup_logging
 
@@ -135,6 +136,10 @@ def create_app() -> FastAPI:
     if settings.ENABLE_DCR_ENDPOINT:
         app.include_router(dcr_router)
         logger.info("dcr_router_registered")
+
+    # MCP Protocol router (always enabled)
+    app.include_router(mcp_router)
+    logger.info("mcp_router_registered")
 
     # Health check endpoints
     @app.get(

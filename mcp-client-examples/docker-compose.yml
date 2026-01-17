@@ -1,0 +1,118 @@
+version: '3.8'
+
+services:
+  # Note: These clients are for demonstration purposes only.
+  # Interactive clients (public-client-*, confidential-client) require browser
+  # interaction and may not work properly in Docker without additional configuration.
+
+  # Service Principal - Works in Docker (no user interaction)
+  service-principal:
+    build:
+      context: ./service-principal
+      dockerfile: Dockerfile
+    environment:
+      - CLIENT_ID=${SP_CLIENT_ID}
+      - CLIENT_SECRET=${SP_CLIENT_SECRET}
+      - TENANT_ID=${TENANT_ID}
+      - MCP_SERVER_URL=http://mcp-server:8000
+      - SCOPE=api://mcp-server/.default
+    networks:
+      - mcp-network
+    depends_on:
+      - mcp-server
+    restart: "no"  # Run once
+
+  # Public Client (No Credentials) - For demonstration
+  # Note: Browser interaction required - may not work in Docker
+  public-client-no-creds:
+    build:
+      context: ./public-client-no-creds
+      dockerfile: Dockerfile
+    environment:
+      - MCP_SERVER_URL=http://mcp-server:8000
+      - REDIRECT_URI=http://localhost:8080/callback
+      - SCOPE=api://mcp-server/.default
+    ports:
+      - "8081:8080"  # OAuth callback port
+    networks:
+      - mcp-network
+    depends_on:
+      - mcp-server
+    profiles:
+      - interactive  # Only start with --profile interactive
+
+  # Public Client (With Credentials) - For demonstration
+  # Note: Browser interaction required - may not work in Docker
+  public-client-with-creds:
+    build:
+      context: ./public-client-with-creds
+      dockerfile: Dockerfile
+    environment:
+      - CLIENT_ID=${PUBLIC_CLIENT_ID}
+      - TENANT_ID=${TENANT_ID}
+      - MCP_SERVER_URL=http://mcp-server:8000
+      - REDIRECT_URI=http://localhost:8080/callback
+      - SCOPE=api://mcp-server/.default
+    ports:
+      - "8082:8080"  # OAuth callback port
+    networks:
+      - mcp-network
+    depends_on:
+      - mcp-server
+    profiles:
+      - interactive  # Only start with --profile interactive
+
+  # Confidential Client - For demonstration
+  # Note: Browser interaction required - may not work in Docker
+  confidential-client:
+    build:
+      context: ./confidential-client
+      dockerfile: Dockerfile
+    environment:
+      - CLIENT_ID=${CONFIDENTIAL_CLIENT_ID}
+      - CLIENT_SECRET=${CONFIDENTIAL_CLIENT_SECRET}
+      - TENANT_ID=${TENANT_ID}
+      - MCP_SERVER_URL=http://mcp-server:8000
+      - REDIRECT_URI=http://localhost:8080/callback
+      - SCOPE=api://mcp-server/.default
+    ports:
+      - "8083:8080"  # OAuth callback port
+    networks:
+      - mcp-network
+    depends_on:
+      - mcp-server
+    profiles:
+      - interactive  # Only start with --profile interactive
+
+  # MCP Server (from main docker-compose)
+  mcp-server:
+    image: mcp-server:latest
+    build:
+      context: ../mcp-server
+      dockerfile: Dockerfile
+    environment:
+      - ENTRA_TENANT_ID=${TENANT_ID}
+      - MCP_SERVER_APP_ID=api://mcp-server
+      - REQUIRED_SCOPE=mcp.read mcp.write
+      - REQUIRED_ROLE=MCP.ReadWrite.All
+      - VSCODE_CLIENT_ID=${VSCODE_CLIENT_ID}
+      - CLAUDE_DESKTOP_CLIENT_ID=${CLAUDE_DESKTOP_CLIENT_ID}
+      - CLAUDE_CODE_CLIENT_ID=${CLAUDE_CODE_CLIENT_ID}
+      - CHATGPT_CLIENT_ID=${CHATGPT_CLIENT_ID}
+      - GENERIC_CLIENT_ID=${GENERIC_CLIENT_ID}
+      - LOG_LEVEL=INFO
+      - DEBUG_MODE=false
+      - ENABLE_MOCK_AUTH=false
+    ports:
+      - "8000:8000"
+    networks:
+      - mcp-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+networks:
+  mcp-network:
+    driver: bridge

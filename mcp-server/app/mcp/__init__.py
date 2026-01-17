@@ -1,6 +1,5 @@
 """MCP (Model Context Protocol) implementation module."""
 
-# MCP protocol handler will be implemented here
-# For now, this is a placeholder
+from .router import router as mcp_router
 
-__all__ = []
+__all__ = ["mcp_router"]
