@@ -1,0 +1,103 @@
+version: '3.8'
+
+services:
+  mcp-server:
+    build:
+      context: ./mcp-server
+      dockerfile: Dockerfile
+    container_name: mcp-server
+    ports:
+      - "8000:8000"
+    environment:
+      # Load from .env file
+      - ENTRA_TENANT_ID=${ENTRA_TENANT_ID}
+      - MCP_SERVER_APP_ID=${MCP_SERVER_APP_ID}
+      - MCP_SERVER_SCOPE_PREFIX=${MCP_SERVER_SCOPE_PREFIX:-}
+
+      # Authorization
+      - REQUIRED_SCOPE=${REQUIRED_SCOPE}
+      - REQUIRED_ROLE=${REQUIRED_ROLE}
+
+      # Client IDs
+      - VSCODE_CLIENT_ID=${VSCODE_CLIENT_ID}
+      - CLAUDE_DESKTOP_CLIENT_ID=${CLAUDE_DESKTOP_CLIENT_ID}
+      - CLAUDE_CODE_CLIENT_ID=${CLAUDE_CODE_CLIENT_ID}
+      - CHATGPT_CLIENT_ID=${CHATGPT_CLIENT_ID}
+      - GENERIC_CLIENT_ID=${GENERIC_CLIENT_ID}
+
+      # Server config
+      - DEPLOYMENT_MODE=${DEPLOYMENT_MODE:-fargate}
+      - MCP_SERVER_HOST=0.0.0.0
+      - MCP_SERVER_PORT=8000
+      - MCP_SERVER_BASE_URL=${MCP_SERVER_BASE_URL:-http://localhost:8000}
+
+      # JWT validation
+      - JWT_CLOCK_SKEW_SECONDS=${JWT_CLOCK_SKEW_SECONDS:-300}
+      - JWKS_CACHE_TTL_SECONDS=${JWKS_CACHE_TTL_SECONDS:-86400}
+      - VALIDATE_TOKEN_VERSION=${VALIDATE_TOKEN_VERSION:-true}
+      - ALLOWED_TOKEN_VERSIONS=${ALLOWED_TOKEN_VERSIONS:-2.0}
+      - ENFORCE_HTTPS_REDIRECTS=${ENFORCE_HTTPS_REDIRECTS:-false}
+
+      # Token revocation (optional)
+      - ENABLE_TOKEN_REVOCATION=${ENABLE_TOKEN_REVOCATION:-false}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
+
+      # DCR
+      - ENABLE_DCR_ENDPOINT=${ENABLE_DCR_ENDPOINT:-true}
+      - DCR_RATE_LIMIT_PER_MINUTE=${DCR_RATE_LIMIT_PER_MINUTE:-10}
+
+      # Security
+      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-http://localhost:3000,http://localhost:5173}
+      - CORS_ALLOW_CREDENTIALS=${CORS_ALLOW_CREDENTIALS:-true}
+
+      # Logging
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - LOG_FORMAT=${LOG_FORMAT:-json}
+      - LOG_REQUESTS=${LOG_REQUESTS:-true}
+      - LOG_JWT_CLAIMS=${LOG_JWT_CLAIMS:-false}
+
+      # Development
+      - DEBUG_MODE=${DEBUG_MODE:-false}
+      - ENABLE_SWAGGER=${ENABLE_SWAGGER:-true}
+      - ENABLE_MOCK_AUTH=${ENABLE_MOCK_AUTH:-false}
+    volumes:
+      # Mount source code for development (hot reload)
+      - ./mcp-server/app:/app/app
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+    depends_on:
+      - redis
+    networks:
+      - mcp-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: mcp-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - mcp-network
+    # Only start if token revocation is enabled
+    profiles:
+      - revocation
+
+volumes:
+  redis-data:
+    driver: local
+
+networks:
+  mcp-network:
+    driver: bridge
