@@ -1,0 +1,76 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mock-entra-idp"
+version = "0.1.0"
+description = "Mock Entra ID OAuth 2.0/OIDC token issuer for testing and demos"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "MCP Team"}
+]
+
+dependencies = [
+    "fastapi==0.109.0",
+    "uvicorn[standard]==0.27.0",
+    "pydantic==2.5.3",
+    "pydantic-settings==2.1.0",
+    "python-jose[cryptography]==3.3.0",
+    "cryptography==42.0.0",
+    "jinja2==3.1.3",
+    "python-multipart==0.0.6",
+    "structlog==24.1.0",
+    "redis==5.0.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==7.4.4",
+    "pytest-asyncio==0.23.3",
+    "pytest-cov==4.1.0",
+    "pytest-playwright==0.4.4",
+    "playwright==1.40.0",
+    "httpx==0.26.0",
+    "faker==22.2.0",
+    "black==24.1.1",
+    "isort==5.13.2",
+    "mypy==1.8.0",
+    "ruff==0.1.14",
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "unit: Fast unit tests",
+    "integration: Integration tests",
+    "e2e: End-to-end tests with browser",
+]
+asyncio_mode = "auto"
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--cov=app",
+    "--cov-report=term-missing",
+    "--cov-report=html:htmlcov",
+]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true

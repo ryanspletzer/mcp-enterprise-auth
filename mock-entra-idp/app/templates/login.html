@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in to your account</title>
+    <link rel="stylesheet" href="/static/styles/microsoft.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <div class="logo">
+                <svg width="108" height="24" viewBox="0 0 108 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="10" height="10" fill="#F25022"/>
+                    <rect x="12" width="10" height="10" fill="#7FBA00"/>
+                    <rect y="12" width="10" height="10" fill="#00A4EF"/>
+                    <rect x="12" y="12" width="10" height="10" fill="#FFB900"/>
+                    <text x="28" y="18" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="600" fill="#5E5E5E">Microsoft</text>
+                </svg>
+            </div>
+
+            <h1>Sign in</h1>
+            <p class="subtitle">to continue to {{ client_name }}</p>
+
+            <form method="POST" action="/oauth2/v2.0/authorize/login">
+                <input type="hidden" name="session_id" value="{{ session_id }}">
+
+                <div class="form-group">
+                    <input
+                        type="email"
+                        name="username"
+                        id="username"
+                        placeholder="Email, phone, or Skype"
+                        required
+                        autofocus
+                    />
+                </div>
+
+                <div class="form-group">
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        placeholder="Password"
+                        required
+                    />
+                </div>
+
+                <div class="form-group checkbox">
+                    <label>
+                        <input type="checkbox" name="keep_signed_in">
+                        <span>Keep me signed in</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-primary">Sign in</button>
+
+                <div class="links">
+                    <a href="javascript:void(0)">Can't access your account?</a>
+                </div>
+            </form>
+
+            <div class="create-account">
+                <span>No account? </span>
+                <a href="javascript:void(0)">Create one!</a>
+            </div>
+
+            <div class="help-text">
+                <p><strong>Demo Mode:</strong> Enter any email address and password to continue.</p>
+                <p>Pre-configured test users: testuser@example.com, admin@example.com, demo@example.com</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <a href="javascript:void(0)">Terms of use</a>
+            <a href="javascript:void(0)">Privacy & cookies</a>
+            <a href="javascript:void(0)">...</a>
+        </div>
+    </div>
+</body>
+</html>

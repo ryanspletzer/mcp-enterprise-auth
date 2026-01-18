@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permissions requested</title>
+    <link rel="stylesheet" href="/static/styles/microsoft.css">
+</head>
+<body>
+    <div class="container">
+        <div class="consent-box">
+            <div class="logo">
+                <svg width="108" height="24" viewBox="0 0 108 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="10" height="10" fill="#F25022"/>
+                    <rect x="12" width="10" height="10" fill="#7FBA00"/>
+                    <rect y="12" width="10" height="10" fill="#00A4EF"/>
+                    <rect x="12" y="12" width="10" height="10" fill="#FFB900"/>
+                    <text x="28" y="18" font-family="'Segoe UI', sans-serif" font-size="16" font-weight="600" fill="#5E5E5E">Microsoft</text>
+                </svg>
+            </div>
+
+            <h1>Permissions requested</h1>
+            <p class="subtitle">{{ user_name }}</p>
+
+            <div class="app-info">
+                <div class="app-name">{{ client_name }}</div>
+                <p>wants to:</p>
+            </div>
+
+            <div class="permissions">
+                {% for scope in scopes %}
+                <div class="permission-item">
+                    <svg class="permission-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <circle cx="8" cy="8" r="7" stroke="#0078d4" stroke-width="2"/>
+                        <path d="M5 8l2 2 4-4" stroke="#0078d4" stroke-width="2" fill="none"/>
+                    </svg>
+                    <span>{{ scope }}</span>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="consent-note">
+                <p>This will allow <strong>{{ client_name }}</strong> to access your information.</p>
+            </div>
+
+            <form method="POST" action="/oauth2/v2.0/authorize/consent">
+                <input type="hidden" name="session_id" value="{{ session_id }}">
+
+                <div class="button-group">
+                    <button type="submit" name="consent" value="approve" class="btn-primary">Accept</button>
+                    <button type="submit" name="consent" value="deny" class="btn-secondary">Cancel</button>
+                </div>
+            </form>
+
+            <div class="privacy-note">
+                <p>By clicking Accept, you allow this app and Microsoft to use your information in accordance with their respective terms of service and privacy statements.</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <a href="javascript:void(0)">Terms of use</a>
+            <a href="javascript:void(0)">Privacy & cookies</a>
+            <a href="javascript:void(0)">...</a>
+        </div>
+    </div>
+</body>
+</html>

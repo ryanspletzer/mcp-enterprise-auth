@@ -1,0 +1,295 @@
+/* Microsoft-inspired OAuth login and consent page styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont,
+                 'Roboto', 'Helvetica Neue', sans-serif;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #1b1b1b;
+}
+
+.container {
+    width: 100%;
+    max-width: 440px;
+    padding: 20px;
+}
+
+.login-box,
+.consent-box {
+    background: white;
+    padding: 44px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+.logo {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1b1b1b;
+    margin-bottom: 8px;
+    line-height: 32px;
+}
+
+.subtitle {
+    font-size: 15px;
+    color: #605e5c;
+    margin-bottom: 24px;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group.checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.form-group.checkbox label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 13px;
+    color: #1b1b1b;
+}
+
+.form-group.checkbox input[type="checkbox"] {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 15px;
+    border: 1px solid #8a8886;
+    background: #ffffff;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: inherit;
+}
+
+input[type="email"]:hover,
+input[type="password"]:hover {
+    border-color: #323130;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #0078d4;
+    border-width: 2px;
+    padding: 7px 11px;
+}
+
+/* Buttons */
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    background: #0067b8;
+    color: white;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: inherit;
+    margin-bottom: 8px;
+}
+
+.btn-primary:hover {
+    background: #005a9e;
+}
+
+.btn-primary:active {
+    background: #004578;
+}
+
+.btn-secondary {
+    width: 100%;
+    padding: 10px;
+    background: white;
+    color: #1b1b1b;
+    border: 1px solid #8a8886;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    font-family: inherit;
+}
+
+.btn-secondary:hover {
+    background: #f3f2f1;
+    border-color: #323130;
+}
+
+.button-group {
+    margin-top: 24px;
+}
+
+/* Links */
+.links {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.links a {
+    color: #0067b8;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+.create-account {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid #e1dfdd;
+    font-size: 13px;
+    color: #605e5c;
+}
+
+.create-account a {
+    color: #0067b8;
+    text-decoration: none;
+}
+
+.create-account a:hover {
+    text-decoration: underline;
+}
+
+/* Help Text for Demo Mode */
+.help-text {
+    margin-top: 24px;
+    padding: 12px;
+    background: #fff4ce;
+    border: 1px solid #ffd335;
+    border-radius: 2px;
+    font-size: 12px;
+    color: #323130;
+}
+
+.help-text p {
+    margin: 4px 0;
+}
+
+.help-text strong {
+    font-weight: 600;
+    color: #8a8886;
+}
+
+/* Consent Page Specific Styles */
+.app-info {
+    margin-bottom: 24px;
+}
+
+.app-name {
+    font-size: 17px;
+    font-weight: 600;
+    color: #1b1b1b;
+    margin-bottom: 8px;
+}
+
+.app-info p {
+    font-size: 15px;
+    color: #605e5c;
+}
+
+.permissions {
+    background: #f3f2f1;
+    padding: 16px;
+    margin: 20px 0;
+    border-left: 3px solid #0078d4;
+}
+
+.permission-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    gap: 12px;
+}
+
+.permission-icon {
+    flex-shrink: 0;
+}
+
+.permission-item span {
+    font-size: 14px;
+    color: #323130;
+}
+
+.consent-note {
+    margin: 20px 0;
+    font-size: 13px;
+    color: #605e5c;
+}
+
+.consent-note strong {
+    color: #323130;
+    font-weight: 600;
+}
+
+.privacy-note {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #e1dfdd;
+    font-size: 11px;
+    color: #8a8886;
+    line-height: 1.5;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.footer a {
+    color: #605e5c;
+    font-size: 11px;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    .login-box,
+    .consent-box {
+        padding: 24px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+}

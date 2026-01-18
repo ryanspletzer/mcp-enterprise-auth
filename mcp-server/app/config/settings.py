@@ -22,21 +22,28 @@ class Settings(BaseSettings):
     # Entra ID Configuration
     # -------------------------------------------------------------------------
     ENTRA_TENANT_ID: str = Field(..., description="Entra ID tenant ID")
+    ENTRA_AUTHORITY: str = Field(
+        default="",
+        description="Entra ID authority URL (defaults to https://login.microsoftonline.com/{TENANT_ID})"
+    )
+    ENTRA_JWKS_URL: str = Field(
+        default="",
+        description="JWKS endpoint URL (defaults to {AUTHORITY}/discovery/v2.0/keys)"
+    )
 
-    @property
-    def ENTRA_AUTHORITY(self) -> str:
-        """Construct authority URL from tenant ID."""
-        return f"https://login.microsoftonline.com/{self.ENTRA_TENANT_ID}"
+    def __init__(self, **kwargs):
+        """Initialize settings with computed defaults."""
+        super().__init__(**kwargs)
+        # Set defaults based on tenant ID if not provided
+        if not self.ENTRA_AUTHORITY:
+            self.ENTRA_AUTHORITY = f"https://login.microsoftonline.com/{self.ENTRA_TENANT_ID}"
+        if not self.ENTRA_JWKS_URL:
+            self.ENTRA_JWKS_URL = f"{self.ENTRA_AUTHORITY}/discovery/v2.0/keys"
 
     @property
     def ENTRA_OIDC_CONFIG_URL(self) -> str:
         """Construct OIDC discovery URL."""
         return f"{self.ENTRA_AUTHORITY}/v2.0/.well-known/openid-configuration"
-
-    @property
-    def ENTRA_JWKS_URL(self) -> str:
-        """Construct JWKS URL."""
-        return f"{self.ENTRA_AUTHORITY}/discovery/v2.0/keys"
 
     # -------------------------------------------------------------------------
     # MCP Server Identity

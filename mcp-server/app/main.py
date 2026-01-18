@@ -4,7 +4,7 @@ import sys
 from contextlib import asynccontextmanager
 from typing import Any, AsyncGenerator
 
-from fastapi import FastAPI, Request, status
+from fastapi import Depends, FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from slowapi import Limiter, _rate_limit_exceeded_handler
@@ -12,7 +12,7 @@ from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware
 from slowapi.util import get_remote_address
 
-from app.auth.middleware import get_auth_context
+from app.auth.middleware import AuthContext, get_auth_context
 from app.config import Settings, get_settings
 from app.dcr import dcr_router
 from app.mcp import mcp_router
@@ -215,7 +215,7 @@ def create_app() -> FastAPI:
         summary="Get current user/app information",
         description="Returns information about the authenticated user or service principal",
     )
-    async def get_me(auth=get_auth_context) -> dict[str, Any]:
+    async def get_me(auth: AuthContext = Depends(get_auth_context)) -> dict[str, Any]:
         """Get current user/app information.
 
         Args:
@@ -224,13 +224,11 @@ def create_app() -> FastAPI:
         Returns:
             User or service principal information
         """
-        auth_context = await auth
-
         return {
-            "token_type": auth_context.token_type.value,
-            "identity": auth_context.identity,
+            "token_type": auth.token_type.value,
+            "identity": auth.identity,
             "permissions": {
-                k: v for k, v in auth_context.permissions.items() if k != "token_type"
+                k: v for k, v in auth.permissions.items() if k != "token_type"
             },
         }
 
