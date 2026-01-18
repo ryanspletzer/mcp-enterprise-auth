@@ -150,6 +150,10 @@ async def handle_authorization_code_grant(
     if not user:
         raise InvalidGrant("User not found")
 
+    # Determine client authentication method
+    # 0 = public client, 1 = confidential (secret), 2 = certificate
+    client_auth_method = 1 if client.client_type == "confidential" else 0
+
     # Issue access token
     access_token_data = jwt_issuer.issue_user_token(
         client_id=client_id,
@@ -158,6 +162,7 @@ async def handle_authorization_code_grant(
         audience=auth_code.audience or settings.MCP_SERVER_APP_ID,
         username=user.username,
         name=user.name,
+        client_auth_method=client_auth_method,
     )
 
     # Issue refresh token
@@ -227,6 +232,9 @@ async def handle_refresh_token_grant(
     # Use requested scope or fall back to original scope
     token_scope = scope or refresh_token_obj.scope
 
+    # Determine client authentication method
+    client_auth_method = 1 if client.client_type == "confidential" else 0
+
     # Issue new access token
     access_token_data = jwt_issuer.issue_user_token(
         client_id=client_id,
@@ -235,6 +243,7 @@ async def handle_refresh_token_grant(
         audience=settings.MCP_SERVER_APP_ID,
         username=user.username,
         name=user.name,
+        client_auth_method=client_auth_method,
     )
 
     # Optionally issue new refresh token (token rotation)
@@ -289,6 +298,10 @@ async def handle_client_credentials_grant(
     requested_scope = scope or settings.DEFAULT_SCOPE
     roles = sp.roles  # In production, you'd filter based on requested_scope
 
+    # Client credentials always uses secret (1) or certificate (2)
+    # For this mock, we're using secrets, so azpacr = 1
+    client_auth_method = 1
+
     # Issue app-only token
     token_data = jwt_issuer.issue_app_token(
         client_id=client_id,
@@ -296,6 +309,7 @@ async def handle_client_credentials_grant(
         roles=roles,
         audience=settings.MCP_SERVER_APP_ID,
         app_display_name=sp.display_name,
+        client_auth_method=client_auth_method,
     )
 
     logger.info(

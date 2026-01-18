@@ -37,6 +37,7 @@ class JWTIssuer:
         audience: str,
         username: str,
         name: str,
+        client_auth_method: int = 0,
         **kwargs: Any,
     ) -> dict[str, Any]:
         """
@@ -52,6 +53,7 @@ class JWTIssuer:
             audience: Token audience (MCP server app ID)
             username: User's UPN/email
             name: User's display name
+            client_auth_method: Client authentication method (0=public, 1=secret, 2=cert)
             **kwargs: Additional claims
 
         Returns:
@@ -78,6 +80,7 @@ class JWTIssuer:
             # Client info
             "appid": client_id,
             "azp": client_id,
+            "azpacr": str(client_auth_method),  # V2.0: 0=public, 1=secret, 2=cert
             # Token metadata
             "ver": "2.0",
             "uti": self._generate_uti(),
@@ -92,7 +95,7 @@ class JWTIssuer:
             claims,
             private_key,
             algorithm="RS256",
-            headers={"kid": kid},
+            headers={"typ": "JWT", "alg": "RS256", "kid": kid},
         )
 
         logger.info(
@@ -118,6 +121,7 @@ class JWTIssuer:
         roles: list[str],
         audience: str,
         app_display_name: str,
+        client_auth_method: int = 1,
         **kwargs: Any,
     ) -> dict[str, Any]:
         """
@@ -132,6 +136,7 @@ class JWTIssuer:
             roles: List of application roles
             audience: Token audience (MCP server app ID)
             app_display_name: Service principal display name
+            client_auth_method: Client authentication method (0=public, 1=secret, 2=cert)
             **kwargs: Additional claims
 
         Returns:
@@ -156,6 +161,7 @@ class JWTIssuer:
             # Client info
             "appid": client_id,
             "azp": client_id,
+            "azpacr": str(client_auth_method),  # V2.0: 0=public, 1=secret, 2=cert
             "app_displayname": app_display_name,
             # Token type indicator (critical!)
             "idtyp": "app",
@@ -173,7 +179,7 @@ class JWTIssuer:
             claims,
             private_key,
             algorithm="RS256",
-            headers={"kid": kid},
+            headers={"typ": "JWT", "alg": "RS256", "kid": kid},
         )
 
         logger.info(

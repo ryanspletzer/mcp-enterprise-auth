@@ -409,9 +409,6 @@ mcp-with-proper-enterprise-auth/
 - [ ] Agent Core deployment guide
 
 ### Phase 4: Advanced Features
-- [ ] Token revocation support
-- [ ] MFA enforcement
-- [ ] Conditional access policies
 - [ ] CloudFront/AgentCore proxy simulation
 - [ ] Monitoring and logging
 
