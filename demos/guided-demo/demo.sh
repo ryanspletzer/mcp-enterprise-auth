@@ -86,7 +86,23 @@ else
 
     # Decode token to show claims
     echo "Token claims (decoded):"
-    echo $ACCESS_TOKEN | cut -d'.' -f2 | base64 -d 2>/dev/null | python3 -m json.tool 2>/dev/null || echo "Error decoding token"
+    python3 -c "
+import sys, json, base64
+token = '$ACCESS_TOKEN'
+parts = token.split('.')
+if len(parts) >= 2:
+    # Add padding if needed for base64url decoding
+    payload = parts[1]
+    padding = 4 - (len(payload) % 4)
+    if padding != 4:
+        payload += '=' * padding
+    # Decode base64url (replace - with + and _ with /)
+    payload = payload.replace('-', '+').replace('_', '/')
+    decoded = json.loads(base64.b64decode(payload))
+    print(json.dumps(decoded, indent=2))
+else:
+    print('Invalid token format')
+" 2>/dev/null || echo "Error decoding token"
     echo ""
 
     # Call MCP server with token
