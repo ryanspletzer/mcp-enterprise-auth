@@ -15,7 +15,7 @@ Implemented the full MCP protocol specification with:
 
 ### Total: 6 Implementation Files + 1 Test File
 
-```
+```text
 mcp-server/app/mcp/
 ├── __init__.py                  # Module exports
 ├── models.py                    # MCP protocol models (400+ lines)

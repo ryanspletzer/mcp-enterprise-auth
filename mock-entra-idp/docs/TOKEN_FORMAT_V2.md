@@ -50,7 +50,7 @@ Issued when a user delegates permissions to an application via authorization cod
   "uti": "unique-token-id"
 }
 ```
-
+​
 ### Claim Descriptions
 
 | Claim | Type | Required | Description | V2 Specific |
@@ -103,7 +103,7 @@ Issued when an application acts on its own behalf via client credentials flow.
   "uti": "unique-token-id"
 }
 ```
-
+​
 ### Claim Descriptions
 
 | Claim | Type | Required | Description | V2 Specific |
@@ -158,7 +158,7 @@ else:
     # User token - check scopes
     check_scopes(token.get("scp", ""))
 ```
-
+​
 ### 2. Client Authentication Method (`azpacr`)
 
 The `azpacr` claim indicates how the client authenticated:
@@ -174,12 +174,12 @@ if azpacr == "2":
     # Higher trust - certificate-based authentication
     grant_privileged_access()
 ```
-
+​
 ### 3. Issuer Validation
 
 V2.0 tokens **MUST** have issuer ending in `/v2.0`:
 
-```python
+```text
 # Valid v2.0 issuers
 "https://login.microsoftonline.com/{tenant}/v2.0"
 "http://mock-idp:8001/v2.0"  # For testing
@@ -187,12 +187,12 @@ V2.0 tokens **MUST** have issuer ending in `/v2.0`:
 # Invalid (v1.0)
 "https://sts.windows.net/{tenant}/"
 ```
-
+​
 ### 4. Audience Claim
 
 In v2.0, `aud` is **always** the application ID (not resource URI):
 
-```python
+```text
 # V2.0: Always client ID format
 "aud": "api://mcp-server"
 "aud": "77777777-7777-7777-7777-777777777777"
@@ -200,7 +200,7 @@ In v2.0, `aud` is **always** the application ID (not resource URI):
 # V1.0: Could be resource URI
 "aud": "https://management.azure.com/"
 ```
-
+​
 ## Optional Claims (Not Included by Default)
 
 These claims require explicit configuration via [optional claims](https://learn.microsoft.com/en-us/entra/identity-platform/optional-claims-reference):
@@ -238,7 +238,7 @@ scopes = token.get("scp", "").split()
 if "api://mcp-server/.default" not in scopes:
     raise Unauthorized("Missing required scope")
 ```
-
+​
 #### App-Only Tokens
 ```python
 # CRITICAL: Check idtyp first
@@ -250,7 +250,7 @@ roles = token.get("roles", [])
 if "MCP.ReadWrite.All" not in roles:
     raise Unauthorized("Missing required role")
 ```
-
+​
 ### Security Notes
 
 - ⚠️ **Never use mutable claims** (`name`, `preferred_username`) for authorization
@@ -302,7 +302,7 @@ def validate_v2_token(token: str, jwks_url: str, expected_audience: str) -> Dict
         assert "scp" in claims, "Missing scp claim"
         return {"type": "user", "claims": claims}
 ```
-
+​
 ## Testing with Mock IdP
 
 The mock Entra ID service issues tokens that exactly match this v2.0 specification:

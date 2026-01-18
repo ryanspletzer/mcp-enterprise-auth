@@ -4,7 +4,7 @@ This example demonstrates a **public client with pre-configured credentials** th
 
 ## Flow Overview
 
-```
+```text
 ┌──────────┐                 ┌────────────┐                ┌──────────┐
 │  Client  │                 │ MCP Server │                │ Entra ID │
 └────┬─────┘                 └─────┬──────┘                └────┬─────┘
@@ -120,7 +120,7 @@ code_challenge = sha256(code_verifier).base64_encode()
 
 The client builds an authorization URL and opens the browser:
 
-```
+```text
 https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize?
   client_id={client_id}
   &response_type=code
@@ -150,7 +150,7 @@ The client:
 
 The client exchanges the code for tokens:
 
-```
+```http
 POST https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token
 Content-Type: application/x-www-form-urlencoded
 
@@ -175,7 +175,7 @@ Response:
 
 The client makes authenticated requests:
 
-```
+```http
 GET /api/me
 Authorization: Bearer {access_token}
 ```
@@ -190,7 +190,7 @@ await client.refresh_access_token()
 
 ## Example Output
 
-```
+```text
 2026-01-17T12:00:00 [info] client_starting client_id=abc123... tenant_id=def456...
 2026-01-17T12:00:00 [info] === Step 1: OAuth Authorization ===
 2026-01-17T12:00:00 [info] authorization_flow_starting
@@ -297,7 +297,7 @@ Common causes:
 ### Browser doesn't open
 
 Manually copy the authorization URL from logs:
-```
+```text
 2026-01-17T12:00:00 [info] opening_browser_for_authorization
 ```
 

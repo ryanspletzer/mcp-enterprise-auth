@@ -16,7 +16,7 @@ Created a fully functional mock identity provider that:
 
 ### Total: 40+ files, ~3,500 lines of code
 
-```
+```text
 mock-entra-idp/
 ├── app/
 │   ├── config/
@@ -340,7 +340,7 @@ def verify_code_challenge(
 6. Cleanup prompt
 
 **Output Example:**
-```
+```text
 ========================================
 Mock Entra ID + MCP Server Demo
 ========================================

@@ -268,7 +268,7 @@ source venv/bin/activate  # Every time!
 pip install -r requirements.txt
 pytest
 deactivate
-```
+```text
 
 **New way (uv):**
 ```bash

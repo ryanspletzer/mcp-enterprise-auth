@@ -433,7 +433,7 @@ MCP_SERVER_BASE_URL=http://localhost:8000
 ENFORCE_HTTPS_REDIRECTS=false
 DEBUG_MODE=true
 LOG_LEVEL=DEBUG
-```
+```bash
 
 ### Production (AWS Fargate)
 
@@ -448,7 +448,7 @@ LOG_LEVEL=INFO
 LOG_FORMAT=json
 ENABLE_XRAY=true
 CORS_ALLOWED_ORIGINS=https://app.example.com
-```
+```bash
 
 ### Production (Agent Core)
 
@@ -461,7 +461,7 @@ AGENTCORE_PATH_PREFIX=/mcp
 ENFORCE_HTTPS_REDIRECTS=true
 DEBUG_MODE=false
 LOG_LEVEL=INFO
-```
+```bash
 
 ## Security Best Practices
 

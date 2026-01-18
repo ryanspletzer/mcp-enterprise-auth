@@ -26,7 +26,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 
 ### 1. Public Client (No Credentials) - DCR Flow
 
-```
+```text
 ┌─────────┐         ┌────────────┐         ┌──────────┐
 │ Client  │         │ MCP Server │         │ Entra ID │
 └────┬────┘         └─────┬──────┘         └────┬─────┘
@@ -80,7 +80,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 
 ### 2. Public Client (With Credentials) - Standard Auth Code
 
-```
+```text
 ┌─────────┐                              ┌──────────┐
 │ Client  │                              │ Entra ID │
 └────┬────┘                              └────┬─────┘
@@ -121,7 +121,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 
 ### 3. Confidential Client - Auth Code with Client Authentication
 
-```
+```text
 ┌─────────┐                              ┌──────────┐
 │ Client  │                              │ Entra ID │
 └────┬────┘                              └────┬─────┘
@@ -165,7 +165,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 
 ### 4. Service Principal - Client Credentials
 
-```
+```text
 ┌─────────┐                              ┌──────────┐
 │ Service │                              │ Entra ID │
 │Principal│                              │          │

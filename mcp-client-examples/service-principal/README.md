@@ -4,7 +4,7 @@ This example demonstrates a **service principal** that uses OAuth Client Credent
 
 ## Flow Overview
 
-```
+```text
 ┌────────────────┐                 ┌────────────┐                ┌──────────┐
 │ Service        │                 │ MCP Server │                │ Entra ID │
 │ Principal      │                 │            │                │          │
@@ -139,7 +139,7 @@ python client.py
 
 The client sends credentials directly to the token endpoint:
 
-```
+```http
 POST https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token
 Content-Type: application/x-www-form-urlencoded
 
@@ -210,7 +210,7 @@ The MCP server validates the JWT and checks:
 
 ## Example Output
 
-```
+```text
 2026-01-17T12:00:00 [info] service_principal_starting flow_type=client_credentials
 2026-01-17T12:00:00 [info] === Step 1: Acquire App-Only Token ===
 2026-01-17T12:00:00 [info] acquiring_app_only_token grant_type=client_credentials

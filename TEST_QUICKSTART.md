@@ -53,7 +53,7 @@ make test
 
 # Or full CI checks
 make ci
-```
+```bash
 
 ## 📊 Most Useful Commands
 
@@ -112,7 +112,7 @@ pytest -s
 ## 🎨 Understanding Test Output
 
 ### Success ✅
-```
+```text
 tests/test_config.py::TestSettings::test_settings_from_env PASSED     [ 10%]
 tests/test_config.py::TestSettings::test_entra_authority_property PASSED [ 20%]
 ...
@@ -120,7 +120,7 @@ tests/test_config.py::TestSettings::test_entra_authority_property PASSED [ 20%]
 ```
 
 ### Failure ❌
-```
+```text
 tests/test_jwt_validator.py::TestJWTValidator::test_validate_token FAILED [50%]
 ________________________________ FAILURES _______________________________________
 ...
@@ -128,7 +128,7 @@ AssertionError: Expected X but got Y
 ```
 
 ### Watch Mode 👀
-```
+```text
 ========================================
 MCP Server Test Watch Mode
 ========================================
@@ -279,10 +279,10 @@ pytest
 
 # 4. If all pass, try watch mode!
 make watch
-```
+```text
 
 Expected output:
-```
+```text
 ========================= test session starts ==========================
 collected 15 items
 

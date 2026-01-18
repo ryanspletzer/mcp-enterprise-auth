@@ -4,7 +4,7 @@ Comprehensive test suite for the MCP server with proper enterprise authenticatio
 
 ## Test Structure
 
-```
+```text
 tests/
 ├── conftest.py              # Pytest fixtures and configuration
 ├── test_config.py           # Configuration module tests

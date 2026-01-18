@@ -163,7 +163,7 @@ ruff check app/ tests/
 
 ## Architecture
 
-```
+```text
 mock-entra-idp/
 ├── app/
 │   ├── config/          # Pydantic settings

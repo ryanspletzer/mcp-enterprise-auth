@@ -250,7 +250,7 @@ from authlib.jose.rfc7517 import JsonWebKey
 
 ### Alternative: `PyJWT`
 
-```python
+```pythonw
 import jwt
 from cryptography.hazmat.primitives import serialization
 

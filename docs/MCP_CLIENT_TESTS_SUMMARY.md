@@ -10,7 +10,7 @@ Created **comprehensive test coverage** for all four MCP client types with 90+ t
 
 ### Total: 8 Test Files
 
-```
+```text
 mcp-client-examples/tests/
 ├── conftest.py                          # Shared fixtures (300+ lines)
 ├── test_public_client_no_creds.py       # 20+ tests (250+ lines)
@@ -38,7 +38,7 @@ mcp-client-examples/tests/
 
 ### Test Distribution
 
-```
+```text
 Total Tests: 90+
 ├── Unit Tests: 36 (40%)
 │   ├── Client initialization
@@ -320,7 +320,7 @@ markers =
 
 addopts = -v --strict-markers --tb=short
 asyncio_mode = auto
-```
+```bash
 
 ### Test Markers Usage
 
@@ -356,7 +356,7 @@ make test-cov
 
 # Open coverage report
 make cov-report
-```
+```bash
 
 ### Makefile Commands
 
@@ -559,6 +559,7 @@ All clients test error handling:
 ### Test README.md (350+ lines)
 
 Comprehensive documentation covering:
+
 - Quick start guide
 - Test organization
 - Fixture reference
@@ -571,12 +572,14 @@ Comprehensive documentation covering:
 ### Inline Documentation
 
 Every test has:
+
 - Clear docstring
 - Purpose description
 - Expected behavior
 - Verification steps
 
 Example:
+
 ```python
 async def test_refresh_access_token_success():
     """
@@ -622,6 +625,7 @@ Potential additions:
 - ✅ Production deployment confidence
 
 **Standards compliance:**
+
 - ✅ pytest best practices
 - ✅ Python testing conventions
 - ✅ OAuth/OIDC testing patterns

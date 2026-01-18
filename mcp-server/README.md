@@ -12,7 +12,7 @@ The server is built with:
 
 ## Directory Structure
 
-```
+```text
 app/
 ├── __init__.py
 ├── main.py                    # FastAPI application entry point
@@ -236,7 +236,7 @@ The server uses structured logging with configurable format:
 ```
 
 **Text format (development):**
-```
+```text
 2026-01-17 12:34:56 - app.auth.jwt_validator - INFO - jwt_validated sub=user-id
 ```
 

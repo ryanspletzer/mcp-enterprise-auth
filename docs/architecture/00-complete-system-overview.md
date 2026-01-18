@@ -128,7 +128,7 @@ graph TB
 ## Flow Summary
 
 ### 1. DCR Emulation (for clients without credentials)
-```
+```text
 MCP Client → MCP Server DCR Endpoint
 ↓ (analyzes redirect_uri, User-Agent, etc.)
 MCP Server → Returns appropriate client_id
@@ -137,7 +137,7 @@ MCP Client now has client_id → Proceeds to OAuth flow
 ```
 
 ### 2. Authorization Code + PKCE (Public/Confidential Clients)
-```
+```text
 MCP Client → Entra ID Authorization Endpoint (with PKCE challenge)
 ↓
 User signs in and consents
@@ -152,7 +152,7 @@ MCP Client → MCP Server (with Bearer token)
 ```
 
 ### 3. Client Credentials Grant (Service Principals)
-```
+```text
 Service Principal → Entra ID Token Endpoint (with client_secret)
 ↓
 Entra ID validates credentials
@@ -163,7 +163,7 @@ Service Principal → MCP Server (with Bearer token)
 ```
 
 ### 4. JWT Validation (MCP Server)
-```
+```text
 MCP Server receives request with Bearer token
 ↓
 Extract JWT from Authorization header
@@ -286,7 +286,7 @@ graph TD
 
 ## Security Layers
 
-```
+```text
 ┌─────────────────────────────────────────────┐
 │  Layer 1: Client Authentication             │
 │  ├─ Public: PKCE                            │
@@ -338,7 +338,7 @@ graph TD
 ## Deployment Modes
 
 ### Fargate Mode
-```
+```text
 Internet → ALB → ECS Fargate (MCP Server) → Entra ID
                       ↓
                   CloudWatch
@@ -347,7 +347,7 @@ Internet → ALB → ECS Fargate (MCP Server) → Entra ID
 ```
 
 ### Agent Core Mode
-```
+```text
 Internet → CloudFront → Agent Core → MCP Server → Entra ID
            (URL rewrite)  (Auth proxy)
 ```

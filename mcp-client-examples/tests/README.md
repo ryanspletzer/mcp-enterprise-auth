@@ -14,14 +14,14 @@ This test suite validates all four OAuth client types:
 
 ### Test Files (4 files, 100+ tests)
 
-```
+```text
 tests/
 ├── conftest.py                          # Shared fixtures and utilities
 ├── test_public_client_no_creds.py       # 20+ tests for DCR flow
 ├── test_public_client_with_creds.py     # 25+ tests for public client
 ├── test_confidential_client.py          # 20+ tests for confidential client
 └── test_service_principal.py            # 25+ tests for service principal
-```
+```bash
 
 ### Coverage by Component
 
@@ -40,13 +40,13 @@ tests/
 ```bash
 cd mcp-client-examples/tests
 pip install -r requirements.txt
-```
+```bash
 
 ### 2. Run All Tests
 
 ```bash
 pytest
-```
+```bash
 
 ### 3. Run Specific Test Suite
 
@@ -59,14 +59,14 @@ pytest test_service_principal.py
 pytest -m unit          # Only unit tests (fast)
 pytest -m integration   # Only integration tests
 pytest -m asyncio       # Only async tests
-```
+```bash
 
 ### 4. Run with Coverage
 
 ```bash
 pytest --cov --cov-report=html
 open htmlcov/index.html
-```
+```bash
 
 ## Test Organization
 
@@ -87,7 +87,7 @@ pytest -m integration
 
 # Run all async tests
 pytest -m asyncio
-```
+```bash
 
 ### Test Categories
 
@@ -148,7 +148,7 @@ def test_client_initialization(test_config):
 
     assert client.mcp_server_url == test_config["mcp_server_url"]
     assert client.access_token is None
-```
+```bash
 
 ### Integration Test Example
 
@@ -170,7 +170,7 @@ async def test_token_exchange_success(
 
         token = await client._exchange_code_for_token(...)
         assert token is not None
-```
+```bash
 
 ## Running Tests
 
@@ -194,7 +194,7 @@ pytest -s
 
 # Run specific test
 pytest tests/test_service_principal.py::test_acquire_token_success
-```
+```bash
 
 ### With Coverage
 
@@ -208,7 +208,7 @@ open htmlcov/index.html
 
 # Generate XML report (for CI)
 pytest --cov=. --cov-report=xml
-```
+```bash
 
 ### Filtering Tests
 
@@ -225,14 +225,14 @@ pytest -k "test_acquire"
 # By file
 pytest test_service_principal.py
 pytest test_public_client*.py
-```
+```bash
 
 ### CI Mode
 
 ```bash
 # Run with CI-friendly settings
 pytest --tb=short --strict-markers -v --color=yes
-```
+```bash
 
 ## Test Patterns
 
@@ -247,7 +247,7 @@ with patch("httpx.AsyncClient") as mock_client_class:
     mock_client.post.return_value = mock_successful_response
 
     result = await client.some_method()
-```
+```bash
 
 ### Testing Async Functions
 
@@ -258,14 +258,14 @@ Use `pytest-asyncio` for async tests:
 async def test_async_function():
     result = await some_async_function()
     assert result is not None
-```
+```bash
 
 ### Testing Exceptions
 
 ```python
 with pytest.raises(Exception, match="Expected error message"):
     await client.some_failing_method()
-```
+```bash
 
 ## What Gets Tested
 
@@ -364,7 +364,7 @@ jobs:
 
       - name: Upload coverage
         uses: codecov/codecov-action@v2
-```
+```bash
 
 ## Coverage Goals
 
@@ -388,7 +388,7 @@ The tests add the parent directory to `sys.path`. Ensure you're running pytest f
 ```bash
 cd mcp-client-examples/tests
 pytest
-```
+```bash
 
 ### "fixture 'mock_client' not found"
 
@@ -402,7 +402,7 @@ async def test_something(mock_successful_token_response):
 # Incorrect
 async def test_something(mock_token_response_wrong_name):
     pass
-```
+```bash
 
 ### Async test warnings
 
@@ -412,7 +412,7 @@ Ensure tests are marked with `@pytest.mark.asyncio`:
 @pytest.mark.asyncio  # Add this decorator
 async def test_async_function():
     result = await some_async_function()
-```
+```bash
 
 ### ImportError in tests
 
@@ -422,7 +422,7 @@ Make sure client dependencies are installed:
 # From each client directory
 cd mcp-client-examples/public-client-no-creds
 pip install -r requirements.txt
-```
+```bash
 
 ## Best Practices
 

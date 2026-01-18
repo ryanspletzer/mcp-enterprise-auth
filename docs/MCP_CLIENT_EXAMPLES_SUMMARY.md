@@ -15,7 +15,7 @@ Created **4 complete client examples** demonstrating every OAuth flow supported 
 
 ### Total: 28 Files
 
-```
+```text
 mcp-client-examples/
 ├── README.md                           # Main documentation
 ├── FLOW_COMPARISON.md                  # Detailed flow comparison
@@ -78,7 +78,7 @@ mcp-client-examples/
 MCP_SERVER_URL=http://localhost:8000
 REDIRECT_URI=http://localhost:8080/callback
 SCOPE=api://mcp-server/.default
-```
+```text
 
 **Use Case:** Generic/unknown clients, prototyping, DCR testing
 

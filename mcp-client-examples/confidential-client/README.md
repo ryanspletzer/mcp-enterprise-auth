@@ -4,7 +4,7 @@ This example demonstrates a **confidential client** that uses OAuth Authorizatio
 
 ## Flow Overview
 
-```
+```text
 ┌──────────┐                 ┌────────────┐                ┌──────────┐
 │  Client  │                 │ MCP Server │                │ Entra ID │
 └────┬─────┘                 └─────┬──────┘                └────┬─────┘
@@ -96,7 +96,7 @@ pip install -r requirements.txt
 ```bash
 cp .env.example .env
 # Edit .env with your configuration
-```
+```text
 
 Required values:
 ```bash
@@ -134,7 +134,7 @@ python client.py
 
 Same as public client - secret is NOT included in the authorization URL:
 
-```
+```text
 https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize?
   client_id={client_id}
   &response_type=code
@@ -149,7 +149,7 @@ https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize?
 
 The client_secret is included in the token request (server-to-server):
 
-```
+```http
 POST https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token
 Content-Type: application/x-www-form-urlencoded
 
@@ -183,7 +183,7 @@ Entra ID validates:
 
 Client secret is also required when refreshing:
 
-```
+```http
 POST https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token
 Content-Type: application/x-www-form-urlencoded
 
@@ -195,7 +195,7 @@ client_id={client_id}
 
 ## Example Output
 
-```
+```text
 2026-01-17T12:00:00 [info] client_starting client_id=abc123... client_type=confidential
 2026-01-17T12:00:00 [info] === Step 1: OAuth Authorization ===
 2026-01-17T12:00:00 [info] authorization_flow_starting

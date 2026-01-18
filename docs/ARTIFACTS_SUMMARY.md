@@ -105,7 +105,7 @@ All diagrams are in Mermaid format and can be rendered in GitHub, VS Code, or an
 
 The following project structure has been documented in CLAUDE.md:
 
-```
+```text
 mcp-with-proper-enterprise-auth/
 ├── docs/
 │   ├── architecture/       # 6 architecture documents ✓

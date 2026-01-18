@@ -17,7 +17,7 @@ This project demonstrates proper enterprise authentication for Model Context Pro
 
 ### High-Level Components
 
-```
+```text
 ┌─────────────────┐
 │   MCP Clients   │
 │                 │
@@ -246,7 +246,7 @@ REDIRECT_URI=vscode://mcp-auth/callback
 
 ## Project Structure
 
-```
+```text
 mcp-with-proper-enterprise-auth/
 ├── CLAUDE.md                          # This file
 ├── README.md                          # Quick start guide

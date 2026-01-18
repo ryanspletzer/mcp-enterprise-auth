@@ -36,7 +36,7 @@ python client.py
 # Option 3: With client_id and client_secret (backend)
 cd confidential-client
 python client.py
-```
+```text
 
 **For automated/headless scenarios:**
 ```bash
@@ -250,7 +250,7 @@ See [docker-compose.yml](./docker-compose.yml) for configuration.
 
 ## Flow Decision Tree
 
-```
+```text
 Need to authenticate with MCP server?
 │
 ├─ YES, with user context (delegated permissions)

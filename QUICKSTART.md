@@ -45,7 +45,7 @@ docker-compose logs -f mcp-server
 ```
 
 You should see:
-```
+```text
 mcp-server  | {"timestamp": "2026-01-17T...", "level": "INFO", "message": "mcp_server_starting"}
 mcp-server  | {"timestamp": "2026-01-17T...", "level": "INFO", "message": "configuration_loaded"}
 ```

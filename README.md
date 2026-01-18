@@ -13,7 +13,7 @@ A demonstration of proper enterprise authentication for Model Context Protocol (
 
 ## 🏗️ Architecture
 
-```
+```text
 MCP Clients → MCP Server (DCR + JWT Validation) → Entra ID
 (VS Code,      (FastAPI + Python)                  (OAuth/OIDC)
  Claude, etc.)
@@ -193,7 +193,7 @@ pytest tests/ -v
 
 ### Code Structure
 
-```
+```text
 mcp-server/
 ├── app/
 │   ├── auth/           # JWT validation, JWKS caching

@@ -258,7 +258,7 @@ The updated GitHub Actions workflow is backwards compatible and faster.
 
 ## Project Structure
 
-```
+```text
 mcp-with-proper-enterprise-auth/
 ├── .python-version          # Python version (3.11)
 ├── UV_SETUP.md              # uv setup guide

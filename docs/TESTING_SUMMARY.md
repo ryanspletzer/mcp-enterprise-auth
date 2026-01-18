@@ -409,7 +409,7 @@ pytest --version
 
 # Clear cache
 make clean
-```
+```bash
 
 ### Import errors
 
@@ -420,7 +420,7 @@ export PYTHONPATH=/path/to/mcp-server:$PYTHONPATH
 # Or run from mcp-server directory
 cd mcp-server
 pytest
-```
+```bash
 
 ### Watch mode not working
 
@@ -433,7 +433,7 @@ chmod +x scripts/test-watch.sh
 
 # Run directly
 ./scripts/test-watch.sh
-```
+```bash
 
 ### Coverage not updating
 

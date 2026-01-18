@@ -4,7 +4,7 @@ This example demonstrates a **public client without pre-configured credentials**
 
 ## Flow Overview
 
-```
+```text
 ┌──────────┐                 ┌────────────┐                ┌──────────┐
 │  Client  │                 │ MCP Server │                │ Entra ID │
 └────┬─────┘                 └─────┬──────┘                └────┬─────┘
@@ -126,7 +126,7 @@ The client uses the `client_id` from DCR to perform OAuth Authorization Code + P
 
 The client exchanges the authorization code for an access token:
 
-```
+```http
 POST {token_endpoint}
 Content-Type: application/x-www-form-urlencoded
 
@@ -141,7 +141,7 @@ client_id={client_id}
 
 The client makes authenticated requests to MCP endpoints:
 
-```
+```http
 GET /api/me
 Authorization: Bearer {access_token}
 ```
@@ -150,7 +150,7 @@ The MCP server validates the JWT and returns user information.
 
 ## Example Output
 
-```
+```text
 2026-01-17T12:00:00 [info] client_starting mcp_server_url=http://localhost:8000
 2026-01-17T12:00:00 [info] === Step 1: DCR Registration ===
 2026-01-17T12:00:00 [info] dcr_registration_starting

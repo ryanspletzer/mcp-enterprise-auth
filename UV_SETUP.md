@@ -64,13 +64,14 @@ uv sync
 uv run pytest              # Run tests
 uv run python app/main.py  # Run app
 uv run black app           # Format code
-```
+```text
 
 **No need to activate the virtual environment!** `uv run` handles it for you.
 
 ### Dependency Management
 
 ```bash
+
 # Install dependencies from pyproject.toml
 uv sync
 
@@ -94,7 +95,7 @@ uv add --dev pytest-mock
 
 # Remove a dependency
 uv remove requests
-```
+```bash
 
 ### Lockfile
 
