@@ -62,6 +62,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 ```
 
 **Steps:**
+
 1. Client calls `/dcr/register` without client_id
 2. Server detects client type, returns pre-registered client_id
 3. Client initiates OAuth with PKCE
@@ -69,9 +70,11 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 5. Client receives authorization code
 6. Client exchanges code for token (with PKCE)
 7. Client receives access + refresh token
+
 8-10. Client calls MCP API with validated token
 
 **Unique Features:**
+
 - ✨ No pre-configuration needed
 - ✨ Server-side client detection
 - ⚠️ Relies on DCR emulation accuracy
@@ -106,6 +109,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 ```
 
 **Steps:**
+
 1. Client initiates OAuth with pre-configured client_id
 2. User authenticates via browser
 3. Client receives authorization code
@@ -113,6 +117,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 5. Client receives access + refresh token
 
 **Unique Features:**
+
 - ✨ Standard OAuth 2.0 flow
 - ✨ No server dependencies (DCR)
 - ✨ Direct to Entra ID
@@ -149,6 +154,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 ```
 
 **Steps:**
+
 1. Client initiates OAuth (secret NOT in URL)
 2. User authenticates via browser
 3. Client receives authorization code
@@ -156,6 +162,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 5. Client receives access + refresh token
 
 **Unique Features:**
+
 - ✨ Client authentication with secret
 - ✨ Higher security than public clients
 - ✨ PKCE + secret (defense in depth)
@@ -185,11 +192,13 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 ```
 
 **Steps:**
+
 1. Service principal sends credentials directly to token endpoint
 2. Entra ID validates credentials
 3. Service principal receives app-only access token
 
 **Unique Features:**
+
 - ✨ No user interaction
 - ✨ No browser required
 - ✨ App-only permissions
@@ -220,12 +229,14 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 ```
 
 **Key Claims:**
+
 - `scp` - Space-separated scopes granted to user
 - `oid` - User's object ID
 - `upn` / `preferred_username` - User's principal name
 - `name` - User's display name
 
 **Validation:**
+
 - Check `scp` claim contains required scopes
 - Verify user identity from `oid` or `upn`
 
@@ -256,6 +267,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 ```
 
 **Key Claims:**
+
 - `roles` - Array of application roles
 - `appid` - Service principal's app ID
 - `idtyp: "app"` - Indicates app-only token
@@ -263,6 +275,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 - **No `scp` claim** - Uses `roles` instead
 
 **Validation:**
+
 - Check `roles` claim contains required application permissions
 - Verify `idtyp` is "app" or `scp` is absent
 - Verify service principal identity from `appid`
@@ -277,6 +290,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 **Purpose:** Protects against authorization code interception
 
 **How it works:**
+
 1. Generate random `code_verifier` (43-128 chars)
 2. Create `code_challenge` = SHA256(code_verifier)
 3. Send `code_challenge` in authorization request
@@ -284,6 +298,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 5. Server verifies SHA256(code_verifier) == code_challenge
 
 **Security benefit:**
+
 - Even if authorization code is intercepted, attacker needs `code_verifier`
 - Mitigates authorization code interception attacks
 
@@ -297,11 +312,13 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 **Method:** Client Secret (or Certificate)
 
 **How it works:**
+
 1. Client includes `client_secret` in token request
 2. Entra ID validates secret matches registered value
 3. Only proceeds if authentication succeeds
 
 **Security benefit:**
+
 - Proves client identity
 - Prevents token theft if code is intercepted
 - Higher trust level than public clients
@@ -316,18 +333,21 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 **Purpose:** CSRF protection
 
 **How it works:**
+
 1. Generate random `state` value
 2. Include in authorization request
 3. Validate matches in callback
 4. Reject if mismatch
 
 **Security benefit:**
+
 - Prevents CSRF attacks
 - Ensures callback is from legitimate authorization request
 
 ## Use Case Decision Matrix
 
 ### Choose Public Client (No Creds) when:
+
 - ✅ Client type is unknown
 - ✅ Testing/prototyping
 - ✅ Don't want to pre-register
@@ -335,6 +355,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 - ❌ Production deployments (prefer pre-registered)
 
 ### Choose Public Client (With Creds) when:
+
 - ✅ Desktop application
 - ✅ Mobile application
 - ✅ Single-page application (SPA)
@@ -343,6 +364,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 - ❌ Backend server (use confidential)
 
 ### Choose Confidential Client when:
+
 - ✅ Backend web application
 - ✅ Server-side application
 - ✅ Can securely store secrets
@@ -351,6 +373,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 - ❌ Browser/mobile (cannot secure secret)
 
 ### Choose Service Principal when:
+
 - ✅ Automation/scheduled tasks
 - ✅ CI/CD pipelines
 - ✅ Background jobs
@@ -395,29 +418,35 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 ### Dependencies
 
 All clients use:
+
 - `httpx` - HTTP client
 - `structlog` - Structured logging
 
 Interactive clients also use:
+
 - `webbrowser` - Browser integration
 - `http.server` - Callback server
 
 ## Summary
 
 **For user-facing applications:**
+
 - Use **public-client-with-creds** for most cases
 - Use **confidential-client** if running on secure backend
 - Use **public-client-no-creds** for prototyping/testing
 
 **For automation/background tasks:**
+
 - Use **service-principal** exclusively
 
 **Security ranking (highest to lowest):**
+
 1. Service Principal (app-only, client auth, no browser)
 2. Confidential Client (PKCE + client auth)
 3. Public Clients (PKCE only)
 
 **Ease of use (easiest to hardest):**
+
 1. Service Principal (no UI, direct token)
 2. Public Client (With Creds) (standard OAuth)
 3. Confidential Client (OAuth + secret management)

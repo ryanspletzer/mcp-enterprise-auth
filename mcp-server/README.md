@@ -5,6 +5,7 @@ This directory contains the MCP (Model Context Protocol) server implementation w
 ## Architecture
 
 The server is built with:
+
 - **FastAPI**: Modern, fast web framework
 - **python-jose**: JWT validation with cryptography
 - **Pydantic**: Configuration management and validation
@@ -66,6 +67,7 @@ Since Entra ID doesn't support native DCR, the server emulates it:
 4. **OAuth Endpoints**: Return Entra ID OAuth endpoints
 
 Detection priority:
+
 1. Redirect URI (most reliable)
 2. User-Agent
 3. Client name
@@ -85,11 +87,13 @@ Detection priority:
 ### Permission Validation
 
 **User Tokens (Delegated Permissions):**
+
 - Must have `scp` claim
 - Validates required scope(s)
 - Supports AND/OR logic for scopes
 
 **App-Only Tokens (Application Permissions):**
+
 - Must have `roles` claim
 - Validates required role(s)
 - Typically uses OR logic (any role)
@@ -152,6 +156,7 @@ docker-compose down
 - `GET /api/me` - Get current user/app information
 
 All protected endpoints require:
+
 - `Authorization: Bearer <jwt_token>` header
 - Valid JWT from Entra ID
 - Required scopes (for user tokens) or roles (for app-only tokens)
@@ -218,6 +223,7 @@ curl http://localhost:8000/api/me \
 All configuration is managed via environment variables using Pydantic Settings.
 
 Required variables:
+
 - `ENTRA_TENANT_ID`
 - `MCP_SERVER_APP_ID`
 - `REQUIRED_SCOPE`
@@ -241,6 +247,7 @@ The server uses structured logging with configurable format:
 ```
 
 Configure via:
+
 - `LOG_LEVEL`: DEBUG, INFO, WARNING, ERROR, CRITICAL
 - `LOG_FORMAT`: json, text
 - `LOG_REQUESTS`: true/false
@@ -279,23 +286,28 @@ See `../infrastructure/agentcore/` for deployment configurations.
 ### Common Issues
 
 **"Missing Authorization header"**
+
 - Ensure `Authorization: Bearer <token>` header is present
 - Check if token is being passed correctly
 
 **"Token has expired"**
+
 - Token lifetime is controlled by Entra ID (typically 1 hour)
 - Refresh token or re-authenticate
 
 **"Invalid token version"**
+
 - Ensure you're using AAD v2.0 tokens (ver: "2.0")
 - Check token endpoint URL includes `/v2.0`
 
 **"JWKS key not found"**
+
 - JWKS cache may be stale
 - Server will auto-refresh JWKS once
 - Check Entra ID JWKS endpoint is accessible
 
 **"Insufficient permissions"**
+
 - User token: Missing required scope in `scp` claim
 - App-only token: Missing required role in `roles` claim
 - Verify app registration permissions and admin consent

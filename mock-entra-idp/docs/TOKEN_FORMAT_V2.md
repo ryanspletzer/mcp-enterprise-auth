@@ -55,25 +55,25 @@ Issued when a user delegates permissions to an application via authorization cod
 
 | Claim | Type | Required | Description | V2 Specific |
 |-------|------|----------|-------------|-------------|
-| **Standard OIDC Claims** |
+| **Standard OIDC Claims** | | | | |
 | `aud` | String | ✅ | Token audience (always API application ID in v2.0) | ✅ |
 | `iss` | String | ✅ | Issuer URL (ends with `/v2.0` for v2 tokens) | ✅ |
 | `iat` | Integer | ✅ | Issued at (Unix timestamp) | |
 | `nbf` | Integer | ✅ | Not before (Unix timestamp) | |
 | `exp` | Integer | ✅ | Expiration time (Unix timestamp) | |
-| **User Identity Claims** |
+| **User Identity Claims** | | | | |
 | `sub` | String | ✅ | Subject (immutable user ID per app) | |
 | `oid` | String | ✅ | Object ID (immutable user ID across tenant) | |
 | `tid` | String | ✅ | Tenant ID | |
 | `preferred_username` | String | ✅ | User's email or UPN | ✅ |
 | `name` | String | ✅ | User's display name | |
-| **Authorization Claims** |
+| **Authorization Claims** | | | | |
 | `scp` | String | ✅ | Space-separated scopes (delegated permissions) | ✅ |
-| **Client Claims** |
+| **Client Claims** | | | | |
 | `appid` | String | ✅ | Client application ID (v1 compat) | |
 | `azp` | String | ✅ | Authorized party (client app ID) | ✅ |
 | `azpacr` | String | ✅ | Client auth method: `"0"`=public, `"1"`=secret, `"2"`=cert | ✅ |
-| **Token Metadata** |
+| **Token Metadata** | | | | |
 | `ver` | String | ✅ | Token version (always `"2.0"`) | ✅ |
 | `uti` | String | ✅ | Unique token identifier | |
 
@@ -108,26 +108,26 @@ Issued when an application acts on its own behalf via client credentials flow.
 
 | Claim | Type | Required | Description | V2 Specific |
 |-------|------|----------|-------------|-------------|
-| **Standard OIDC Claims** |
+| **Standard OIDC Claims** | | | | |
 | `aud` | String | ✅ | Token audience (always API application ID in v2.0) | ✅ |
 | `iss` | String | ✅ | Issuer URL (ends with `/v2.0` for v2 tokens) | ✅ |
 | `iat` | Integer | ✅ | Issued at (Unix timestamp) | |
 | `nbf` | Integer | ✅ | Not before (Unix timestamp) | |
 | `exp` | Integer | ✅ | Expiration time (Unix timestamp) | |
-| **Service Principal Identity Claims** |
+| **Service Principal Identity Claims** | | | | |
 | `sub` | String | ✅ | Subject (service principal object ID) | |
 | `oid` | String | ✅ | Object ID (service principal object ID) | |
 | `tid` | String | ✅ | Tenant ID | |
-| **Authorization Claims** |
+| **Authorization Claims** | | | | |
 | `roles` | Array | ✅ | Application roles (application permissions) | ✅ |
-| **Client Claims** |
+| **Client Claims** | | | | |
 | `appid` | String | ✅ | Client application ID (v1 compat) | |
 | `azp` | String | ✅ | Authorized party (client app ID) | ✅ |
 | `azpacr` | String | ✅ | Client auth method: `"1"`=secret, `"2"`=cert | ✅ |
 | `app_displayname` | String | ✅ | Service principal display name | |
-| **Token Type Indicator** |
+| **Token Type Indicator** | | | | |
 | `idtyp` | String | ✅ | **CRITICAL** - Always `"app"` for app-only tokens | ✅ |
-| **Token Metadata** |
+| **Token Metadata** | | | | |
 | `ver` | String | ✅ | Token version (always `"2.0"`) | ✅ |
 | `uti` | String | ✅ | Unique token identifier | |
 

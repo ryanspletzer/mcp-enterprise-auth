@@ -58,22 +58,26 @@ Complete integration of `uv` for Python environment and package management.
 ## Benefits of uv
 
 ### Speed ⚡
+
 - **10-100x faster** than pip
 - Parallel downloads
 - Better caching
 - Rust-powered performance
 
 ### Reliability 🔒
+
 - **Lockfile** (`uv.lock`) ensures reproducible builds
 - Deterministic installs
 - Conflict resolution built-in
 
 ### Simplicity 🎯
+
 - **No virtual env activation** needed
 - `uv run` handles everything
 - Automatic environment management
 
 ### Compatibility 🔄
+
 - Works with existing Python tools
 - Standard pyproject.toml
 - Compatible with pip requirements.txt
@@ -172,6 +176,7 @@ GitHub Actions now uses uv:
 ```
 
 Benefits:
+
 - ✅ Faster builds (better caching)
 - ✅ Reproducible (uses uv.lock)
 - ✅ Simpler (fewer steps)
@@ -191,6 +196,7 @@ uv sync
 **Always commit `uv.lock` to version control!**
 
 This ensures:
+
 - Same dependencies for all developers
 - Reproducible CI builds
 - No "works on my machine" issues
@@ -297,6 +303,7 @@ uv run pytest -m jwt
 ## Documentation Updates
 
 Updated documentation:
+
 - ✅ UV_SETUP.md - Complete uv guide
 - ✅ TEST_QUICKSTART.md - Uses uv
 - ✅ QUICKSTART.md - Lists uv as prerequisite

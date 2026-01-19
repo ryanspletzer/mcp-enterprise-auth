@@ -51,12 +51,14 @@ python client.py
 **Directory:** `public-client-no-creds/`
 
 **When to use:**
+
 - Generic/unknown clients
 - Don't want to pre-register each client
 - Testing DCR emulation
 - Prototype/proof-of-concept
 
 **OAuth Flow:**
+
 1. Client calls MCP server's `/dcr/register` endpoint
 2. Server detects client type and returns pre-registered `client_id`
 3. Client performs Authorization Code + PKCE flow
@@ -64,10 +66,12 @@ python client.py
 5. Client calls MCP API with token
 
 **Configuration needed:**
+
 - MCP server URL
 - Redirect URI (default: `http://localhost:8080/callback`)
 
 **Security:**
+
 - ✅ PKCE protects against code interception
 - ✅ No secrets (public client)
 - ⚠️ Relies on server-side client detection
@@ -81,24 +85,28 @@ python client.py
 **Directory:** `public-client-with-creds/`
 
 **When to use:**
+
 - Desktop applications
 - Mobile applications
 - Single-page applications (SPA)
 - Known/registered clients
 
 **OAuth Flow:**
+
 1. Client has pre-configured `client_id`
 2. Client performs Authorization Code + PKCE flow
 3. Client exchanges code for token (no DCR needed)
 4. Client calls MCP API with token
 
 **Configuration needed:**
+
 - Client ID (from Entra ID)
 - Tenant ID
 - MCP server URL
 - Redirect URI
 
 **Security:**
+
 - ✅ PKCE protects against code interception
 - ✅ State parameter for CSRF protection
 - ✅ No secrets (public client)
@@ -113,17 +121,20 @@ python client.py
 **Directory:** `confidential-client/`
 
 **When to use:**
+
 - Backend web applications
 - Server-side applications
 - Applications that can securely store secrets
 
 **OAuth Flow:**
+
 1. Client has pre-configured `client_id` and `client_secret`
 2. Client performs Authorization Code + PKCE flow
 3. Client exchanges code for token WITH client authentication
 4. Client calls MCP API with token
 
 **Configuration needed:**
+
 - Client ID (from Entra ID)
 - Client Secret (from Entra ID)
 - Tenant ID
@@ -131,6 +142,7 @@ python client.py
 - Redirect URI
 
 **Security:**
+
 - ✅ Client secret authenticates the client
 - ✅ PKCE adds defense in depth
 - ✅ State parameter for CSRF protection
@@ -146,6 +158,7 @@ python client.py
 **Directory:** `service-principal/`
 
 **When to use:**
+
 - Automation/scheduled tasks
 - CI/CD pipelines
 - Background jobs
@@ -153,17 +166,20 @@ python client.py
 - No user interaction possible
 
 **OAuth Flow:**
+
 1. Client has service principal credentials (`client_id` + `client_secret`)
 2. Client requests app-only token via Client Credentials flow
 3. Client calls MCP API with app-only token (no user context)
 
 **Configuration needed:**
+
 - Client ID (service principal)
 - Client Secret (service principal)
 - Tenant ID
 - MCP server URL
 
 **Security:**
+
 - ✅ No user interaction required
 - ✅ App-only permissions (application roles)
 - ✅ Suitable for trusted environments
@@ -282,6 +298,7 @@ Need to authenticate with MCP server?
 **Flows:** Authorization Code + PKCE
 **Clients:** public-client-*, confidential-client
 **Claims:**
+
 - `scp` - Delegated scopes (e.g., "mcp.read mcp.write")
 - `oid` - User object ID
 - `upn` - User principal name
@@ -294,6 +311,7 @@ Need to authenticate with MCP server?
 **Flow:** Client Credentials
 **Client:** service-principal
 **Claims:**
+
 - `roles` - Application roles (e.g., ["MCP.ReadWrite.All"])
 - `appid` - Application ID
 - `idtyp: "app"` - Indicates app-only token
@@ -333,18 +351,22 @@ python client.py
 ### Common Issues
 
 **"Invalid redirect_uri"**
+
 - Ensure redirect URI in `.env` matches Entra ID registration exactly
 - Check for trailing slashes, http vs https
 
 **"PKCE validation failed"**
+
 - Verify `code_verifier` is correctly generated
 - Ensure `code_challenge_method` is "S256"
 
 **"Insufficient privileges"**
+
 - For user tokens: Check delegated permissions and user consent
 - For app tokens: Check application permissions and admin consent
 
 **"Invalid client"**
+
 - Verify `CLIENT_ID` and `TENANT_ID` are correct
 - Check that app registration exists in the tenant
 
@@ -411,6 +433,7 @@ python client.py
 ### 5. Verify Flow
 
 Check logs for:
+
 - Token acquisition
 - API calls
 - Responses
@@ -436,6 +459,7 @@ Check logs for:
 ## Support
 
 For issues or questions:
+
 1. Check client-specific README in each directory
 2. Review [troubleshooting section](../README.md#troubleshooting) in main README
 3. Check MCP server logs for validation errors

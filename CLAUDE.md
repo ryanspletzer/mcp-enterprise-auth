@@ -63,17 +63,20 @@ See detailed sequence diagrams in `/docs/architecture/`.
 The MCP server performs comprehensive JWT validation on every request:
 
 ### Signature Verification
+
 - Fetches JWKS from Entra ID (cached for 24 hours)
 - Matches signing key by `kid` header
 - Verifies RS256 signature with public key
 
 ### Temporal Validation
+
 - `exp` (expiration time) must be in the future
 - `nbf` (not before time) must be in the past
 - `iat` (issued at time) must be reasonable
 - 5-minute clock skew tolerance
 
 ### Claim Validation
+
 - `iss` (issuer) must match Entra ID endpoint
 - `aud` (audience) must match MCP server app ID
 - `tid` (tenant ID) must match allowed tenant(s)
@@ -81,22 +84,26 @@ The MCP server performs comprehensive JWT validation on every request:
 
 ### Permission Validation
 **User Tokens (delegated permissions):**
+
 - Must have `scp` claim with required scopes
 - Example: `"mcp.read mcp.write"`
 
 **Service Principal Tokens (application permissions):**
+
 - Must have `roles` claim with required roles
 - Example: `["MCP.ReadWrite.All"]`
 - `idtyp` claim should be "app"
 
 ### Identity Extraction
 **User Tokens:**
+
 - `oid` - Object ID (unique user identifier)
 - `sub` - Subject (stable identifier)
 - `preferred_username` - User's email/UPN
 - `name` - Display name
 
 **Service Principal Tokens:**
+
 - `appid` - Application/Client ID
 - `oid` - Service principal object ID
 - `sub` - Subject (equals oid for app-only)
@@ -223,6 +230,7 @@ REDIRECT_URI=vscode://mcp-auth/callback
 ## Technology Stack
 
 ### MCP Server
+
 - **Python 3.11+**
 - **FastAPI** - Web framework
 - **python-jose[cryptography]** - JWT validation
@@ -233,12 +241,14 @@ REDIRECT_URI=vscode://mcp-auth/callback
 - **redis** (optional) - Token revocation cache
 
 ### MCP Client (Example)
+
 - **Python 3.11+**
 - **mcp** - MCP SDK
 - **httpx** - HTTP client
 - **authlib** - OAuth client
 
 ### Infrastructure
+
 - **Docker** - Containerization
 - **Docker Compose** - Local orchestration
 - **AWS ECS Fargate** - Production deployment
@@ -389,6 +399,7 @@ mcp-with-proper-enterprise-auth/
 ## Development Roadmap
 
 ### Phase 1: Core Implementation ✓
+
 - [x] Architecture design and sequence diagrams
 - [x] JWT validation strategy
 - [x] Project structure
@@ -397,47 +408,55 @@ mcp-with-proper-enterprise-auth/
 - [ ] Example MCP clients
 
 ### Phase 2: Testing & Documentation
+
 - [ ] Comprehensive unit tests
 - [ ] Integration tests for all flows
 - [ ] API documentation
 - [ ] Setup guides for Entra ID
 
 ### Phase 3: Deployment
+
 - [ ] Docker containerization
 - [ ] Docker Compose orchestration
 - [ ] AWS ECS Fargate deployment guide
 - [ ] Agent Core deployment guide
 
 ### Phase 4: Advanced Features
+
 - [ ] CloudFront/AgentCore proxy simulation
 - [ ] Monitoring and logging
 
 ## Security Considerations
 
 ### Token Security
+
 - Tokens are never logged
 - Tokens are validated on every request
 - Short-lived tokens (1 hour default)
 - HTTPS required for all endpoints (enforced in production)
 
 ### Client Secret Management
+
 - Secrets stored in environment variables
 - Never committed to version control
 - Rotated regularly (manual process initially)
 - Consider Azure Key Vault for production
 
 ### PKCE (Proof Key for Code Exchange)
+
 - Required for all public clients
 - Recommended for confidential clients (defense in depth)
 - SHA-256 code challenge method
 
 ### JWT Validation
+
 - Signature verification with JWKS
 - All temporal claims validated (exp, nbf, iat)
 - Audience and issuer strictly validated
 - Proper scope/role validation based on token type
 
 ### Defense in Depth
+
 - Multiple layers of validation
 - Fail closed (deny by default)
 - Detailed error logging (without exposing sensitive data)
@@ -465,6 +484,7 @@ mcp-with-proper-enterprise-auth/
 ## Contributing
 
 This is a demonstration project. Contributions welcome for:
+
 - Additional client examples
 - Improved client detection logic
 - Performance optimizations

@@ -134,6 +134,7 @@ https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize?
 ### Step 3: User Authentication
 
 The user:
+
 1. Logs in with their Entra ID credentials
 2. Consents to the requested permissions (if needed)
 3. Is redirected back to `http://localhost:8080/callback?code=...&state=...`
@@ -141,6 +142,7 @@ The user:
 ### Step 4: Callback Handling
 
 The client:
+
 1. Starts a local HTTP server on port 8080
 2. Receives the authorization code
 3. Validates the state parameter (CSRF protection)
@@ -269,6 +271,7 @@ except Exception as e:
 ### "Invalid redirect_uri"
 
 Ensure the redirect URI in `.env` **exactly matches** the one registered in Entra ID:
+
 - `http://localhost:8080/callback` ✅
 - `http://localhost:8080/callback/` ❌ (trailing slash)
 - `https://localhost:8080/callback` ❌ (https vs http)
@@ -282,6 +285,7 @@ Ensure the redirect URI in `.env` **exactly matches** the one registered in Entr
 ### "State parameter mismatch"
 
 This indicates a possible CSRF attack or callback handling issue:
+
 - Check that the callback server is running
 - Verify no proxy is modifying the callback URL
 - Ensure browser cookies are enabled
@@ -289,6 +293,7 @@ This indicates a possible CSRF attack or callback handling issue:
 ### "Token exchange failed: invalid_grant"
 
 Common causes:
+
 - Authorization code already used (codes are single-use)
 - Code expired (10 minute lifetime)
 - `code_verifier` doesn't match `code_challenge`

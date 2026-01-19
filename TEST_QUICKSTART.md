@@ -37,6 +37,7 @@ Terminal 2 - Edit code:
 ```
 
 **Benefits:**
+
 - ✅ Instant feedback on code changes
 - ✅ See test results without switching windows
 - ✅ Catches errors immediately
@@ -177,6 +178,7 @@ open htmlcov/index.html
 ```
 
 Coverage reports show:
+
 - ✅ Which lines are tested (green)
 - ❌ Which lines are not tested (red)
 - 📊 Coverage percentage per file

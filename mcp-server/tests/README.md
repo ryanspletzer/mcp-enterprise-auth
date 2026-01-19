@@ -101,6 +101,7 @@ make test-watch-unit
 ```
 
 The watch mode will:
+
 - ✅ Auto-detect file changes
 - ✅ Clear terminal on each run
 - ✅ Show only relevant output
@@ -249,6 +250,7 @@ async def test_something():
 ## Continuous Integration
 
 Tests are automatically run on:
+
 - Every push to `main` or `develop`
 - Every pull request
 

@@ -179,6 +179,7 @@ docker-compose config | grep ENTRA_TENANT_ID
 ### DCR returns wrong client_id
 
 The client detection is based on redirect_uri and User-Agent. Try:
+
 1. Match redirect_uri exactly (e.g., `vscode://mcp-auth/callback`)
 2. Include appropriate User-Agent header
 3. Check logs: `docker-compose logs mcp-server | grep client_detected`

@@ -5,6 +5,7 @@ Complete implementation of a standalone mock OAuth 2.0/OIDC token issuer that em
 ## Overview
 
 Created a fully functional mock identity provider that:
+
 - Issues Entra ID-compatible JWT tokens
 - Supports all OAuth 2.0 flows (authorization code, refresh token, client credentials)
 - Implements PKCE for security
@@ -110,6 +111,7 @@ def issue_app_token(
 ```
 
 **Key Features:**
+
 - RS256 signature algorithm
 - kid header matching JWKS
 - Exact Entra ID claim structure
@@ -118,6 +120,7 @@ def issue_app_token(
 ### 2. RSA Key Manager (`app/crypto/key_manager.py`)
 
 **Capabilities:**
+
 - Generates 2048-bit RSA key pairs
 - Provides JWKS endpoint format
 - Supports key rotation
@@ -140,6 +143,7 @@ def issue_app_token(
 ### 3. OAuth Endpoints
 
 #### Authorization Endpoint (`/oauth2/v2.0/authorize`)
+
 - Validates client and redirect URI
 - Enforces PKCE for public clients
 - Renders login page
@@ -191,21 +195,25 @@ def issue_app_token(
 **Pre-seeded Data:**
 
 **Clients:**
+
 - VS Code Extension (public, PKCE required)
 - Claude Code CLI (public, PKCE required)
 - Backend Application (confidential, with secret)
 - Service Principal (confidential, client_credentials only)
 
 **Users:**
+
 - testuser@example.com
 - admin@example.com
 - demo@example.com
 
 **Service Principals:**
+
 - Service Principal App (roles: MCP.Read.All, MCP.ReadWrite.All)
 - Backend Application (roles: MCP.ReadWrite.All)
 
 **Session Management:**
+
 - Authorization sessions (pre-login/consent)
 - Authorization codes (single-use, 10 min TTL)
 - Refresh tokens (24 hour TTL)
@@ -229,12 +237,14 @@ def verify_code_challenge(
 ```
 
 **Supported Methods:**
+
 - `S256` - SHA256 hash (recommended)
 - `plain` - Plaintext comparison (not recommended)
 
 ### 6. Realistic UI
 
 **Login Page (`templates/login.html`):**
+
 - Microsoft logo and branding
 - Email/password inputs
 - "Keep me signed in" checkbox
@@ -243,6 +253,7 @@ def verify_code_challenge(
 - Responsive design
 
 **Consent Page (`templates/consent.html`):**
+
 - Shows client name requesting access
 - Lists requested scopes/permissions
 - Accept/Cancel buttons
@@ -250,6 +261,7 @@ def verify_code_challenge(
 - Microsoft-styled layout
 
 **CSS (`static/styles/microsoft.css`):**
+
 - Segoe UI font family
 - Microsoft blue colors (#0067b8, #005a9e)
 - Clean, minimal design
@@ -261,6 +273,7 @@ def verify_code_challenge(
 ### Unit Tests (260+ lines, 15+ tests)
 
 **KeyManager Tests:**
+
 - ✅ Initialization with default key
 - ✅ Get current signing key
 - ✅ JWKS generation
@@ -268,12 +281,14 @@ def verify_code_challenge(
 - ✅ JWKS after rotation
 
 **JWT Issuer Tests:**
+
 - ✅ Issue user token with correct claims
 - ✅ Issue app-only token with idtyp="app"
 - ✅ Issue refresh token (opaque string)
 - ✅ Token has kid header
 
 **PKCE Tests:**
+
 - ✅ Validate code challenge methods
 - ✅ Generate code verifier
 - ✅ Generate code challenge (S256 and plain)
@@ -282,16 +297,19 @@ def verify_code_challenge(
 ### Integration Tests (180+ lines, 10+ tests)
 
 **Authorization Code Flow:**
+
 - ✅ Authorization endpoint renders login
 - ✅ PKCE required for public clients
 - ✅ Invalid client rejected
 
 **Token Endpoint:**
+
 - ✅ Client credentials grant success
 - ✅ Invalid client secret rejected
 - ✅ Unsupported grant type rejected
 
 **Discovery:**
+
 - ✅ JWKS endpoint returns public keys
 - ✅ OIDC discovery metadata
 - ✅ Health check
@@ -299,6 +317,7 @@ def verify_code_challenge(
 ### Playwright E2E Tests (80+ lines)
 
 **Service Principal Flow:**
+
 - ✅ Obtain app-only token
 - ✅ Verify token claims (idtyp="app", roles)
 - ✅ Call MCP server /api/me
@@ -310,6 +329,7 @@ def verify_code_challenge(
 ### Docker Compose (`docker-compose.demo.yml`)
 
 **Services:**
+
 1. **mock-idp** (port 8001)
    - Mock Entra ID token issuer
    - Health check every 10s
@@ -321,6 +341,7 @@ def verify_code_challenge(
    - Swagger UI enabled
 
 **Networking:**
+
 - Shared demo-network bridge
 - Services can communicate by name
 - Exposed ports for localhost access
@@ -328,6 +349,7 @@ def verify_code_challenge(
 ### Interactive Demo (`guided-demo/demo.sh`)
 
 **Flow:**
+
 1. Starts services with Docker Compose
 2. Waits for health checks (Mock IdP, MCP Server)
 3. Shows available endpoints
@@ -573,19 +595,23 @@ python -m uvicorn app.main:app --reload --port 8000
 ## Pre-configured Test Credentials
 
 **Service Principals:**
+
 - Client ID: `77777777-7777-7777-7777-777777777777`
 - Secret: `test-sp-secret-456`
 - Roles: `MCP.Read.All`, `MCP.ReadWrite.All`
 
 **Confidential Clients:**
+
 - Client ID: `66666666-6666-6666-6666-666666666666`
 - Secret: `test-secret-123`
 
 **Public Clients:**
+
 - VS Code: `11111111-1111-1111-1111-111111111111`
 - Claude Code: `33333333-3333-3333-3333-333333333333`
 
 **Test Users:**
+
 - `testuser@example.com`
 - `admin@example.com`
 - `demo@example.com`
@@ -594,12 +620,14 @@ python -m uvicorn app.main:app --reload --port 8000
 ## Performance & Scalability
 
 **Current Implementation:**
+
 - In-memory storage (fast, stateless)
 - Instant token generation
 - No database queries
 - Suitable for: Testing, demos, CI/CD
 
 **Production Considerations:**
+
 - Add Redis backend for persistence
 - Implement token revocation lists
 - Add rate limiting per client
@@ -632,6 +660,7 @@ python -m uvicorn app.main:app --reload --port 8000
 ## Summary
 
 **What was built:**
+
 - ✅ Standalone mock Entra ID OAuth 2.0/OIDC server
 - ✅ Complete token issuance (user & app-only)
 - ✅ All OAuth grant types (authorization_code, refresh_token, client_credentials)
@@ -646,6 +675,7 @@ python -m uvicorn app.main:app --reload --port 8000
 - ✅ Comprehensive documentation
 
 **Ready for:**
+
 - ✅ Testing OAuth flows without real Entra ID
 - ✅ Demos and presentations
 - ✅ CI/CD integration testing
@@ -654,6 +684,7 @@ python -m uvicorn app.main:app --reload --port 8000
 - ✅ Learning OAuth 2.0/OIDC flows
 
 **Standards compliance:**
+
 - ✅ OAuth 2.0 RFC 6749
 - ✅ PKCE RFC 7636
 - ✅ OpenID Connect Core 1.0

@@ -67,7 +67,7 @@ const x: string = "typed";
 
 ### `fix-markdown.py`
 
-Automatically fixes code blocks without language specifiers:
+Automatically fixes code blocks without language specifiers (MD040 violations):
 
 ```bash
 # Fix all markdown files
@@ -82,6 +82,23 @@ The script intelligently detects languages based on content:
 - **yaml**: Key-value pairs with colons
 - **typescript**: Code with type annotations
 - **text**: ASCII art, directory trees, logs, unknown content
+
+### `fix-md032.py`
+
+Automatically fixes MD032 violations - ensures lists are surrounded by blank lines:
+
+```bash
+# Fix all markdown files
+python3 fix-md032.py
+```
+
+The script:
+
+- Adds blank lines before lists that start without proper spacing
+- Adds blank lines after lists that end without proper spacing
+- Handles both unordered (`-`, `*`, `+`) and ordered (`1.`, `2.`) lists
+- Skips content inside code blocks
+- Reports number of violations fixed per file
 
 ### `lint-markdown.sh`
 
@@ -252,4 +269,4 @@ To disable a rule for a specific line:
 - ✅ Single top-level heading per file
 - ✅ Limited inline HTML
 
-Run `python3 fix-markdown.py` to auto-fix most issues, then `./lint-markdown.sh` to validate.
+Run `python3 fix-markdown.py` and `python3 fix-md032.py` to auto-fix most issues, then `./lint-markdown.sh` to validate.

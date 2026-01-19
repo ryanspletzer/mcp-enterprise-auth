@@ -7,6 +7,7 @@ This document summarizes all the artifacts created for the MCP with Proper Enter
 ## Documentation Files
 
 ### Root Level
+
 - **[CLAUDE.md](../CLAUDE.md)** - Comprehensive project documentation with architecture, configuration, and development roadmap
 - **[README.md](../README.md)** - Quick start guide and project overview
 - **[.env.example](../.env.example)** - Complete environment variable template with detailed comments
@@ -81,6 +82,7 @@ All diagrams are in Mermaid format and can be rendered in GitHub, VS Code, or an
 7. **Authentication Decision Tree** - Visual guide for choosing the right flow
 
 ### Architectural Visualizations
+
 1. **Security Layers Diagram** - 8-layer defense-in-depth visualization
 2. **Token Claim Comparison** - Side-by-side user token vs app-only token
 3. **Deployment Modes** - Fargate vs Agent Core architecture
@@ -88,6 +90,7 @@ All diagrams are in Mermaid format and can be rendered in GitHub, VS Code, or an
 ## Configuration Files
 
 ### Environment Configuration
+
 - **`.env.example`** - 200+ lines of comprehensive environment variable documentation
   - Entra ID configuration
   - MCP server identity
@@ -133,6 +136,7 @@ mcp-with-proper-enterprise-auth/
 ## Key Concepts Documented
 
 ### OAuth 2.0 / OIDC Concepts
+
 - ✓ Authorization Code Grant
 - ✓ PKCE (Proof Key for Code Exchange)
 - ✓ Client Credentials Grant
@@ -142,6 +146,7 @@ mcp-with-proper-enterprise-auth/
 - ✓ Service principals
 
 ### JWT Validation
+
 - ✓ Signature verification with JWKS
 - ✓ Temporal claim validation (exp, nbf, iat)
 - ✓ Issuer and audience validation
@@ -152,6 +157,7 @@ mcp-with-proper-enterprise-auth/
 - ✓ JWKS caching strategy
 
 ### Security Best Practices
+
 - ✓ Defense in depth (8 layers)
 - ✓ Fail-closed validation
 - ✓ HTTPS enforcement (production)
@@ -162,6 +168,7 @@ mcp-with-proper-enterprise-auth/
 - ✓ CORS configuration
 
 ### Entra ID Integration
+
 - ✓ App registration requirements (8 apps)
 - ✓ Scope exposure (mcp.read, mcp.write)
 - ✓ App role definition (MCP.Read.All, MCP.ReadWrite.All)
@@ -174,6 +181,7 @@ mcp-with-proper-enterprise-auth/
 Documented in CLAUDE.md:
 
 ### Phase 1: Core Implementation (NEXT)
+
 - [ ] MCP server FastAPI implementation
 - [ ] JWT validation module
 - [ ] DCR emulation logic
@@ -181,18 +189,21 @@ Documented in CLAUDE.md:
 - [ ] Unit tests
 
 ### Phase 2: Testing & Documentation
+
 - [ ] Integration tests for all flows
 - [ ] Entra ID setup guide
 - [ ] API documentation
 - [ ] Local development guide
 
 ### Phase 3: Deployment
+
 - [ ] Docker containerization
 - [ ] Docker Compose orchestration
 - [ ] Fargate deployment guide
 - [ ] Agent Core deployment guide
 
 ### Phase 4: Advanced Features
+
 - [ ] Token revocation
 - [ ] MFA enforcement
 - [ ] CloudFront/AgentCore proxy simulation
@@ -201,20 +212,24 @@ Documented in CLAUDE.md:
 ## Recommended Libraries Documented
 
 ### JWT Validation
+
 - **python-jose[cryptography]** (Recommended)
 - authlib (Alternative)
 - PyJWT (Alternative)
 
 ### HTTP Client
+
 - httpx (Async)
 - requests (Sync)
 
 ### MCP SDK
+
 - mcp (Anthropic's MCP SDK)
 
 ## Next Steps
 
 ### Immediate (Phase 1)
+
 1. **Set up Entra ID** - Create the 8 app registrations
 2. **Implement MCP Server** - Start with FastAPI skeleton
 3. **Implement JWT Validator** - Core security component
@@ -223,6 +238,7 @@ Documented in CLAUDE.md:
 6. **Write Unit Tests** - Test JWT validation thoroughly
 
 ### Documentation Needed
+
 1. **Entra ID Setup Guide** - Step-by-step with screenshots
 2. **Local Development Guide** - Running without Docker
 3. **API Documentation** - OpenAPI/Swagger specs
@@ -231,6 +247,7 @@ Documented in CLAUDE.md:
 6. **Troubleshooting Guide** - Common issues and solutions
 
 ### Infrastructure Needed
+
 1. **Docker Compose** - Local development environment
 2. **Terraform/CloudFormation** - AWS deployment
 3. **CI/CD Pipeline** - GitHub Actions or similar
@@ -239,6 +256,7 @@ Documented in CLAUDE.md:
 ## Questions Answered
 
 ### From User
+
 1. ✓ How to handle clients without client_id? → DCR emulation
 2. ✓ How to validate JWTs properly? → 8-layer validation process
 3. ✓ How to support multiple client types? → Pre-registered apps + detection
@@ -246,6 +264,7 @@ Documented in CLAUDE.md:
 5. ✓ How to deploy to Fargate and Agent Core? → Same codebase, different config
 
 ### Decisions Made
+
 1. ✓ Use python-jose for JWT validation
 2. ✓ Use FastAPI for MCP server
 3. ✓ Implement DCR emulation (Entra ID doesn't support native DCR)
@@ -258,6 +277,7 @@ Documented in CLAUDE.md:
 ## Files by Category
 
 ### Documentation (9 files)
+
 - CLAUDE.md
 - README.md
 - docs/ARTIFACTS_SUMMARY.md
@@ -270,12 +290,14 @@ Documented in CLAUDE.md:
 - docs/setup/environment-variables.md
 
 ### Configuration (2 files)
+
 - .env.example
 - .gitignore
 
 ### Total: 12 files created
 
 ## Lines of Documentation
+
 - **Approximate total**: ~3,500+ lines of comprehensive documentation
 - **Mermaid diagrams**: 6 major sequence diagrams + 2 architectural diagrams
 - **Environment variables**: 60+ documented variables
@@ -285,6 +307,7 @@ Documented in CLAUDE.md:
 ## Ready for Implementation
 
 With these artifacts, the project has:
+
 - ✓ Clear architecture and design
 - ✓ Comprehensive security model
 - ✓ Detailed implementation guidance
@@ -292,6 +315,7 @@ With these artifacts, the project has:
 - ✓ Development roadmap
 
 The next step is to begin Phase 1 implementation, starting with:
+
 1. Entra ID app registration setup
 2. MCP server skeleton with FastAPI
 3. JWT validation module

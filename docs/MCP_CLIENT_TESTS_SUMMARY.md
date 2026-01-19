@@ -58,23 +58,27 @@ Total Tests: 90+
 ### conftest.py - Comprehensive Fixtures
 
 **Configuration Fixtures:**
+
 - `test_config` - Complete client configuration
 - `authority` - Entra ID authority URL
 - `token_endpoint` - Token endpoint URL
 - `authorization_endpoint` - Authorization endpoint URL
 
 **PKCE Fixtures:**
+
 - `pkce_verifier` - Code verifier generation
 - `pkce_challenge` - Code challenge (SHA256)
 - `state_value` - OAuth state parameter
 
 **Token Fixtures:**
+
 - `mock_user_token` - User access token (delegated)
 - `mock_app_token` - App-only access token
 - `mock_refresh_token` - Refresh token
 - `mock_authorization_code` - OAuth authorization code
 
 **Mock Response Fixtures:**
+
 - `mock_token_response` - Successful token response
 - `mock_app_token_response` - App-only token response
 - `mock_dcr_response` - DCR registration response
@@ -85,6 +89,7 @@ Total Tests: 90+
 - `mock_failed_token_response` - HTTP 400 error
 
 **Helper Fixtures:**
+
 - `create_mock_response()` - Factory for mock responses
 - `mock_webbrowser_open` - Prevent browser opening
 - `mock_time` - Control time for expiration testing
@@ -97,6 +102,7 @@ Total Tests: 90+
 **File:** `test_public_client_no_creds.py` (250+ lines, 20+ tests)
 
 **Unit Tests (8):**
+
 - ✅ Client initialization and configuration
 - ✅ URL trailing slash handling
 - ✅ PKCE generation (verifier + challenge)
@@ -106,6 +112,7 @@ Total Tests: 90+
 - ✅ Error state handling
 
 **Integration Tests (12):**
+
 - ✅ DCR registration success
 - ✅ DCR registration failure
 - ✅ User-Agent header inclusion
@@ -138,6 +145,7 @@ async def test_full_flow_dcr_to_token():
 **File:** `test_public_client_with_creds.py` (280+ lines, 25+ tests)
 
 **Unit Tests (10):**
+
 - ✅ Client initialization with credentials
 - ✅ Endpoint construction verification
 - ✅ PKCE generation and format
@@ -146,6 +154,7 @@ async def test_full_flow_dcr_to_token():
 - ✅ Configuration validation
 
 **Integration Tests (15):**
+
 - ✅ Token exchange success
 - ✅ Token exchange failure
 - ✅ Refresh token success
@@ -178,6 +187,7 @@ async def test_token_refresh_then_api_call():
 **File:** `test_confidential_client.py` (250+ lines, 20+ tests)
 
 **Unit Tests (8):**
+
 - ✅ Client initialization with secret
 - ✅ Endpoint construction
 - ✅ PKCE generation (defense in depth)
@@ -186,6 +196,7 @@ async def test_token_refresh_then_api_call():
 - ✅ Configuration validation
 
 **Integration Tests (12):**
+
 - ✅ Token exchange with client authentication
 - ✅ Token exchange failure
 - ✅ Refresh token with client authentication
@@ -217,6 +228,7 @@ async def test_defense_in_depth_pkce_and_secret():
 **File:** `test_service_principal.py` (280+ lines, 25+ tests)
 
 **Unit Tests (10):**
+
 - ✅ Client initialization
 - ✅ Token endpoint construction
 - ✅ No refresh token for Client Credentials
@@ -225,6 +237,7 @@ async def test_defense_in_depth_pkce_and_secret():
 - ✅ State management
 
 **Integration Tests (15):**
+
 - ✅ App-only token acquisition success
 - ✅ Token acquisition failure
 - ✅ Token expiration calculation
@@ -480,24 +493,28 @@ jobs:
 ### Security Features
 
 ✅ **PKCE Implementation**
+
 - Code verifier generation
 - Code challenge calculation (SHA256)
 - Verifier/challenge validation
 - Uniqueness verification
 
 ✅ **Client Authentication**
+
 - Client secret in token exchange
 - Client secret in refresh
 - Defense in depth (PKCE + secret)
 - Secret storage validation
 
 ✅ **State Parameter**
+
 - State generation
 - State validation
 - CSRF protection
 - Callback verification
 
 ✅ **Token Management**
+
 - Token expiration tracking
 - Auto-refresh before expiry
 - Token caching logic
@@ -506,24 +523,28 @@ jobs:
 ### OAuth Flow Testing
 
 ✅ **DCR Flow** (public-client-no-creds)
+
 - Client registration
 - Client detection
 - Dynamic credential assignment
 - Full DCR to API flow
 
 ✅ **Authorization Code + PKCE** (public-client-with-creds)
+
 - PKCE generation
 - Code exchange
 - Refresh token
 - Full auth flow
 
 ✅ **Authorization Code + PKCE + Secret** (confidential-client)
+
 - Client authentication
 - PKCE + secret together
 - Refresh with auth
 - Full confidential flow
 
 ✅ **Client Credentials** (service-principal)
+
 - App-only token acquisition
 - No user interaction
 - Token caching
@@ -596,6 +617,7 @@ async def test_refresh_access_token_success():
 ## Future Enhancements
 
 Potential additions:
+
 - [ ] End-to-end tests with real Entra ID
 - [ ] Performance tests
 - [ ] Security tests (penetration testing)
@@ -607,6 +629,7 @@ Potential additions:
 ## Summary
 
 **What was built:**
+
 - ✅ 90+ comprehensive tests
 - ✅ 1,360+ lines of test code
 - ✅ 95%+ code coverage
@@ -617,6 +640,7 @@ Potential additions:
 - ✅ Complete documentation
 
 **Ready for:**
+
 - ✅ Development and debugging
 - ✅ Continuous integration
 - ✅ Code review validation

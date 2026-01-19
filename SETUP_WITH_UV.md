@@ -5,6 +5,7 @@ This guide walks you through setting up the MCP server using uv for blazing-fast
 ## Why This Guide?
 
 This project now uses **uv** instead of traditional pip/venv because:
+
 - ⚡ **10-100x faster** installs
 - 🔒 **Reproducible** builds with lockfile
 - 🎯 **Simpler** workflow (no venv activation)
@@ -56,6 +57,7 @@ uv sync --extra dev
 ```
 
 What this does:
+
 - Downloads all dependencies
 - Creates `.venv` directory automatically
 - Installs dev tools (pytest, black, mypy, etc.)
@@ -413,6 +415,7 @@ GitHub Actions automatically uses uv:
 ```
 
 Benefits:
+
 - ✅ Faster builds (~3x speedup)
 - ✅ Reproducible (uses uv.lock)
 - ✅ Better caching
@@ -488,6 +491,7 @@ RUN uv sync --no-dev
 ## Summary
 
 **With uv, you get:**
+
 - ✅ Faster everything (10-100x speedup)
 - ✅ Simpler workflow (no venv activation)
 - ✅ Reproducible builds (lockfile)

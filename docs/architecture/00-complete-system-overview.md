@@ -265,11 +265,13 @@ graph TD
 ## Entra ID App Registrations
 
 ### Resource (1 app)
+
 - **mcp-server-resource** (`api://mcp-server`)
   - Exposes scopes: `mcp.read`, `mcp.write`
   - Defines roles: `MCP.Read.All`, `MCP.ReadWrite.All`
 
 ### Public Clients (5 apps)
+
 - **vscode-mcp-client** - VS Code integration
 - **claude-desktop-mcp-client** - Claude Desktop
 - **claude-code-mcp-client** - Claude Code CLI
@@ -277,9 +279,11 @@ graph TD
 - **generic-mcp-client** - Fallback for unknown clients
 
 ### Confidential Client (1 app)
+
 - **confidential-mcp-client** - Has client_secret
 
 ### Service Principal (1 app)
+
 - **service-mcp-client** - For Client Credentials flow
 
 **Total: 8 app registrations**
@@ -338,6 +342,7 @@ graph TD
 ## Deployment Modes
 
 ### Fargate Mode
+
 ```text
 Internet → ALB → ECS Fargate (MCP Server) → Entra ID
                       ↓
@@ -347,6 +352,7 @@ Internet → ALB → ECS Fargate (MCP Server) → Entra ID
 ```
 
 ### Agent Core Mode
+
 ```text
 Internet → CloudFront → Agent Core → MCP Server → Entra ID
            (URL rewrite)  (Auth proxy)
@@ -394,6 +400,7 @@ def get_client_id(client_type):
 ## Next Steps
 
 For detailed flows, see:
+
 1. [DCR Emulation Flow](./01-dcr-emulation-flow.md)
 2. [Public Client Auth Flow](./02-public-client-auth-flow.md)
 3. [Confidential Client Auth Flow](./03-confidential-client-auth-flow.md)

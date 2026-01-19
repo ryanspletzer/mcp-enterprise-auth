@@ -5,6 +5,7 @@ Complete implementation of the Model Context Protocol (MCP) with tools, resource
 ## Overview
 
 Implemented the full MCP protocol specification with:
+
 - **Protocol handshake** (initialize)
 - **Tools** (6 example tools with list/call endpoints)
 - **Resources** (6 example resources with list/read endpoints)
@@ -35,6 +36,7 @@ mcp-server/tests/
 ### Core Models
 
 **Initialize:**
+
 - `InitializeRequest` - Client handshake request
 - `InitializeResponse` - Server capability response
 - `ClientCapabilities` - Client capabilities
@@ -42,6 +44,7 @@ mcp-server/tests/
 - `Implementation` - Version info
 
 **Tools:**
+
 - `Tool` - Tool definition with name, description, schema
 - `ToolInputSchema` - JSON schema for tool parameters
 - `ToolsListRequest/Response` - List tools
@@ -49,12 +52,14 @@ mcp-server/tests/
 - `ToolContent` - Tool output content
 
 **Resources:**
+
 - `Resource` - Resource definition with URI, name, mimeType
 - `ResourcesListRequest/Response` - List resources
 - `ResourceReadRequest/Response` - Read resource content
 - `ResourceContent` - Resource content
 
 **Prompts:**
+
 - `Prompt` - Prompt definition
 - `PromptArgument` - Prompt parameter
 - `PromptsListRequest/Response` - List prompts
@@ -62,11 +67,13 @@ mcp-server/tests/
 - `PromptMessage` - Prompt message
 
 **Notifications:**
+
 - `NotificationType` - Notification types (tools/resources/prompts changed)
 - `ProgressNotification` - Progress updates
 - `MessageNotification` - Log messages
 
 **Protocol Envelope:**
+
 - `MCPRequest` - JSON-RPC request wrapper
 - `MCPResponse` - JSON-RPC response wrapper
 - `MCPNotification` - Notification (no response)
@@ -77,12 +84,14 @@ mcp-server/tests/
 ### 6 Example Tools
 
 **1. get_weather**
+
 - Get simulated weather for a location
 - Parameters: location (required), units (celsius/fahrenheit)
 - Returns: Temperature, condition, humidity, wind speed
 - Use case: Demonstrates parameterized tool calls
 
 **2. calculate**
+
 - Perform mathematical calculations
 - Parameters: expression (required)
 - Supports: Basic arithmetic, sqrt, sin, cos, log, etc.
@@ -90,24 +99,28 @@ mcp-server/tests/
 - Use case: Safe expression evaluation
 
 **3. get_current_time**
+
 - Get current date/time
 - Parameters: timezone (optional), format (iso/unix/human)
 - Returns: Formatted timestamp
 - Use case: Time-based operations
 
 **4. echo**
+
 - Echo back a message
 - Parameters: message (required), repeat (1-10)
 - Returns: Message repeated N times
 - Use case: Simple I/O demonstration
 
 **5. generate_uuid**
+
 - Generate UUIDs
 - Parameters: version (1 or 4)
 - Returns: New UUID
 - Use case: Unique ID generation
 
 **6. random_number**
+
 - Generate random numbers
 - Parameters: min (required), max (required), integer (bool)
 - Returns: Random number in range
@@ -128,31 +141,37 @@ class ToolRegistry:
 ### 6 Example Resources
 
 **1. resource://documents/readme**
+
 - MimeType: text/markdown
 - Content: Server README and documentation
 - Use case: Server documentation
 
 **2. resource://documents/api-docs**
+
 - MimeType: text/markdown
 - Content: API documentation
 - Use case: API reference
 
 **3. resource://config/server-info**
+
 - MimeType: application/json
 - Content: Server configuration (public info)
 - Use case: Server capabilities and features
 
 **4. resource://data/weather-locations**
+
 - MimeType: application/json
 - Content: Sample weather location data
 - Use case: Static data access
 
 **5. resource://data/math-constants**
+
 - MimeType: application/json
 - Content: Mathematical constants (pi, e, phi, etc.)
 - Use case: Reference data
 
 **6. resource://data/sample-data**
+
 - MimeType: text/csv
 - Content: Sample CSV data
 - Use case: Data file access
@@ -172,33 +191,39 @@ class ResourceRegistry:
 ### 6 Example Prompts
 
 **1. greeting**
+
 - Generate personalized greetings
 - Arguments: name (required), time_of_day (optional)
 - Use case: Dynamic prompt generation
 
 **2. weather_query**
+
 - Generate weather queries
 - Arguments: location (required), detail_level (optional)
 - Use case: Structured queries
 
 **3. code_review**
+
 - Generate code review prompts
 - Arguments: language (required), focus_area (optional)
 - Focus areas: security, performance, style, all
 - Use case: Domain-specific prompts
 
 **4. data_analysis**
+
 - Generate data analysis prompts
 - Arguments: dataset_type (required), analysis_goal (optional)
 - Use case: Analytical prompts
 
 **5. summarize**
+
 - Generate summarization prompts
 - Arguments: content_type (required), length (optional)
 - Lengths: short (2-3 sentences), medium (paragraphs), long (detailed)
 - Use case: Content summarization
 
 **6. troubleshoot**
+
 - Generate troubleshooting prompts
 - Arguments: system (required), error_type (optional)
 - Error types: connection, auth, config, other
@@ -219,48 +244,56 @@ class PromptRegistry:
 ### 8 Endpoints (All Require Authentication)
 
 **1. POST /mcp/initialize**
+
 - Initialize MCP connection
 - Request: `InitializeRequest`
 - Response: `InitializeResponse` with server capabilities
 - Use case: Handshake and capability negotiation
 
 **2. POST /mcp/tools/list**
+
 - List available tools
 - Request: `ToolsListRequest` (with optional cursor)
 - Response: `ToolsListResponse` with tool definitions
 - Use case: Discover available tools
 
 **3. POST /mcp/tools/call**
+
 - Execute a tool
 - Request: `ToolCallRequest` with tool name and arguments
 - Response: `ToolCallResponse` with results
 - Use case: Tool execution
 
 **4. POST /mcp/resources/list**
+
 - List available resources
 - Request: `ResourcesListRequest` (with optional cursor)
 - Response: `ResourcesListResponse` with resource definitions
 - Use case: Discover available resources
 
 **5. POST /mcp/resources/read**
+
 - Read resource content
 - Request: `ResourceReadRequest` with URI
 - Response: `ResourceReadResponse` with content
 - Use case: Access resource data
 
 **6. POST /mcp/prompts/list**
+
 - List available prompts
 - Request: `PromptsListRequest` (with optional cursor)
 - Response: `PromptsListResponse` with prompt definitions
 - Use case: Discover available prompts
 
 **7. POST /mcp/prompts/get**
+
 - Get a prompt
 - Request: `PromptGetRequest` with name and arguments
 - Response: `PromptGetResponse` with messages
 - Use case: Retrieve generated prompts
 
 **8. GET /mcp/health**
+
 - MCP health check (no auth required)
 - Response: Status, protocol version, counts
 - Use case: Monitoring
@@ -268,6 +301,7 @@ class PromptRegistry:
 ### Authentication
 
 All endpoints (except health check) require:
+
 - Valid JWT token from Entra ID
 - User or service principal authentication
 - Proper scopes or roles
@@ -277,11 +311,13 @@ All endpoints (except health check) require:
 ### 40+ Comprehensive Tests
 
 **Initialize Tests (3):**
+
 - ✅ Successful initialization
 - ✅ Without authentication (401)
 - ✅ Different protocol version (compatibility)
 
 **Tools Tests (8):**
+
 - ✅ List tools successfully
 - ✅ Contains expected tools (6 tools)
 - ✅ Call get_weather tool
@@ -292,6 +328,7 @@ All endpoints (except health check) require:
 - ✅ Tool schema validation
 
 **Resources Tests (4):**
+
 - ✅ List resources successfully
 - ✅ Contains expected resources
 - ✅ Read markdown resource
@@ -299,6 +336,7 @@ All endpoints (except health check) require:
 - ✅ Unknown resource (404)
 
 **Prompts Tests (4):**
+
 - ✅ List prompts successfully
 - ✅ Contains expected prompts
 - ✅ Get greeting prompt
@@ -306,9 +344,11 @@ All endpoints (except health check) require:
 - ✅ Unknown prompt (404)
 
 **Health Check Tests (1):**
+
 - ✅ MCP health check (no auth)
 
 **End-to-End Tests (1):**
+
 - ✅ Complete flow: initialize → list → call/read → prompts
 
 ### Test Markers
@@ -522,12 +562,14 @@ prompt_registry.register(
 ## Performance Considerations
 
 **Current Implementation:**
+
 - Tools: In-memory, instant execution
 - Resources: In-memory, instant retrieval
 - Prompts: On-demand generation
 - No database queries
 
 **Optimizations:**
+
 - Registry pattern allows for lazy loading
 - Pagination support (cursor-based) ready for implementation
 - Caching can be added to registries
@@ -559,6 +601,7 @@ prompt_registry.register(
 ## Summary
 
 **What was built:**
+
 - ✅ Complete MCP protocol implementation
 - ✅ 6 example tools (weather, calculator, echo, time, UUID, random)
 - ✅ 6 example resources (docs, config, data)
@@ -569,6 +612,7 @@ prompt_registry.register(
 - ✅ ~1,950 lines of production code
 
 **Ready for:**
+
 - ✅ MCP client connections
 - ✅ Tool execution
 - ✅ Resource access
@@ -577,6 +621,7 @@ prompt_registry.register(
 - ✅ Extension with custom tools/resources/prompts
 
 **Standards compliance:**
+
 - ✅ MCP Protocol 2024-11-05
 - ✅ JSON-RPC 2.0
 - ✅ OAuth 2.0 / OpenID Connect

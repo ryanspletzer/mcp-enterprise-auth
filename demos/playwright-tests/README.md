@@ -34,6 +34,7 @@ npm run show-report
 ## Test Coverage
 
 ### Service Principal Flow
+
 - ✅ Client credentials grant
 - ✅ App-only token validation
 - ✅ MCP server authentication
@@ -41,6 +42,7 @@ npm run show-report
 - ✅ Error handling (invalid credentials)
 
 ### Future Tests
+
 - Authorization code + PKCE flow (requires browser interaction)
 - Refresh token flow
 - PKCE validation
@@ -49,6 +51,7 @@ npm run show-report
 ## Configuration
 
 The Playwright config (`playwright.config.ts`) automatically:
+
 - Starts Docker Compose services before tests
 - Waits for services to be healthy
 - Runs tests against localhost:8001 (mock IdP) and localhost:8000 (MCP server)
@@ -68,6 +71,7 @@ test('my test', async ({ request, page }) => {
 ## CI/CD Integration
 
 The tests are configured to run in CI environments with:
+
 - Retries on failure
 - Serial execution (1 worker)
 - Auto-starting services with Docker Compose

@@ -5,6 +5,7 @@ Comprehensive test suite for all MCP OAuth client implementations.
 ## Overview
 
 This test suite validates all four OAuth client types:
+
 - **public-client-no-creds** - DCR + Auth Code + PKCE flow
 - **public-client-with-creds** - Auth Code + PKCE flow
 - **confidential-client** - Auth Code + PKCE + Client Secret
@@ -280,6 +281,7 @@ with pytest.raises(Exception, match="Expected error message"):
 - ✅ Error handling
 
 **Key Tests:**
+
 - `test_register_with_dcr_success` - DCR flow
 - `test_generate_pkce_pair` - PKCE security
 - `test_exchange_code_for_token_success` - Token acquisition
@@ -296,6 +298,7 @@ with pytest.raises(Exception, match="Expected error message"):
 - ✅ Custom headers
 
 **Key Tests:**
+
 - `test_refresh_access_token_success` - Token refresh
 - `test_exchange_code_for_token_success` - Auth Code flow
 - `test_token_refresh_then_api_call` - Full flow
@@ -311,6 +314,7 @@ with pytest.raises(Exception, match="Expected error message"):
 - ✅ MCP API calls
 
 **Key Tests:**
+
 - `test_exchange_code_for_token_with_client_auth` - Client authentication
 - `test_refresh_access_token_with_client_auth` - Refresh with auth
 - `test_defense_in_depth_pkce_and_secret` - PKCE + secret
@@ -327,6 +331,7 @@ with pytest.raises(Exception, match="Expected error message"):
 - ✅ No user interaction required
 
 **Key Tests:**
+
 - `test_acquire_token_success` - Client Credentials flow
 - `test_ensure_token_uses_cached_token` - Token caching
 - `test_ensure_token_refreshes_if_expiring_soon` - Auto-refresh

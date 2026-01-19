@@ -179,6 +179,7 @@ make watch
 ```
 
 Why uv?
+
 - ⚡ **10-100x faster** than pip
 - 🔒 **Reproducible** with lockfile
 - 🎯 **Simpler** - no manual venv activation

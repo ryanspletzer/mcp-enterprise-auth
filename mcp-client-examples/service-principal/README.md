@@ -85,6 +85,7 @@ This client requires a **service principal** in Entra ID with **application perm
 ### Step 4: Copy Configuration
 
 Copy these values:
+
 - **Application (client) ID**
 - **Directory (tenant) ID**
 - **Client secret value**
@@ -203,6 +204,7 @@ The MCP server validates the JWT and checks:
 ```
 
 **Key claims:**
+
 - `idtyp: "app"` - Indicates app-only token
 - `roles` - Application permissions (NOT `scp`)
 - `appid` - Service principal app ID
@@ -355,6 +357,7 @@ client.access_token = token.token
 ```
 
 Benefits:
+
 - ✅ No secrets to manage
 - ✅ Automatic credential rotation
 - ✅ Reduced security risk
@@ -384,6 +387,7 @@ token = app.acquire_token_for_client(scopes=[SCOPE])
 ### "Insufficient privileges"
 
 Service principal doesn't have required application permissions:
+
 1. Check app registrations → API permissions
 2. Ensure **Application permissions** are added (not delegated)
 3. Ensure admin consent is granted
@@ -398,6 +402,7 @@ Service principal doesn't have required application permissions:
 ### "Unauthorized: Missing required role"
 
 Token doesn't have required application role:
+
 1. Check token claims: `roles` should contain required permissions
 2. Verify admin consent was granted
 3. Ensure MCP server is configured to accept the role
@@ -420,6 +425,7 @@ echo $TOKEN | cut -d. -f2 | base64 -d | jq
 ## Use Cases
 
 ✅ **Perfect for:**
+
 - Scheduled background jobs
 - Automated data processing
 - CI/CD pipelines
@@ -429,6 +435,7 @@ echo $TOKEN | cut -d. -f2 | base64 -d | jq
 - Inter-service communication
 
 ❌ **Not suitable for:**
+
 - User-facing applications
 - Operations requiring user context
 - Delegated permissions

@@ -58,6 +58,7 @@ mcp-client-examples/
 **File:** `mcp-client-examples/public-client-no-creds/client.py`
 
 **Features:**
+
 - ✅ DCR (Dynamic Client Registration) emulation
 - ✅ OAuth Authorization Code + PKCE flow
 - ✅ Browser-based user authentication
@@ -66,6 +67,7 @@ mcp-client-examples/
 - ✅ Structured logging with structlog
 
 **Key Components:**
+
 - `MCPPublicClient` class
 - `OAuthCallbackHandler` for OAuth callbacks
 - PKCE code generation (SHA256)
@@ -89,6 +91,7 @@ SCOPE=api://mcp-server/.default
 **File:** `mcp-client-examples/public-client-with-creds/client.py`
 
 **Features:**
+
 - ✅ Pre-configured client_id (no DCR)
 - ✅ OAuth Authorization Code + PKCE flow
 - ✅ State parameter for CSRF protection
@@ -97,6 +100,7 @@ SCOPE=api://mcp-server/.default
 - ✅ Local callback server
 
 **Key Components:**
+
 - `MCPPublicClientWithCreds` class
 - State validation for security
 - Refresh token flow implementation
@@ -121,6 +125,7 @@ SCOPE=api://mcp-server/.default
 **File:** `mcp-client-examples/confidential-client/client.py`
 
 **Features:**
+
 - ✅ Client authentication with client_secret
 - ✅ OAuth Authorization Code + PKCE flow
 - ✅ PKCE + secret (defense in depth)
@@ -129,6 +134,7 @@ SCOPE=api://mcp-server/.default
 - ✅ Higher security level
 
 **Key Components:**
+
 - `MCPConfidentialClient` class
 - Client secret authentication
 - Secure token exchange
@@ -154,6 +160,7 @@ SCOPE=api://mcp-server/.default
 **File:** `mcp-client-examples/service-principal/client.py`
 
 **Features:**
+
 - ✅ Client Credentials flow (no user interaction)
 - ✅ App-only token acquisition
 - ✅ Automatic token refresh management
@@ -162,6 +169,7 @@ SCOPE=api://mcp-server/.default
 - ✅ Application roles (not scopes)
 
 **Key Components:**
+
 - `MCPServicePrincipalClient` class
 - Direct token acquisition
 - Token expiration tracking
@@ -187,6 +195,7 @@ SCOPE=api://mcp-server/.default
 **File:** `mcp-client-examples/README.md` (530+ lines)
 
 **Contents:**
+
 - Complete overview of all clients
 - Quick start guide for each client
 - Detailed comparison table
@@ -203,6 +212,7 @@ SCOPE=api://mcp-server/.default
 **File:** `mcp-client-examples/FLOW_COMPARISON.md` (450+ lines)
 
 **Contents:**
+
 - Side-by-side flow diagrams
 - Detailed step-by-step breakdowns
 - Token structure comparison (user vs app-only)
@@ -217,6 +227,7 @@ SCOPE=api://mcp-server/.default
 ### Individual READMEs
 
 Each client has comprehensive documentation (260-320 lines each):
+
 - Flow overview with sequence diagram
 - Key features
 - Prerequisites and setup
@@ -248,6 +259,7 @@ CMD ["python", "client.py"]
 **File:** `mcp-client-examples/docker-compose.yml`
 
 **Features:**
+
 - Multi-client orchestration
 - Service principal runs automatically
 - Interactive clients use profiles
@@ -332,6 +344,7 @@ Each client can be tested independently:
 ### Automated Testing
 
 Recommended additions (future work):
+
 - Unit tests for token generation/validation
 - Integration tests with mock Entra ID
 - End-to-end tests with test tenant
@@ -365,12 +378,14 @@ All clients integrate seamlessly with the MCP server:
 ### Secrets Management
 
 **DO:**
+
 - ✅ Use environment variables
 - ✅ Use secret management systems (Azure Key Vault, etc.)
 - ✅ Rotate secrets regularly
 - ✅ Use managed identities on Azure
 
 **DON'T:**
+
 - ❌ Commit `.env` files with real secrets
 - ❌ Hard-code secrets in code
 - ❌ Share secrets across environments
@@ -379,6 +394,7 @@ All clients integrate seamlessly with the MCP server:
 ### OAuth Best Practices
 
 All clients follow:
+
 - ✅ PKCE for public clients (RFC 7636)
 - ✅ State parameter for CSRF protection
 - ✅ Redirect URI validation
@@ -391,6 +407,7 @@ All clients follow:
 ### Local Development
 
 All clients work locally:
+
 - Uses `http://localhost:8080/callback` for OAuth
 - Connects to `http://localhost:8000` for MCP server
 - Browser-based authentication (interactive clients)
@@ -398,6 +415,7 @@ All clients work locally:
 ### Production Deployment
 
 **Considerations:**
+
 - Use HTTPS for all endpoints
 - Update redirect URIs to production URLs
 - Use secret management systems
@@ -408,11 +426,13 @@ All clients work locally:
 ### Cloud Deployment
 
 **Azure:**
+
 - Use Managed Identity for service principals
 - Store secrets in Azure Key Vault
 - Use Azure AD for identity
 
 **Docker/Kubernetes:**
+
 - Use secrets/config maps
 - Network policies for isolation
 - Health checks and monitoring
@@ -447,6 +467,7 @@ All clients work locally:
 ## Summary
 
 **What was built:**
+
 - ✅ 4 complete OAuth client implementations
 - ✅ 28 files total (code, docs, config, Docker)
 - ✅ ~880 lines of production code
@@ -456,6 +477,7 @@ All clients work locally:
 - ✅ Security best practices throughout
 
 **Ready for:**
+
 - ✅ Development and testing
 - ✅ Production deployment (with proper configuration)
 - ✅ Educational purposes
@@ -464,6 +486,7 @@ All clients work locally:
 - ✅ CI/CD pipeline integration
 
 **Standards compliance:**
+
 - ✅ OAuth 2.0 (RFC 6749)
 - ✅ PKCE (RFC 7636)
 - ✅ OpenID Connect Core 1.0

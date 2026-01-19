@@ -121,11 +121,13 @@ python client.py
 ### Confidential vs Public Client
 
 **Public Client:**
+
 - Cannot securely store secrets (browser, mobile, desktop apps)
 - Uses only PKCE for security
 - Token request: `client_id` + `code_verifier`
 
 **Confidential Client (This Example):**
+
 - Can securely store secrets (backend servers, secure environments)
 - Uses client_secret for authentication
 - Token request: `client_id` + `client_secret` + `code_verifier`
@@ -162,6 +164,7 @@ client_id={client_id}
 ```
 
 Entra ID validates:
+
 1. ✅ Client secret is correct
 2. ✅ Code verifier matches code challenge
 3. ✅ Authorization code is valid and not expired
@@ -318,6 +321,7 @@ if days_until_expiry < 30:
 ### "PKCE validation failed"
 
 Even with client_secret, PKCE is still validated:
+
 - Ensure `code_verifier` is correctly generated
 - Check that `code_challenge` matches the verifier
 - Verify `code_challenge_method` is "S256"
@@ -336,12 +340,14 @@ Even with client_secret, PKCE is still validated:
 ## When to Use Confidential Client
 
 ✅ **Use confidential client when:**
+
 - Running on a secure backend server
 - Can securely store secrets (not browser/mobile)
 - Need user context (delegated permissions)
 - Want additional security layer beyond PKCE
 
 ❌ **Don't use confidential client for:**
+
 - Browser-based applications (SPA)
 - Mobile applications
 - Desktop applications

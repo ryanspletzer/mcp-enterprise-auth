@@ -12,6 +12,7 @@ cd demos/guided-demo
 ```
 
 This will:
+
 1. Start the mock IdP and MCP server with Docker Compose
 2. Wait for services to be healthy
 3. Run a service principal authentication demo
@@ -125,19 +126,23 @@ curl -X POST http://localhost:8000/mcp/tools/call \
 ## Pre-configured Test Credentials
 
 ### Service Principals
+
 - **Client ID:** `77777777-7777-7777-7777-777777777777`
 - **Client Secret:** `test-sp-secret-456`
 - **Roles:** `MCP.Read.All`, `MCP.ReadWrite.All`
 
 ### Confidential Clients
+
 - **Client ID:** `66666666-6666-6666-6666-666666666666`
 - **Client Secret:** `test-secret-123`
 
 ### Public Clients
+
 - **VS Code:** `11111111-1111-1111-1111-111111111111`
 - **Claude Code:** `33333333-3333-3333-3333-333333333333`
 
 ### Test Users
+
 - `testuser@example.com`
 - `admin@example.com`
 - `demo@example.com`

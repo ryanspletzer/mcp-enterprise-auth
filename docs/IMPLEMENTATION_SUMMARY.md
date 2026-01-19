@@ -18,6 +18,7 @@ A production-ready FastAPI application that implements:
 ## Files Created (27 files)
 
 ### Core Application (10 files)
+
 - `mcp-server/app/__init__.py` - Package initialization
 - `mcp-server/app/main.py` - FastAPI application (250+ lines)
 - `mcp-server/app/config/__init__.py`
@@ -30,6 +31,7 @@ A production-ready FastAPI application that implements:
 - `mcp-server/pyproject.toml` - Project metadata and tool configs
 
 ### Authentication Module (5 files)
+
 - `mcp-server/app/auth/__init__.py`
 - `mcp-server/app/auth/jwks_cache.py` - JWKS caching (200+ lines)
 - `mcp-server/app/auth/jwt_validator.py` - JWT validation (300+ lines)
@@ -37,18 +39,21 @@ A production-ready FastAPI application that implements:
 - `mcp-server/app/auth/middleware.py` - Auth middleware (300+ lines)
 
 ### DCR Emulation Module (4 files)
+
 - `mcp-server/app/dcr/__init__.py`
 - `mcp-server/app/dcr/client_detector.py` - Client detection (250+ lines)
 - `mcp-server/app/dcr/client_registry.py` - Client registry (200+ lines)
 - `mcp-server/app/dcr/endpoints.py` - DCR endpoints (200+ lines)
 
 ### Deployment & Configuration (4 files)
+
 - `mcp-server/Dockerfile` - Multi-stage Docker build
 - `mcp-server/README.md` - Server documentation (400+ lines)
 - `docker-compose.yml` - Docker Compose orchestration
 - `QUICKSTART.md` - Quick start guide (300+ lines)
 
 ### Documentation (4 files already created)
+
 - `CLAUDE.md` - Comprehensive project documentation
 - `README.md` - Project overview
 - `.env.example` - Environment variable template
@@ -57,6 +62,7 @@ A production-ready FastAPI application that implements:
 ## Lines of Code
 
 ### Python Code: ~2,500+ lines
+
 - Configuration: ~350 lines
 - JWT Validation: ~500 lines
 - JWKS Cache: ~200 lines
@@ -69,11 +75,13 @@ A production-ready FastAPI application that implements:
 - Utilities: ~210 lines
 
 ### Documentation: ~4,200+ lines
+
 - Server README: ~400 lines
 - Quick Start: ~300 lines
 - Architecture docs: ~3,500 lines (from earlier)
 
 ### Configuration: ~300+ lines
+
 - requirements.txt: ~60 lines
 - pyproject.toml: ~120 lines
 - Dockerfile: ~50 lines
@@ -84,6 +92,7 @@ A production-ready FastAPI application that implements:
 ## Key Features Implemented
 
 ### JWT Validation ✅
+
 - [x] Signature verification with JWKS
 - [x] Temporal validation (exp, nbf, iat)
 - [x] Issuer validation
@@ -95,12 +104,14 @@ A production-ready FastAPI application that implements:
 - [x] Auto-refresh on key mismatch
 
 ### Token Type Detection ✅
+
 - [x] Detect user tokens (scp claim)
 - [x] Detect app-only tokens (roles claim, idtyp)
 - [x] Extract user identity (oid, sub, preferred_username)
 - [x] Extract service principal identity (oid, appid)
 
 ### Permission Validation ✅
+
 - [x] Scope validation (user tokens)
   - [x] AND logic (all scopes required)
   - [x] OR logic (any scope sufficient)
@@ -109,6 +120,7 @@ A production-ready FastAPI application that implements:
   - [x] OR logic (any role sufficient)
 
 ### DCR Emulation ✅
+
 - [x] Client detection by redirect_uri
 - [x] Client detection by User-Agent
 - [x] Client detection by client_name
@@ -123,6 +135,7 @@ A production-ready FastAPI application that implements:
 - [x] Rate limiting
 
 ### FastAPI Application ✅
+
 - [x] Health check endpoint
 - [x] Readiness check endpoint
 - [x] API information endpoint
@@ -136,6 +149,7 @@ A production-ready FastAPI application that implements:
 - [x] Graceful startup/shutdown
 
 ### Configuration ✅
+
 - [x] Pydantic settings with validation
 - [x] Environment variable loading
 - [x] .env file support
@@ -144,6 +158,7 @@ A production-ready FastAPI application that implements:
 - [x] 60+ configurable parameters
 
 ### Security ✅
+
 - [x] No token minting (all delegation to Entra ID)
 - [x] Comprehensive JWT validation
 - [x] HTTPS enforcement (production)
@@ -154,6 +169,7 @@ A production-ready FastAPI application that implements:
 - [x] Mock auth (testing only)
 
 ### Logging ✅
+
 - [x] Structured logging (JSON/text)
 - [x] Configurable log levels
 - [x] Request/response logging
@@ -163,6 +179,7 @@ A production-ready FastAPI application that implements:
 - [x] Error logging with context
 
 ### Docker Support ✅
+
 - [x] Multi-stage Dockerfile
 - [x] Non-root user
 - [x] Health check
@@ -174,6 +191,7 @@ A production-ready FastAPI application that implements:
 ## What Works Now
 
 ### You can:
+
 1. ✅ Start the MCP server with Docker Compose
 2. ✅ Test health and readiness endpoints
 3. ✅ Use DCR emulation to get client credentials
@@ -186,6 +204,7 @@ A production-ready FastAPI application that implements:
 10. ✅ Use mock auth for local testing
 
 ### OAuth Flows Supported:
+
 1. ✅ Public Client (no creds) → DCR → Auth Code + PKCE
 2. ✅ Public Client (with creds) → Auth Code + PKCE
 3. ✅ Confidential Client → Auth Code + PKCE + Secret
@@ -196,6 +215,7 @@ All flows validated with proper JWT checking and permission enforcement.
 ## What's Not Implemented Yet
 
 ### MCP Protocol Handler
+
 - [ ] MCP tools implementation
 - [ ] MCP resources implementation
 - [ ] MCP prompts implementation
@@ -203,6 +223,7 @@ All flows validated with proper JWT checking and permission enforcement.
 - [ ] stdio transport
 
 ### Advanced Features
+
 - [ ] Token revocation checking (Redis cache ready but not implemented)
 - [ ] MFA enforcement
 - [ ] Conditional access policy checking
@@ -211,6 +232,7 @@ All flows validated with proper JWT checking and permission enforcement.
 - [ ] Distributed tracing (AWS X-Ray hooks exist)
 
 ### Client Examples
+
 - [ ] VS Code MCP client example
 - [ ] Claude Desktop client example
 - [ ] Claude Code client example
@@ -218,12 +240,14 @@ All flows validated with proper JWT checking and permission enforcement.
 - [ ] Service principal client example
 
 ### Deployment
+
 - [ ] Terraform configurations for AWS ECS Fargate
 - [ ] CloudFormation templates
 - [ ] Agent Core deployment manifests
 - [ ] Kubernetes manifests (if needed)
 
 ### Testing
+
 - [ ] Unit tests (pytest framework ready)
 - [ ] Integration tests
 - [ ] End-to-end tests with real Entra ID
@@ -231,6 +255,7 @@ All flows validated with proper JWT checking and permission enforcement.
 - [ ] Security tests
 
 ### Documentation
+
 - [ ] Entra ID setup guide (detailed with screenshots)
 - [ ] Local development guide
 - [ ] Fargate deployment guide
@@ -251,6 +276,7 @@ FastAPI Application
 ```
 
 ### Security Layers
+
 1. TLS/HTTPS (at deployment level)
 2. CORS (FastAPI middleware)
 3. Rate Limiting (SlowAPI)
@@ -261,6 +287,7 @@ FastAPI Application
 8. Audit Logging (structured logs)
 
 ### Performance Optimizations
+
 - Async I/O throughout
 - JWKS caching (24h TTL)
 - Connection pooling (httpx)
@@ -270,6 +297,7 @@ FastAPI Application
 ## Testing the Implementation
 
 ### Manual Testing Completed
+
 - ✅ Server starts successfully
 - ✅ Health endpoints respond
 - ✅ DCR emulation works for different clients
@@ -279,6 +307,7 @@ FastAPI Application
 - ✅ Docker Compose orchestration works
 
 ### Automated Testing Needed
+
 - [ ] Unit tests for each module
 - [ ] Integration tests with mock Entra ID
 - [ ] E2E tests with real Entra ID tokens
@@ -287,24 +316,28 @@ FastAPI Application
 ## Next Steps (Priority Order)
 
 ### Immediate (Phase 1 Completion)
+
 1. **Create Entra ID Setup Guide** - Step-by-step with screenshots
 2. **Write Unit Tests** - Especially for JWT validation
 3. **Create Client Examples** - At least one working example per flow
 4. **Test with Real Tokens** - Verify against actual Entra ID
 
 ### Short Term (Phase 2)
+
 1. **Implement MCP Protocol** - Tools, resources, prompts
 2. **Integration Tests** - Test all flows end-to-end
 3. **API Documentation** - Enhance Swagger docs
 4. **Monitoring** - Add Prometheus metrics
 
 ### Medium Term (Phase 3)
+
 1. **Fargate Deployment** - Terraform + deployment guide
 2. **Agent Core Deployment** - Deployment manifests + guide
 3. **Token Revocation** - Implement Redis-based revocation
 4. **Performance Testing** - Load tests and optimizations
 
 ### Long Term (Phase 4)
+
 1. **CloudFront/AgentCore Proxy** - Simulation/examples
 2. **Advanced Features** - MFA, conditional access, certificates
 3. **Client SDKs** - Helper libraries for clients
@@ -313,6 +346,7 @@ FastAPI Application
 ## Success Metrics
 
 ### Code Quality ✅
+
 - Type hints throughout
 - Docstrings for all public functions
 - Error handling with custom exceptions
@@ -320,6 +354,7 @@ FastAPI Application
 - Configuration validation
 
 ### Security ✅
+
 - No credentials in code
 - No token minting
 - Comprehensive JWT validation
@@ -327,6 +362,7 @@ FastAPI Application
 - Security logging
 
 ### Documentation ✅
+
 - Comprehensive README files
 - Architecture diagrams
 - API documentation (Swagger)
@@ -334,6 +370,7 @@ FastAPI Application
 - Environment variable reference
 
 ### Developer Experience ✅
+
 - Easy to configure (.env)
 - Easy to run (Docker Compose)
 - Easy to debug (structured logs)
@@ -352,6 +389,7 @@ The MCP server implementation is **production-ready** for the authentication and
 - ✅ Deployment ready (Docker, health checks, logging)
 
 The main remaining work is:
+
 1. MCP protocol implementation
 2. Client examples
 3. Testing suite

@@ -227,6 +227,7 @@ The project's GitHub Actions workflow uses uv:
 ```
 
 Benefits:
+
 - **Faster CI builds** (cached uv environment)
 - **Reproducible** (uses uv.lock)
 - **Reliable** (same environment locally and in CI)
@@ -375,6 +376,7 @@ uv sync --extra dev
 ## Summary
 
 **With uv, you get:**
+
 - ✅ Faster installs (10-100x speedup)
 - ✅ Simpler workflow (`uv run` instead of activation)
 - ✅ Reproducible builds (uv.lock)

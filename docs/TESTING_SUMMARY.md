@@ -7,6 +7,7 @@ Complete test suite and infrastructure for the MCP server implementation.
 ### Test Suite (8 test files, ~1,500+ lines)
 
 #### Core Test Files
+
 1. **tests/conftest.py** (~350 lines)
    - Comprehensive pytest fixtures
    - Mock JWT token generation with RSA keys
@@ -73,6 +74,7 @@ Complete test suite and infrastructure for the MCP server implementation.
 ### Test Infrastructure
 
 #### Test Watch Mode
+
 - **scripts/test-watch.sh** - Auto-rerun tests on file changes
 - Uses `pytest-watch` for continuous testing
 - Configurable pytest arguments
@@ -80,6 +82,7 @@ Complete test suite and infrastructure for the MCP server implementation.
 - Perfect for Claude Code development workflow
 
 #### Makefile (30+ commands)
+
 - `make test` - Run all tests
 - `make test-unit` - Unit tests only
 - `make test-integration` - Integration tests only
@@ -90,6 +93,7 @@ Complete test suite and infrastructure for the MCP server implementation.
 - And 25+ more commands
 
 #### CI/CD Pipeline (.github/workflows/ci.yml)
+
 - **Test Matrix**: Python 3.11 and 3.12
 - **Jobs**:
   - Test with coverage
@@ -101,6 +105,7 @@ Complete test suite and infrastructure for the MCP server implementation.
 - **Codecov integration**
 
 #### Development Dependencies (requirements-dev.txt)
+
 - pytest-watch for watch mode
 - pytest-timeout for hanging tests
 - pytest-mock for advanced mocking
@@ -109,6 +114,7 @@ Complete test suite and infrastructure for the MCP server implementation.
 - locust for performance testing
 
 #### Documentation
+
 - **tests/README.md** (~400 lines)
   - Complete testing guide
   - How to run tests
@@ -122,6 +128,7 @@ Complete test suite and infrastructure for the MCP server implementation.
 ### What's Tested
 
 #### Configuration Module ✅
+
 - [x] Settings loading from environment
 - [x] Property methods (ENTRA_AUTHORITY, JWKS_URL, etc.)
 - [x] Validation (required fields, invalid values)
@@ -129,6 +136,7 @@ Complete test suite and infrastructure for the MCP server implementation.
 - [x] Scope/role parsing (AND/OR logic)
 
 #### JWKS Cache ✅
+
 - [x] Initial fetch
 - [x] Caching behavior (TTL)
 - [x] Force refresh
@@ -137,6 +145,7 @@ Complete test suite and infrastructure for the MCP server implementation.
 - [x] Cache properties (is_cached, cache_age)
 
 #### JWT Validator ✅
+
 - [x] Valid token validation
 - [x] Signature verification (mocked)
 - [x] Expired token detection
@@ -150,6 +159,7 @@ Complete test suite and infrastructure for the MCP server implementation.
 - [x] Claims sanitization
 
 #### Token Validator ✅
+
 - [x] User token detection (by scp)
 - [x] App-only token detection (by idtyp, by missing scp)
 - [x] User permission validation
@@ -160,6 +170,7 @@ Complete test suite and infrastructure for the MCP server implementation.
 - [x] OR logic for scopes/roles
 
 #### DCR Client Detector ✅
+
 - [x] VS Code detection (redirect_uri, User-Agent, name)
 - [x] Claude Desktop detection
 - [x] Claude Code detection
@@ -170,6 +181,7 @@ Complete test suite and infrastructure for the MCP server implementation.
 - [x] Edge cases (case-insensitive, None, empty strings)
 
 #### API Endpoints ✅
+
 - [x] Health check (/health)
 - [x] Readiness check (/ready)
 - [x] Root endpoint (/)
@@ -277,23 +289,27 @@ Use markers to run specific test categories:
 ### Quick Reference
 
 **JWT & JWKS:**
+
 - `private_key` / `public_key` - RSA keys
 - `user_jwt_claims` / `app_only_jwt_claims` - Token claims
 - `valid_user_token` / `valid_app_token` - Signed tokens
 - `create_jwt_token` - Factory to create custom tokens
 
 **Invalid Tokens:**
+
 - `expired_token` - Expired token
 - `token_without_kid` - Missing kid header
 - `token_wrong_issuer` / `token_wrong_audience` - Wrong claims
 - `token_missing_scope` / `token_missing_role` - Insufficient permissions
 
 **HTTP Clients:**
+
 - `client` - FastAPI TestClient
 - `async_client` - Async HTTP client
 - `auth_headers` / `app_auth_headers` - Auth headers with tokens
 
 **DCR:**
+
 - `vscode_dcr_request` / `claude_code_dcr_request` - DCR request bodies
 - `vscode_user_agent` / `claude_code_user_agent` - User-Agent headers
 
@@ -384,12 +400,14 @@ class TestMyFeature:
 ## Next Steps
 
 ### Immediate
+
 - [x] Test infrastructure complete
 - [ ] Run tests and verify all pass
 - [ ] Set up Codecov account (optional)
 - [ ] Add more integration tests with real-like scenarios
 
 ### Future Enhancements
+
 - [ ] Add performance tests (load testing with locust)
 - [ ] Add end-to-end tests with real Entra ID (separate test tenant)
 - [ ] Add mutation testing (pytest-mutpy)
@@ -457,6 +475,7 @@ make test-cov
 ✅ Easy-to-use Makefile commands
 
 **Recommended workflow:**
+
 1. `make watch` in one terminal
 2. Edit code in another
 3. Tests auto-run on save
