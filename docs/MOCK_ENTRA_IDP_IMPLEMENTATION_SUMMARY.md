@@ -412,6 +412,7 @@ Token claims (decoded):
 ## Key Implementation Patterns
 
 ### 1. Registry Pattern
+
 Used for clients, users, service principals:
 
 ```python
@@ -424,6 +425,7 @@ class InMemoryStorage:
 ```
 
 ### 2. Factory Pattern
+
 JWT issuer, key manager as singletons:
 
 ```python
@@ -437,6 +439,7 @@ def get_key_manager() -> KeyManager:
 ```
 
 ### 3. Dependency Injection
+
 FastAPI dependencies for settings, storage, crypto:
 
 ```python
@@ -449,6 +452,7 @@ async def endpoint(
 ```
 
 ### 4. Pydantic Models
+
 Type-safe data models with validation:
 
 ```python
