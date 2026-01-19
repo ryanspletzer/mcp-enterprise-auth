@@ -89,7 +89,6 @@ credentials.json
 .dockerignore
 
 # IDE
-.vscode/
 .idea/
 *.swp
 *.swo
@@ -183,8 +182,6 @@ out/
 .idea_modules/
 
 # VS Code
-.vscode/
-*.code-workspace
 .history/
 
 # Jupyter Notebook

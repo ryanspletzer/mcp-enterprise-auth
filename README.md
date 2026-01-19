@@ -273,7 +273,7 @@ This is a demonstration project. Contributions welcome for:
 
 ## 📝 License
 
-MIT License (TBD)
+This project is released into the public domain under [The Unlicense](LICENSE).
 
 ## 🔗 References
 

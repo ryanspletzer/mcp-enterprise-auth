@@ -1,0 +1,30 @@
+{
+  "recommendations": [
+    // Python
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "charliermarsh.ruff",
+    "ms-python.mypy-type-checker",
+    // Testing
+    "ms-python.debugpy",
+    // Docker
+    "ms-azuretools.vscode-docker",
+    // Markdown
+    "DavidAnson.vscode-markdownlint",
+    "yzhang.markdown-all-in-one",
+    // YAML/JSON
+    "redhat.vscode-yaml",
+    // Git
+    "eamodio.gitlens",
+    "mhutchie.git-graph",
+    // Environment files
+    "mikestead.dotenv",
+    // REST API testing
+    "humao.rest-client",
+    // General utilities
+    "EditorConfig.EditorConfig",
+    "streetsidesoftware.code-spell-checker",
+    "usernamehw.errorlens"
+  ],
+  "unwantedRecommendations": []
+}
