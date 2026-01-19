@@ -483,6 +483,64 @@ mcp-with-proper-enterprise-auth/
 5. **Certificate-Based Auth**: Not yet implemented for service principals
 6. **Agent Core**: Full simulation deferred to Phase 4
 
+## Markdown Formatting Standards
+
+When writing or editing markdown files in this project,
+follow these formatting conventions for consistency and better git diffs.
+
+### Line Length
+
+- Maximum 120 characters for prose text
+- Exempt: code blocks, tables, mermaid diagrams, ASCII art, and URLs
+
+### Semantic Linefeeds
+
+Break lines at logical boundaries rather than arbitrary character limits:
+
+1. **Sentence boundaries**: Break after periods
+2. **Clause boundaries**: Break after commas and conjunctions (and, or, but)
+3. **Logical break points**: Before parentheticals, after dashes/semicolons
+
+### Why Semantic Linefeeds?
+
+- **Better diffs**: Changes to one sentence don't reflow the entire paragraph
+- **Easier reviews**: Each line represents one idea or fact
+- **Cleaner git history**: Rebasing and cherry-picking preserve intent
+
+### Examples
+
+**Bad** (hard-wrapped ignoring boundaries):
+
+```markdown
+This project demonstrates proper enterprise authentication for Model Context
+Protocol servers using Microsoft Entra ID with comprehensive JWT validation.
+```
+
+**Good** (semantic linefeeds):
+
+```markdown
+This project demonstrates proper enterprise authentication for Model Context Protocol servers
+using Microsoft Entra ID with comprehensive JWT validation.
+```
+
+**Better** (semantic linefeeds with clause breaks):
+
+```markdown
+This project demonstrates proper enterprise authentication for Model Context Protocol (MCP) servers
+using Microsoft Entra ID (Azure AD) with OAuth 2.0 and OpenID Connect.
+Unlike many examples that "mint their own tokens,"
+this implementation properly delegates authentication to an enterprise Identity Provider (IdP)
+and performs comprehensive JWT validation.
+```
+
+### What NOT to Reformat
+
+- Code blocks (preserve exact formatting)
+- Markdown tables (need alignment)
+- Mermaid diagrams (have their own syntax)
+- ASCII art diagrams
+- URLs (keep on single line when possible)
+
 ## References
 
 - [OAuth 2.0 RFC 6749](https://tools.ietf.org/html/rfc6749)
