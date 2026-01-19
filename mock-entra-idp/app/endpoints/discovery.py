@@ -32,16 +32,13 @@ async def jwks(
     return jwks_data
 
 
-@router.get("/.well-known/openid-configuration")
-async def openid_configuration(
-    settings: Annotated[Settings, Depends(get_settings)],
-) -> dict:
+def _get_authorization_server_metadata(settings: Settings) -> dict:
     """
-    OIDC discovery endpoint.
+    Generate OAuth 2.0 Authorization Server Metadata per RFC 8414.
 
-    Returns OpenID Connect discovery metadata.
+    This metadata is shared between OIDC discovery and OAuth AS metadata endpoints.
     """
-    discovery_data = {
+    return {
         "issuer": settings.issuer,
         "authorization_endpoint": settings.authorization_endpoint,
         "token_endpoint": settings.token_endpoint,
@@ -67,11 +64,46 @@ async def openid_configuration(
             "email",
             "offline_access",
         ],
+        # RFC 8414 additional metadata
+        "registration_endpoint": None,  # Not supported (using DCR emulation at MCP server)
+        "service_documentation": None,
+        "ui_locales_supported": ["en-US"],
     }
+
+
+@router.get("/.well-known/openid-configuration")
+async def openid_configuration(
+    settings: Annotated[Settings, Depends(get_settings)],
+) -> dict:
+    """
+    OIDC discovery endpoint (RFC 8414).
+
+    Returns OpenID Connect discovery metadata.
+    This is the primary discovery endpoint for OpenID Connect flows.
+    """
+    discovery_data = _get_authorization_server_metadata(settings)
 
     logger.debug("openid_configuration_served")
 
     return discovery_data
+
+
+@router.get("/.well-known/oauth-authorization-server")
+async def oauth_authorization_server_metadata(
+    settings: Annotated[Settings, Depends(get_settings)],
+) -> dict:
+    """
+    OAuth 2.0 Authorization Server Metadata endpoint (RFC 8414).
+
+    Returns authorization server metadata for OAuth 2.0 clients.
+    This is an alternative to the OIDC discovery endpoint, providing
+    the same metadata in a format specific to OAuth 2.0.
+    """
+    metadata = _get_authorization_server_metadata(settings)
+
+    logger.debug("oauth_authorization_server_metadata_served")
+
+    return metadata
 
 
 @router.get("/health")

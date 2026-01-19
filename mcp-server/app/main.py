@@ -15,6 +15,7 @@ from slowapi.util import get_remote_address
 from app.auth.middleware import AuthContext, get_auth_context
 from app.config import Settings, get_settings
 from app.dcr import dcr_router
+from app.discovery.endpoints import router as discovery_router
 from app.mcp import mcp_router
 from app.utils.exceptions import MCPError
 from app.utils.logging import get_logger, setup_logging
@@ -133,6 +134,10 @@ def create_app() -> FastAPI:
         )
 
     # Include routers
+    # Discovery endpoints (RFC 9728 - Protected Resource Metadata)
+    app.include_router(discovery_router)
+    logger.info("discovery_router_registered")
+
     if settings.ENABLE_DCR_ENDPOINT:
         app.include_router(dcr_router)
         logger.info("dcr_router_registered")
