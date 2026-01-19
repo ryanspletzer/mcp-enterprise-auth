@@ -290,4 +290,6 @@ For questions about this implementation or OAuth/OIDC specifics, please open an 
 
 ---
 
-**Note**: This project demonstrates proper OAuth 2.0 / OpenID Connect integration with enterprise IdP. It does NOT mint its own tokens - all authentication is delegated to Entra ID with comprehensive JWT validation.
+**Note**: This project demonstrates proper OAuth 2.0 / OpenID Connect integration with an enterprise IdP. It does NOT mint its own tokens - all authentication is delegated to Entra ID with comprehensive JWT validation.
+
+**⚠️ About the Mock IdP**: This repo includes a mock Entra ID IdP (`mock-entra-idp/`) for local development and testing convenience. This mock is **for demonstration purposes only** and is not suited for production use. For proper integration testing, configure the MCP server with real Entra ID app registrations pointing to an actual Entra ID tenant. If you don't have access to an Entra ID tenant, the [Microsoft 365 Developer Program](https://developer.microsoft.com/en-us/microsoft-365/dev-program) provides free standalone developer tenants for testing.
