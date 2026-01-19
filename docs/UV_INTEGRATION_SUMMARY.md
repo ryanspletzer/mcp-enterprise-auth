@@ -10,14 +10,14 @@ Complete integration of `uv` for Python environment and package management.
    - Pins Python version to 3.11
    - Used by uv for automatic Python selection
 
-2. **`mcp-server/pyproject.toml`** (updated)
+2. **`src/mcp-server/pyproject.toml`** (updated)
    - Converted from Poetry to standard Python project format
    - Added `[project]` section for PEP 621 compliance
    - Added `[tool.uv]` configuration
    - Uses `hatchling` as build backend
    - All dependencies now in standard format
 
-3. **`mcp-server/Makefile`** (updated)
+3. **`src/mcp-server/Makefile`** (updated)
    - All commands now use `uv run`
    - Added `check-uv` target to auto-install uv
    - New commands:
@@ -29,7 +29,7 @@ Complete integration of `uv` for Python environment and package management.
      - `make clean-all` - Clean including uv cache
      - `make setup` - Complete first-time setup
 
-4. **`mcp-server/scripts/test-watch.sh`** (updated)
+4. **`src/mcp-server/scripts/test-watch.sh`** (updated)
    - Uses `uv run` for pytest-watch
    - Auto-installs pytest-watch if missing
    - Checks for uv installation
@@ -272,7 +272,7 @@ The updated GitHub Actions workflow is backwards compatible and faster.
 mcp-with-proper-enterprise-auth/
 ├── .python-version          # Python version (3.11)
 ├── UV_SETUP.md              # uv setup guide
-├── mcp-server/
+├── src/mcp-server/
 │   ├── pyproject.toml       # Project config (PEP 621)
 │   ├── uv.lock              # Lockfile (commit this!)
 │   ├── .venv/               # Virtual env (auto-created by uv)

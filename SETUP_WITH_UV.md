@@ -392,11 +392,11 @@ Add to `.vscode/settings.json`:
 
 ```json
 {
-  "python.defaultInterpreterPath": "${workspaceFolder}/mcp-server/.venv/bin/python",
+  "python.defaultInterpreterPath": "${workspaceFolder}/src/mcp-server/.venv/bin/python",
   "python.testing.pytestEnabled": true,
-  "python.testing.pytestPath": "${workspaceFolder}/mcp-server/.venv/bin/pytest",
+  "python.testing.pytestPath": "${workspaceFolder}/src/mcp-server/.venv/bin/pytest",
   "python.formatting.provider": "black",
-  "python.formatting.blackPath": "${workspaceFolder}/mcp-server/.venv/bin/black",
+  "python.formatting.blackPath": "${workspaceFolder}/src/mcp-server/.venv/bin/black",
   "python.linting.enabled": true,
   "python.linting.flake8Enabled": true,
   "python.linting.mypyEnabled": true
@@ -408,7 +408,7 @@ Add to `.vscode/settings.json`:
 1. File -> Settings -> Project -> Python Interpreter
 2. Click gear icon -> Add
 3. Select "Existing environment"
-4. Choose `mcp-server/.venv/bin/python`
+4. Choose `src/mcp-server/.venv/bin/python`
 
 ## CI/CD
 

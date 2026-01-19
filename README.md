@@ -78,7 +78,7 @@ cp .env.example .env
 ### 4. Install Dependencies & Run Tests
 
 ```bash
-cd mcp-server
+cd src/mcp-server
 
 # Install all dependencies (fast with uv!)
 uv sync --extra dev
@@ -113,7 +113,7 @@ curl -X POST http://localhost:8000/dcr \
   -d '{"redirect_uri": "vscode://mcp-auth/callback"}'
 
 # Test with a real client
-cd mcp-client-examples/public-client-without-client-id
+cd src/mcp-client-examples/public-client-without-client-id
 python client.py
 ```
 
@@ -166,7 +166,7 @@ Every incoming token is validated for:
 ### Local Development (with uv - Recommended!)
 
 ```bash
-cd mcp-server
+cd src/mcp-server
 
 # Install dependencies (uv automatically manages virtual env)
 uv sync --extra dev
@@ -190,14 +190,14 @@ Why uv?
 ### Running Tests
 
 ```bash
-cd mcp-server
+cd src/mcp-server
 pytest tests/ -v
 ```
 
 ### Code Structure
 
 ```text
-mcp-server/
+src/mcp-server/
 ├── app/
 │   ├── auth/           # JWT validation, JWKS caching
 │   ├── dcr/            # DCR emulation, client detection
@@ -213,7 +213,7 @@ mcp-server/
 
 ```bash
 # Build and push Docker image
-docker build -t mcp-server:latest ./mcp-server
+docker build -t mcp-server:latest ./src/mcp-server
 docker tag mcp-server:latest <ecr-repo>/mcp-server:latest
 docker push <ecr-repo>/mcp-server:latest
 
@@ -229,7 +229,7 @@ See [docs/setup/fargate-deployment.md](./docs/setup/fargate-deployment.md) for d
 
 ```bash
 # Build Docker image
-docker build -t mcp-server:latest ./mcp-server
+docker build -t mcp-server:latest ./src/mcp-server
 
 # Deploy to Agent Core
 # (Instructions specific to your Agent Core setup)
@@ -239,7 +239,8 @@ See [docs/setup/agentcore-deployment.md](./docs/setup/agentcore-deployment.md) f
 
 ## 🧪 Example Clients
 
-The project includes example MCP clients demonstrating each flow:
+The project includes example MCP clients demonstrating each flow
+(located in `src/mcp-client-examples/`):
 
 - **`public-client-without-client-id/`** - Public client without client_id (uses DCR)
 - **`public-client-with-client-id/`** - Public client with pre-configured client_id
@@ -298,7 +299,7 @@ please open an issue.
 It does NOT mint its own tokens -
 all authentication is delegated to Entra ID with comprehensive JWT validation.
 
-**⚠️ About the Mock IdP**: This repo includes a mock Entra ID IdP (`mock-entra-idp/`)
+**⚠️ About the Mock IdP**: This repo includes a mock Entra ID IdP (`src/mock-entra-idp/`)
 for local development and testing convenience.
 This mock is **for demonstration purposes only** and is not suited for production use.
 For proper integration testing,

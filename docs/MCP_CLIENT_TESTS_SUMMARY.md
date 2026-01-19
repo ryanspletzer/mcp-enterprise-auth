@@ -12,7 +12,7 @@ with 90+ tests covering unit, integration, and end-to-end scenarios.
 ### Total: 8 Test Files
 
 ```text
-mcp-client-examples/tests/
+src/mcp-client-examples/tests/
 ├── conftest.py                          # Shared fixtures (300+ lines)
 ├── test_public_client_no_creds.py       # 20+ tests (250+ lines)
 ├── test_public_client_with_creds.py     # 25+ tests (280+ lines)
@@ -361,7 +361,7 @@ pytest -m "unit or integration"
 ### Quick Start
 
 ```bash
-cd mcp-client-examples/tests
+cd src/mcp-client-examples/tests
 
 # Install dependencies
 make install
@@ -479,12 +479,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd mcp-client-examples/tests
+          cd src/mcp-client-examples/tests
           pip install -r requirements.txt
 
       - name: Run tests
         run: |
-          cd mcp-client-examples/tests
+          cd src/mcp-client-examples/tests
           pytest --cov=. --cov-report=xml -v
 
       - name: Upload coverage

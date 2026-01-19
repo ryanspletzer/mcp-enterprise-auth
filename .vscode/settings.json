@@ -1,6 +1,6 @@
 {
   // Python settings
-  "python.defaultInterpreterPath": "${workspaceFolder}/mcp-server/.venv/bin/python",
+  "python.defaultInterpreterPath": "${workspaceFolder}/src/mcp-server/.venv/bin/python",
   "python.analysis.typeCheckingMode": "basic",
   "python.analysis.autoImportCompletions": true,
   "python.analysis.diagnosticMode": "workspace",
@@ -19,16 +19,16 @@
   // Ruff settings (replaces black, isort, flake8)
   "ruff.lineLength": 100,
   "ruff.lint.args": [
-    "--config=${workspaceFolder}/mcp-server/pyproject.toml"
+    "--config=${workspaceFolder}/src/mcp-server/pyproject.toml"
   ],
   "ruff.format.args": [
-    "--config=${workspaceFolder}/mcp-server/pyproject.toml"
+    "--config=${workspaceFolder}/src/mcp-server/pyproject.toml"
   ],
   // Testing
   "python.testing.pytestEnabled": true,
   "python.testing.unittestEnabled": false,
   "python.testing.pytestArgs": [
-    "mcp-server/tests",
+    "src/mcp-server/tests",
     "-v"
   ],
   // Editor settings

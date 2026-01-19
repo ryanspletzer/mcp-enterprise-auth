@@ -20,7 +20,7 @@ Implemented the full MCP protocol specification with:
 ### Total: 6 Implementation Files + 1 Test File
 
 ```text
-mcp-server/app/mcp/
+src/mcp-server/app/mcp/
 ├── __init__.py                  # Module exports
 ├── models.py                    # MCP protocol models (400+ lines)
 ├── tools.py                     # Tools implementation (350+ lines)
@@ -28,7 +28,7 @@ mcp-server/app/mcp/
 ├── prompts.py                   # Prompts implementation (350+ lines)
 └── router.py                    # MCP endpoints (250+ lines)
 
-mcp-server/tests/
+src/mcp-server/tests/
 └── test_mcp_protocol.py         # MCP tests (350+ lines)
 ```
 

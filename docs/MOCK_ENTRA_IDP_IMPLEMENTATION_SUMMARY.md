@@ -19,7 +19,7 @@ Created a fully functional mock identity provider that:
 ### Total: 40+ files, ~3,500 lines of code
 
 ```text
-mock-entra-idp/
+src/mock-entra-idp/
 ├── app/
 │   ├── config/
 │   │   └── settings.py                    # Pydantic settings (130 lines)

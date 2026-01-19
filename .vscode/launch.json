@@ -12,7 +12,7 @@
         "--host", "0.0.0.0",
         "--port", "8000"
       ],
-      "cwd": "${workspaceFolder}/mcp-server",
+      "cwd": "${workspaceFolder}/src/mcp-server",
       "envFile": "${workspaceFolder}/.env",
       "console": "integratedTerminal",
       "justMyCode": false
@@ -27,7 +27,7 @@
         "--host", "0.0.0.0",
         "--port", "8000"
       ],
-      "cwd": "${workspaceFolder}/mcp-server",
+      "cwd": "${workspaceFolder}/src/mcp-server",
       "envFile": "${workspaceFolder}/.env",
       "console": "integratedTerminal",
       "justMyCode": false
@@ -43,7 +43,7 @@
         "--host", "0.0.0.0",
         "--port", "8001"
       ],
-      "cwd": "${workspaceFolder}/mock-entra-idp",
+      "cwd": "${workspaceFolder}/src/mock-entra-idp",
       "envFile": "${workspaceFolder}/.env",
       "console": "integratedTerminal",
       "justMyCode": false
@@ -58,7 +58,7 @@
         "-v",
         "-s"
       ],
-      "cwd": "${workspaceFolder}/mcp-server",
+      "cwd": "${workspaceFolder}/src/mcp-server",
       "envFile": "${workspaceFolder}/.env",
       "console": "integratedTerminal",
       "justMyCode": false
@@ -73,7 +73,7 @@
         "-v",
         "-s"
       ],
-      "cwd": "${workspaceFolder}/mcp-client-examples",
+      "cwd": "${workspaceFolder}/src/mcp-client-examples",
       "envFile": "${workspaceFolder}/.env",
       "console": "integratedTerminal",
       "justMyCode": false
@@ -88,7 +88,7 @@
         "-v",
         "-s"
       ],
-      "cwd": "${workspaceFolder}/mcp-server",
+      "cwd": "${workspaceFolder}/src/mcp-server",
       "envFile": "${workspaceFolder}/.env",
       "console": "integratedTerminal",
       "justMyCode": false
@@ -107,9 +107,9 @@
       "name": "Client: Public (Without Client ID)",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/mcp-client-examples/public-client-without-client-id/client.py",
-      "cwd": "${workspaceFolder}/mcp-client-examples/public-client-without-client-id",
-      "envFile": "${workspaceFolder}/mcp-client-examples/.env",
+      "program": "${workspaceFolder}/src/mcp-client-examples/public-client-without-client-id/client.py",
+      "cwd": "${workspaceFolder}/src/mcp-client-examples/public-client-without-client-id",
+      "envFile": "${workspaceFolder}/src/mcp-client-examples/.env",
       "console": "integratedTerminal",
       "justMyCode": false
     },
@@ -117,9 +117,9 @@
       "name": "Client: Public (With Client ID)",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/mcp-client-examples/public-client-with-client-id/client.py",
-      "cwd": "${workspaceFolder}/mcp-client-examples/public-client-with-client-id",
-      "envFile": "${workspaceFolder}/mcp-client-examples/.env",
+      "program": "${workspaceFolder}/src/mcp-client-examples/public-client-with-client-id/client.py",
+      "cwd": "${workspaceFolder}/src/mcp-client-examples/public-client-with-client-id",
+      "envFile": "${workspaceFolder}/src/mcp-client-examples/.env",
       "console": "integratedTerminal",
       "justMyCode": false
     },
@@ -127,9 +127,9 @@
       "name": "Client: Confidential",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/mcp-client-examples/confidential-client/client.py",
-      "cwd": "${workspaceFolder}/mcp-client-examples/confidential-client",
-      "envFile": "${workspaceFolder}/mcp-client-examples/.env",
+      "program": "${workspaceFolder}/src/mcp-client-examples/confidential-client/client.py",
+      "cwd": "${workspaceFolder}/src/mcp-client-examples/confidential-client",
+      "envFile": "${workspaceFolder}/src/mcp-client-examples/.env",
       "console": "integratedTerminal",
       "justMyCode": false
     },
@@ -137,9 +137,9 @@
       "name": "Client: Service Principal",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/mcp-client-examples/service-principal/client.py",
-      "cwd": "${workspaceFolder}/mcp-client-examples/service-principal",
-      "envFile": "${workspaceFolder}/mcp-client-examples/.env",
+      "program": "${workspaceFolder}/src/mcp-client-examples/service-principal/client.py",
+      "cwd": "${workspaceFolder}/src/mcp-client-examples/service-principal",
+      "envFile": "${workspaceFolder}/src/mcp-client-examples/.env",
       "console": "integratedTerminal",
       "justMyCode": false
     }

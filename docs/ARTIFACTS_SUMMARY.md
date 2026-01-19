@@ -119,7 +119,7 @@ mcp-with-proper-enterprise-auth/
 │   ├── architecture/       # 6 architecture documents
 │   ├── setup/              # 1 setup document (more to come)
 │   └── api/                # API docs (to be created)
-├── mcp-server/             # FastAPI server (to be implemented)
+├── src/mcp-server/             # FastAPI server (to be implemented)
 │   ├── app/
 │   │   ├── auth/           # JWT validation module
 │   │   ├── dcr/            # DCR emulation module
@@ -127,7 +127,7 @@ mcp-with-proper-enterprise-auth/
 │   │   ├── config/         # Configuration module
 │   │   └── utils/          # Utilities
 │   └── tests/              # Unit/integration tests
-├── mcp-client-examples/    # Example clients (to be implemented)
+├── src/mcp-client-examples/    # Example clients (to be implemented)
 │   ├── public-client-without-client-id/
 │   ├── public-client-with-client-id/
 │   ├── confidential-client/

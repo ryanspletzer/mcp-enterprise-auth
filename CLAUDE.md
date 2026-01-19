@@ -288,70 +288,76 @@ mcp-with-proper-enterprise-auth/
 │       ├── mcp-server-api.md         # MCP server endpoints
 │       └── dcr-endpoints.md          # DCR emulation API
 │
-├── mcp-server/                        # MCP Server implementation
-│   ├── Dockerfile
-│   ├── requirements.txt
-│   ├── pyproject.toml
-│   │
-│   ├── app/
-│   │   ├── __init__.py
-│   │   ├── main.py                   # FastAPI app entry point
+├── src/                               # Source code
+│   ├── mcp-server/                    # MCP Server implementation
+│   │   ├── Dockerfile
+│   │   ├── requirements.txt
+│   │   ├── pyproject.toml
 │   │   │
-│   │   ├── auth/                     # Authentication module
+│   │   ├── app/
 │   │   │   ├── __init__.py
-│   │   │   ├── jwt_validator.py     # JWT validation logic
-│   │   │   ├── jwks_cache.py        # JWKS caching
-│   │   │   ├── token_validator.py   # Token type detection
-│   │   │   └── middleware.py        # Auth middleware
+│   │   │   ├── main.py               # FastAPI app entry point
+│   │   │   │
+│   │   │   ├── auth/                 # Authentication module
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── jwt_validator.py  # JWT validation logic
+│   │   │   │   ├── jwks_cache.py     # JWKS caching
+│   │   │   │   ├── token_validator.py # Token type detection
+│   │   │   │   └── middleware.py     # Auth middleware
+│   │   │   │
+│   │   │   ├── dcr/                  # DCR emulation module
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── client_detector.py # Detect client type
+│   │   │   │   ├── client_registry.py # Client config
+│   │   │   │   └── endpoints.py      # DCR endpoints
+│   │   │   │
+│   │   │   ├── mcp/                  # MCP protocol module
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── server.py         # MCP server implementation
+│   │   │   │   ├── tools.py          # MCP tools
+│   │   │   │   └── resources.py      # MCP resources
+│   │   │   │
+│   │   │   ├── config/               # Configuration
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── settings.py       # Pydantic settings
+│   │   │   │
+│   │   │   └── utils/                # Utilities
+│   │   │       ├── __init__.py
+│   │   │       ├── logging.py        # Logging setup
+│   │   │       └── exceptions.py     # Custom exceptions
 │   │   │
-│   │   ├── dcr/                      # DCR emulation module
-│   │   │   ├── __init__.py
-│   │   │   ├── client_detector.py   # Detect client type
-│   │   │   ├── client_registry.py   # Client config
-│   │   │   └── endpoints.py         # DCR endpoints
-│   │   │
-│   │   ├── mcp/                      # MCP protocol module
-│   │   │   ├── __init__.py
-│   │   │   ├── server.py            # MCP server implementation
-│   │   │   ├── tools.py             # MCP tools
-│   │   │   └── resources.py         # MCP resources
-│   │   │
-│   │   ├── config/                   # Configuration
-│   │   │   ├── __init__.py
-│   │   │   └── settings.py          # Pydantic settings
-│   │   │
-│   │   └── utils/                    # Utilities
+│   │   └── tests/                     # Tests
 │   │       ├── __init__.py
-│   │       ├── logging.py           # Logging setup
-│   │       └── exceptions.py        # Custom exceptions
+│   │       ├── test_jwt_validation.py
+│   │       ├── test_dcr.py
+│   │       └── test_mcp.py
 │   │
-│   └── tests/                         # Tests
-│       ├── __init__.py
-│       ├── test_jwt_validation.py
-│       ├── test_dcr.py
-│       └── test_mcp.py
-│
-├── mcp-client-examples/               # Example MCP clients
+│   ├── mcp-client-examples/           # Example MCP clients
+│   │   │
+│   │   ├── public-client-without-client-id/  # Public client without client_id
+│   │   │   ├── Dockerfile
+│   │   │   ├── requirements.txt
+│   │   │   └── client.py
+│   │   │
+│   │   ├── public-client-with-client-id/  # Public client with client_id
+│   │   │   ├── Dockerfile
+│   │   │   ├── requirements.txt
+│   │   │   └── client.py
+│   │   │
+│   │   ├── confidential-client/      # Confidential client
+│   │   │   ├── Dockerfile
+│   │   │   ├── requirements.txt
+│   │   │   └── client.py
+│   │   │
+│   │   └── service-principal/        # Service principal client
+│   │       ├── Dockerfile
+│   │       ├── requirements.txt
+│   │       └── client.py
 │   │
-│   ├── public-client-without-client-id/       # Public client without client_id
-│   │   ├── Dockerfile
-│   │   ├── requirements.txt
-│   │   └── client.py
-│   │
-│   ├── public-client-with-client-id/     # Public client with client_id
-│   │   ├── Dockerfile
-│   │   ├── requirements.txt
-│   │   └── client.py
-│   │
-│   ├── confidential-client/          # Confidential client
-│   │   ├── Dockerfile
-│   │   ├── requirements.txt
-│   │   └── client.py
-│   │
-│   └── service-principal/            # Service principal client
+│   └── mock-entra-idp/                # Mock Entra ID for testing
 │       ├── Dockerfile
-│       ├── requirements.txt
-│       └── client.py
+│       ├── pyproject.toml
+│       └── app/                       # Mock IdP implementation
 │
 ├── infrastructure/                    # Infrastructure as Code
 │   ├── fargate/                      # AWS ECS Fargate

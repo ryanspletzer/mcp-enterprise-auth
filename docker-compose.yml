@@ -3,7 +3,7 @@ version: '3.8'
 services:
   mcp-server:
     build:
-      context: ./mcp-server
+      context: ./src/mcp-server
       dockerfile: Dockerfile
     container_name: mcp-server
     ports:
@@ -62,7 +62,7 @@ services:
       - ENABLE_MOCK_AUTH=${ENABLE_MOCK_AUTH:-false}
     volumes:
       # Mount source code for development (hot reload)
-      - ./mcp-server/app:/app/app
+      - ./src/mcp-server/app:/app/app
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
       interval: 30s

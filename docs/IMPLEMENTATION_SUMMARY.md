@@ -19,36 +19,36 @@ A production-ready FastAPI application that implements:
 
 ### Core Application (10 files)
 
-- `mcp-server/app/__init__.py` - Package initialization
-- `mcp-server/app/main.py` - FastAPI application (250+ lines)
-- `mcp-server/app/config/__init__.py`
-- `mcp-server/app/config/settings.py` - Pydantic settings (350+ lines)
-- `mcp-server/app/utils/__init__.py`
-- `mcp-server/app/utils/exceptions.py` - Custom exceptions (120+ lines)
-- `mcp-server/app/utils/logging.py` - Logging setup (90+ lines)
-- `mcp-server/app/mcp/__init__.py` - MCP protocol placeholder
-- `mcp-server/requirements.txt` - Python dependencies
-- `mcp-server/pyproject.toml` - Project metadata and tool configs
+- `src/mcp-server/app/__init__.py` - Package initialization
+- `src/mcp-server/app/main.py` - FastAPI application (250+ lines)
+- `src/mcp-server/app/config/__init__.py`
+- `src/mcp-server/app/config/settings.py` - Pydantic settings (350+ lines)
+- `src/mcp-server/app/utils/__init__.py`
+- `src/mcp-server/app/utils/exceptions.py` - Custom exceptions (120+ lines)
+- `src/mcp-server/app/utils/logging.py` - Logging setup (90+ lines)
+- `src/mcp-server/app/mcp/__init__.py` - MCP protocol placeholder
+- `src/mcp-server/requirements.txt` - Python dependencies
+- `src/mcp-server/pyproject.toml` - Project metadata and tool configs
 
 ### Authentication Module (5 files)
 
-- `mcp-server/app/auth/__init__.py`
-- `mcp-server/app/auth/jwks_cache.py` - JWKS caching (200+ lines)
-- `mcp-server/app/auth/jwt_validator.py` - JWT validation (300+ lines)
-- `mcp-server/app/auth/token_validator.py` - Permission validation (250+ lines)
-- `mcp-server/app/auth/middleware.py` - Auth middleware (300+ lines)
+- `src/mcp-server/app/auth/__init__.py`
+- `src/mcp-server/app/auth/jwks_cache.py` - JWKS caching (200+ lines)
+- `src/mcp-server/app/auth/jwt_validator.py` - JWT validation (300+ lines)
+- `src/mcp-server/app/auth/token_validator.py` - Permission validation (250+ lines)
+- `src/mcp-server/app/auth/middleware.py` - Auth middleware (300+ lines)
 
 ### DCR Emulation Module (4 files)
 
-- `mcp-server/app/dcr/__init__.py`
-- `mcp-server/app/dcr/client_detector.py` - Client detection (250+ lines)
-- `mcp-server/app/dcr/client_registry.py` - Client registry (200+ lines)
-- `mcp-server/app/dcr/endpoints.py` - DCR endpoints (200+ lines)
+- `src/mcp-server/app/dcr/__init__.py`
+- `src/mcp-server/app/dcr/client_detector.py` - Client detection (250+ lines)
+- `src/mcp-server/app/dcr/client_registry.py` - Client registry (200+ lines)
+- `src/mcp-server/app/dcr/endpoints.py` - DCR endpoints (200+ lines)
 
 ### Deployment & Configuration (4 files)
 
-- `mcp-server/Dockerfile` - Multi-stage Docker build
-- `mcp-server/README.md` - Server documentation (400+ lines)
+- `src/mcp-server/Dockerfile` - Multi-stage Docker build
+- `src/mcp-server/README.md` - Server documentation (400+ lines)
 - `docker-compose.yml` - Docker Compose orchestration
 - `QUICKSTART.md` - Quick start guide (300+ lines)
 

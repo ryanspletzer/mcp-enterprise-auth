@@ -29,24 +29,24 @@ jobs:
       uses: actions/cache@v4
       with:
         path: ~/.cache/uv
-        key: ${{ runner.os }}-uv-${{ hashFiles('mcp-server/pyproject.toml', 'mcp-server/uv.lock') }}
+        key: ${{ runner.os }}-uv-${{ hashFiles('src/mcp-server/pyproject.toml', 'src/mcp-server/uv.lock') }}
         restore-keys: |
           ${{ runner.os }}-uv-
 
     - name: Install dependencies
-      working-directory: ./mcp-server
+      working-directory: ./src/mcp-server
       run: |
         uv sync --extra dev
 
     - name: Run tests with coverage
-      working-directory: ./mcp-server
+      working-directory: ./src/mcp-server
       run: |
         uv run pytest --junitxml=junit/test-results.xml --cov=app --cov-report=xml --cov-report=html
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4
       with:
-        file: ./mcp-server/coverage.xml
+        file: ./src/mcp-server/coverage.xml
         flags: unittests
         name: codecov-umbrella
 
@@ -55,14 +55,14 @@ jobs:
       if: always()
       with:
         name: test-results-${{ matrix.python-version }}
-        path: mcp-server/junit/test-results.xml
+        path: src/mcp-server/junit/test-results.xml
 
     - name: Upload coverage report
       uses: actions/upload-artifact@v4
       if: always()
       with:
         name: coverage-report-${{ matrix.python-version }}
-        path: mcp-server/htmlcov/
+        path: src/mcp-server/htmlcov/
 
   lint:
     name: Lint
@@ -80,27 +80,27 @@ jobs:
       run: uv python install 3.11
 
     - name: Install dependencies
-      working-directory: ./mcp-server
+      working-directory: ./src/mcp-server
       run: |
         uv sync --extra dev
 
     - name: Run flake8
-      working-directory: ./mcp-server
+      working-directory: ./src/mcp-server
       run: |
         uv run flake8 app tests --max-line-length=100 --show-source --statistics
 
     - name: Run mypy
-      working-directory: ./mcp-server
+      working-directory: ./src/mcp-server
       run: |
         uv run mypy app
 
     - name: Check formatting with black
-      working-directory: ./mcp-server
+      working-directory: ./src/mcp-server
       run: |
         uv run black --check app tests
 
     - name: Check import sorting with isort
-      working-directory: ./mcp-server
+      working-directory: ./src/mcp-server
       run: |
         uv run isort --check app tests
 
@@ -120,17 +120,17 @@ jobs:
       run: uv python install 3.11
 
     - name: Install dependencies
-      working-directory: ./mcp-server
+      working-directory: ./src/mcp-server
       run: |
         uv sync --extra dev
 
     - name: Run safety check
-      working-directory: ./mcp-server
+      working-directory: ./src/mcp-server
       run: |
         uv run safety check --json || true
 
     - name: Run bandit security scan
-      working-directory: ./mcp-server
+      working-directory: ./src/mcp-server
       run: |
         uv run bandit -r app -f json -o bandit-report.json || true
 
@@ -139,7 +139,7 @@ jobs:
       if: always()
       with:
         name: bandit-report
-        path: mcp-server/bandit-report.json
+        path: src/mcp-server/bandit-report.json
 
   docker:
     name: Docker Build
@@ -152,7 +152,7 @@ jobs:
       uses: docker/setup-buildx-action@v3
 
     - name: Build Docker image
-      working-directory: ./mcp-server
+      working-directory: ./src/mcp-server
       run: |
         docker build -t mcp-server:test .
 
@@ -177,7 +177,7 @@ jobs:
       run: uv python install 3.11
 
     - name: Install dependencies
-      working-directory: ./mcp-server
+      working-directory: ./src/mcp-server
       run: |
         uv sync --extra dev
 
@@ -186,7 +186,7 @@ jobs:
         docker run -d -p 6379:6379 redis:7-alpine
 
     - name: Run integration tests
-      working-directory: ./mcp-server
+      working-directory: ./src/mcp-server
       run: |
         uv run pytest -m integration -v
 

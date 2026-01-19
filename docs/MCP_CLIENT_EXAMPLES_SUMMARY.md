@@ -16,7 +16,7 @@ Created **4 complete client examples** demonstrating every OAuth flow supported 
 ### Total: 28 Files
 
 ```text
-mcp-client-examples/
+src/mcp-client-examples/
 ├── README.md                           # Main documentation
 ├── FLOW_COMPARISON.md                  # Detailed flow comparison
 ├── docker-compose.yml                  # Multi-client orchestration
@@ -55,7 +55,7 @@ mcp-client-examples/
 
 ### 1. Public Client (No Credentials)
 
-**File:** `mcp-client-examples/public-client-without-client-id/client.py`
+**File:** `src/mcp-client-examples/public-client-without-client-id/client.py`
 
 **Features:**
 
@@ -89,7 +89,7 @@ SCOPE=api://mcp-server/.default
 
 ### 2. Public Client (With Credentials)
 
-**File:** `mcp-client-examples/public-client-with-client-id/client.py`
+**File:** `src/mcp-client-examples/public-client-with-client-id/client.py`
 
 **Features:**
 
@@ -124,7 +124,7 @@ SCOPE=api://mcp-server/.default
 
 ### 3. Confidential Client
 
-**File:** `mcp-client-examples/confidential-client/client.py`
+**File:** `src/mcp-client-examples/confidential-client/client.py`
 
 **Features:**
 
@@ -160,7 +160,7 @@ SCOPE=api://mcp-server/.default
 
 ### 4. Service Principal
 
-**File:** `mcp-client-examples/service-principal/client.py`
+**File:** `src/mcp-client-examples/service-principal/client.py`
 
 **Features:**
 
@@ -196,7 +196,7 @@ SCOPE=api://mcp-server/.default
 
 ### Main Documentation
 
-**File:** `mcp-client-examples/README.md` (530+ lines)
+**File:** `src/mcp-client-examples/README.md` (530+ lines)
 
 **Contents:**
 
@@ -213,7 +213,7 @@ SCOPE=api://mcp-server/.default
 
 ### Flow Comparison
 
-**File:** `mcp-client-examples/FLOW_COMPARISON.md` (450+ lines)
+**File:** `src/mcp-client-examples/FLOW_COMPARISON.md` (450+ lines)
 
 **Contents:**
 
@@ -261,7 +261,7 @@ CMD ["python", "client.py"]
 
 ### Docker Compose
 
-**File:** `mcp-client-examples/docker-compose.yml`
+**File:** `src/mcp-client-examples/docker-compose.yml`
 
 **Features:**
 
@@ -332,7 +332,7 @@ Each client can be tested independently:
 1. **Setup environment:**
 
    ```bash
-   cd mcp-client-examples/<client-type>
+   cd src/mcp-client-examples/<client-type>
    pip install -r requirements.txt
    cp .env.example .env
    # Edit .env

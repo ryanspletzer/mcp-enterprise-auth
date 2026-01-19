@@ -21,7 +21,7 @@ This implementation provides a comprehensive OAuth 2.0/OIDC infrastructure with:
 - `GET /.well-known/openid-configuration` (Primary)
 - `GET /.well-known/oauth-authorization-server` (Alternative)
 
-**Location:** `mock-entra-idp/app/endpoints/discovery.py`
+**Location:** `src/mock-entra-idp/app/endpoints/discovery.py`
 
 **Metadata Provided:**
 
@@ -85,7 +85,7 @@ curl http://localhost:8001/.well-known/oauth-authorization-server | jq
 
 **Endpoint:** `POST /dcr/register`
 
-**Location:** `mcp-server/app/dcr/endpoints.py`
+**Location:** `src/mcp-server/app/dcr/endpoints.py`
 
 **Implementation:** Emulated DCR with intelligent client detection
 
@@ -168,7 +168,7 @@ curl -X POST http://localhost:8000/dcr/register \
 
 **Endpoint:** `GET /.well-known/oauth-protected-resource`
 
-**Location:** `mcp-server/app/discovery/endpoints.py`
+**Location:** `src/mcp-server/app/discovery/endpoints.py`
 
 **Metadata Provided:**
 
@@ -334,7 +334,7 @@ curl -X POST http://localhost:8001/oauth2/v2.0/token \
 
 **Status:** Fully Implemented
 
-**Location:** `mcp-server/app/auth/jwt_validator.py`
+**Location:** `src/mcp-server/app/auth/jwt_validator.py`
 
 **Validations Performed:**
 
@@ -357,7 +357,7 @@ curl -X POST http://localhost:8001/oauth2/v2.0/token \
 
 **Endpoint:** `GET /discovery/v2.0/keys`
 
-**Location:** `mock-entra-idp/app/endpoints/discovery.py`
+**Location:** `src/mock-entra-idp/app/endpoints/discovery.py`
 
 **Response Format:**
 
