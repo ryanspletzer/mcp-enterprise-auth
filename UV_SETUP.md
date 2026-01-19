@@ -4,11 +4,11 @@ This project uses [uv](https://github.com/astral-sh/uv) for fast Python package 
 
 ## Why uv?
 
-- **⚡ 10-100x faster** than pip
-- **🔒 Reliable** - Reproducible installs with lockfile
-- **🎯 Simple** - No virtual env activation needed
-- **🔄 Compatible** - Works with existing Python tools
-- **📦 Modern** - Built in Rust, designed for speed
+- 10-100x faster than pip
+- Reliable - Reproducible installs with lockfile
+- Simple - No virtual env activation needed
+- Compatible - Works with existing Python tools
+- Modern - Built in Rust, designed for speed
 
 ## Quick Start
 
@@ -64,14 +64,14 @@ uv sync
 uv run pytest              # Run tests
 uv run python app/main.py  # Run app
 uv run black app           # Format code
-```text
+```
 
-**No need to activate the virtual environment!** `uv run` handles it for you.
+**No need to activate the virtual environment!**
+`uv run` handles it for you.
 
 ### Dependency Management
 
 ```bash
-
 # Install dependencies from pyproject.toml
 uv sync
 
@@ -95,7 +95,7 @@ uv add --dev pytest-mock
 
 # Remove a dependency
 uv remove requests
-```bash
+```
 
 ### Lockfile
 
@@ -383,11 +383,11 @@ uv sync --extra dev
 
 **With uv, you get:**
 
-- ✅ Faster installs (10-100x speedup)
-- ✅ Simpler workflow (`uv run` instead of activation)
-- ✅ Reproducible builds (uv.lock)
-- ✅ Better caching
-- ✅ Modern tooling
+- Faster installs (10-100x speedup)
+- Simpler workflow (`uv run` instead of activation)
+- Reproducible builds (uv.lock)
+- Better caching
+- Modern tooling
 
 **To get started:**
 
@@ -402,4 +402,4 @@ cd mcp-server && make setup
 make test
 ```
 
-That's it! 🚀
+That's it!

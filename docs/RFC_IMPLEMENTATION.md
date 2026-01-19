@@ -14,7 +14,7 @@ This implementation provides a comprehensive OAuth 2.0/OIDC infrastructure with:
 
 ### RFC 8414 - OAuth 2.0 Authorization Server Metadata
 
-**Status:** ✅ **Fully Implemented**
+**Status:** Fully Implemented
 
 **Endpoints:**
 
@@ -81,7 +81,7 @@ curl http://localhost:8001/.well-known/oauth-authorization-server | jq
 
 ### RFC 7591 - OAuth 2.0 Dynamic Client Registration Protocol
 
-**Status:** ✅ **Implemented (Emulation Mode)**
+**Status:** Implemented (Emulation Mode)
 
 **Endpoint:** `POST /dcr/register`
 
@@ -123,10 +123,10 @@ curl http://localhost:8001/.well-known/oauth-authorization-server | jq
 **Client Detection Strategy:**
 
 1. **Priority 1: Redirect URI Matching** (Confidence: 0.95)
-   - `vscode://` → VS Code
-   - `claude-desktop://` → Claude Desktop
-   - `claude-code://` → Claude Code
-   - `chatgpt://` → ChatGPT
+   - `vscode://` -> VS Code
+   - `claude-desktop://` -> Claude Desktop
+   - `claude-code://` -> Claude Code
+   - `chatgpt://` -> ChatGPT
 
 2. **Priority 2: User-Agent Matching** (Confidence: 0.85)
    - Header: `User-Agent: VSCode-MCP/1.0`
@@ -164,7 +164,7 @@ curl -X POST http://localhost:8000/dcr/register \
 
 ### RFC 9728 - OAuth 2.0 Protected Resource Metadata
 
-**Status:** ✅ **Fully Implemented**
+**Status:** Fully Implemented
 
 **Endpoint:** `GET /.well-known/oauth-protected-resource`
 
@@ -252,7 +252,7 @@ curl http://localhost:8000/.well-known/mcp-server | jq
 
 ### Authorization Code Flow with PKCE (RFC 7636)
 
-**Status:** ✅ **Fully Implemented**
+**Status:** Fully Implemented
 
 **Endpoints:**
 
@@ -280,7 +280,7 @@ curl "http://localhost:8001/oauth2/v2.0/authorize?client_id=$CLIENT_ID&redirect_
 
 ### Client Credentials Grant (RFC 6749 Section 4.4)
 
-**Status:** ✅ **Fully Implemented**
+**Status:** Fully Implemented
 
 **Endpoint:** `POST /oauth2/v2.0/token`
 
@@ -312,7 +312,7 @@ curl -X POST http://localhost:8001/oauth2/v2.0/token \
 
 ### Refresh Token Grant (RFC 6749 Section 6)
 
-**Status:** ✅ **Fully Implemented**
+**Status:** Fully Implemented
 
 **Endpoint:** `POST /oauth2/v2.0/token`
 
@@ -332,7 +332,7 @@ curl -X POST http://localhost:8001/oauth2/v2.0/token \
 
 ## JWT Token Validation (RFC 7519)
 
-**Status:** ✅ **Fully Implemented**
+**Status:** Fully Implemented
 
 **Location:** `mcp-server/app/auth/jwt_validator.py`
 
@@ -353,7 +353,7 @@ curl -X POST http://localhost:8001/oauth2/v2.0/token \
 
 ## JWKS Endpoint (RFC 7517)
 
-**Status:** ✅ **Fully Implemented**
+**Status:** Fully Implemented
 
 **Endpoint:** `GET /discovery/v2.0/keys`
 
@@ -518,13 +518,13 @@ cd demos/guided-demo
 
 | RFC | Title | Status | Endpoints | Notes |
 |-----|-------|--------|-----------|-------|
-| RFC 8414 | Authorization Server Metadata | ✅ Complete | `/.well-known/openid-configuration`, `/.well-known/oauth-authorization-server` | Full discovery support |
-| RFC 7591 | Dynamic Client Registration | ✅ Emulated | `/dcr/register` | Intelligent client detection |
-| RFC 9728 | Protected Resource Metadata | ✅ Complete | `/.well-known/oauth-protected-resource`, `/.well-known/mcp-server` | Full resource server metadata |
-| RFC 6749 | OAuth 2.0 Framework | ✅ Complete | `/oauth2/v2.0/authorize`, `/oauth2/v2.0/token` | Authorization Code, Client Credentials, Refresh Token |
-| RFC 7636 | PKCE | ✅ Complete | Token endpoint validates PKCE | S256 and plain methods |
-| RFC 7519 | JWT | ✅ Complete | JWT validation in MCP server | RS256, full claim validation |
-| RFC 7517 | JWK | ✅ Complete | `/discovery/v2.0/keys` | Public key distribution |
+| RFC 8414 | Authorization Server Metadata | Complete | `/.well-known/openid-configuration`, `/.well-known/oauth-authorization-server` | Full discovery support |
+| RFC 7591 | Dynamic Client Registration | Emulated | `/dcr/register` | Intelligent client detection |
+| RFC 9728 | Protected Resource Metadata | Complete | `/.well-known/oauth-protected-resource`, `/.well-known/mcp-server` | Full resource server metadata |
+| RFC 6749 | OAuth 2.0 Framework | Complete | `/oauth2/v2.0/authorize`, `/oauth2/v2.0/token` | Authorization Code, Client Credentials, Refresh Token |
+| RFC 7636 | PKCE | Complete | Token endpoint validates PKCE | S256 and plain methods |
+| RFC 7519 | JWT | Complete | JWT validation in MCP server | RS256, full claim validation |
+| RFC 7517 | JWK | Complete | `/discovery/v2.0/keys` | Public key distribution |
 
 ---
 

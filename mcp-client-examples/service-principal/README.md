@@ -1,48 +1,49 @@
 # MCP Service Principal Client - Client Credentials Flow
 
-This example demonstrates a **service principal** that uses OAuth Client Credentials flow for machine-to-machine authentication **without user interaction**.
+This example demonstrates a **service principal** that uses OAuth Client Credentials flow
+for machine-to-machine authentication **without user interaction**.
 
 ## Flow Overview
 
 ```text
-┌────────────────┐                 ┌────────────┐                ┌──────────┐
-│ Service        │                 │ MCP Server │                │ Entra ID │
-│ Principal      │                 │            │                │          │
-└────────┬───────┘                 └─────┬──────┘                └────┬─────┘
-         │                               │                            │
-         │ 1. Client Credentials Request │                            │
-         │──────────────────────────────────────────────────────────────>
-         │    (client_id + client_secret + scope)                     │
-         │                                │                            │
-         │ 2. Validate credentials        │                            │
-         │                                │<────────────────────────────
-         │                                │                            │
-         │ 3. App-Only Access Token       │                            │
-         │<──────────────────────────────────────────────────────────────
-         │    (no user context, app permissions)                      │
-         │                                │                            │
-         │ 4. Call MCP API with token     │                            │
-         │───────────────────────────────>│                            │
-         │                                │ 5. Validate JWT            │
-         │                                │────────────────────────────>
-         │                                │                            │
-         │                                │ 6. JWKS + validation       │
-         │                                │<────────────────────────────
-         │                                │    (check "roles" claim)   │
-         │                                │                            │
-         │ 7. MCP Response                │                            │
-         │<───────────────────────────────│                            │
-         │                                │                            │
++---------------+                 +-------------+                +-----------+
+| Service       |                 | MCP Server  |                | Entra ID  |
+| Principal     |                 |             |                |           |
++-------+-------+                 +------+------+                +-----+-----+
+        |                                |                             |
+        | 1. Client Credentials Request  |                             |
+        |------------------------------------------------------------->|
+        |    (client_id + client_secret + scope)                       |
+        |                                |                             |
+        | 2. Validate credentials        |                             |
+        |                                |<----------------------------|
+        |                                |                             |
+        | 3. App-Only Access Token       |                             |
+        |<-------------------------------------------------------------|
+        |    (no user context, app permissions)                        |
+        |                                |                             |
+        | 4. Call MCP API with token     |                             |
+        |------------------------------->|                             |
+        |                                | 5. Validate JWT             |
+        |                                |---------------------------->|
+        |                                |                             |
+        |                                | 6. JWKS + validation        |
+        |                                |<----------------------------|
+        |                                |    (check "roles" claim)    |
+        |                                |                             |
+        | 7. MCP Response                |                             |
+        |<-------------------------------|                             |
+        |                                |                             |
 ```
 
 ## Key Features
 
-- ✅ **No user interaction** - Fully automated
-- ✅ **App-only permissions** - Uses application roles, not delegated scopes
-- ✅ **Client Credentials flow** - Standard OAuth 2.0 for machine-to-machine
-- ✅ **Token caching** - Automatic token refresh before expiration
-- ✅ **Service identity** - Authenticates as the application itself
-- ✅ **Ideal for automation** - Background jobs, scheduled tasks, CI/CD
+- **No user interaction** - Fully automated
+- **App-only permissions** - Uses application roles, not delegated scopes
+- **Client Credentials flow** - Standard OAuth 2.0 for machine-to-machine
+- **Token caching** - Automatic token refresh before expiration
+- **Service identity** - Authenticates as the application itself
+- **Ideal for automation** - Background jobs, scheduled tasks, CI/CD
 
 ## Prerequisites
 
@@ -57,7 +58,7 @@ This client requires a **service principal** in Entra ID with **application perm
 
 ### Step 1: Create App Registration
 
-1. Go to Azure Portal → Entra ID → App registrations
+1. Go to Azure Portal -> Entra ID -> App registrations
 2. Create new registration:
    - **Name**: "MCP Service Principal"
    - **Supported account types**: Single tenant
@@ -75,7 +76,7 @@ This client requires a **service principal** in Entra ID with **application perm
 
 1. Under **API permissions**:
    - Click "Add a permission"
-   - Select "My APIs" → "MCP Server"
+   - Select "My APIs" -> "MCP Server"
    - Select **Application permissions** (NOT delegated):
      - `MCP.Read.All`
      - `MCP.ReadWrite.All`
@@ -115,7 +116,7 @@ MCP_SERVER_URL=http://localhost:8000
 SCOPE=api://mcp-server/.default
 ```
 
-⚠️ **IMPORTANT**: Never commit secrets to version control!
+**IMPORTANT**: Never commit secrets to version control!
 
 ### 3. Run the Client
 
@@ -170,12 +171,12 @@ client_id={client_id}
 
 The MCP server validates the JWT and checks:
 
-1. ✅ Signature is valid (JWKS)
-2. ✅ Token not expired
-3. ✅ Audience matches (`api://mcp-server`)
-4. ✅ Issuer is Entra ID
-5. ✅ Token type is app-only (`idtyp: "app"` or no `scp` claim)
-6. ✅ **Roles claim** contains required app permissions
+1. Signature is valid (JWKS)
+2. Token not expired
+3. Audience matches (`api://mcp-server`)
+4. Issuer is Entra ID
+5. Token type is app-only (`idtyp: "app"` or no `scp` claim)
+6. **Roles claim** contains required app permissions
 
 **Key difference:** App-only tokens have `roles` claim, not `scp` claim.
 
@@ -323,7 +324,7 @@ jobs:
 
 ## Security Best Practices
 
-### ✅ DO
+### DO
 
 - **Use managed identities** when running on Azure (no secrets needed)
 - **Rotate secrets regularly** - Set expiration and monitor
@@ -333,7 +334,7 @@ jobs:
 - **Monitor and audit** - Log all service principal activities
 - **Separate environments** - Different credentials for dev/staging/prod
 
-### ❌ DON'T
+### DON'T
 
 - **Commit secrets** to version control
 - **Share secrets** across environments or applications
@@ -359,9 +360,9 @@ client.access_token = token.token
 
 Benefits:
 
-- ✅ No secrets to manage
-- ✅ Automatic credential rotation
-- ✅ Reduced security risk
+- No secrets to manage
+- Automatic credential rotation
+- Reduced security risk
 
 ## Certificate-Based Authentication
 
@@ -389,7 +390,7 @@ token = app.acquire_token_for_client(scopes=[SCOPE])
 
 Service principal doesn't have required application permissions:
 
-1. Check app registrations → API permissions
+1. Check app registrations -> API permissions
 2. Ensure **Application permissions** are added (not delegated)
 3. Ensure admin consent is granted
 4. Check MCP server requires the correct role
@@ -425,7 +426,7 @@ echo $TOKEN | cut -d. -f2 | base64 -d | jq
 
 ## Use Cases
 
-✅ **Perfect for:**
+**Perfect for:**
 
 - Scheduled background jobs
 - Automated data processing
@@ -435,7 +436,7 @@ echo $TOKEN | cut -d. -f2 | base64 -d | jq
 - Batch operations
 - Inter-service communication
 
-❌ **Not suitable for:**
+**Not suitable for:**
 
 - User-facing applications
 - Operations requiring user context

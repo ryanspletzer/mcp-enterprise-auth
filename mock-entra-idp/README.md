@@ -1,6 +1,7 @@
 # Mock Entra ID Token Issuer
 
-A standalone mock OAuth 2.0/OIDC token issuer that emulates Microsoft Entra ID (Azure AD) for testing and demos.
+A standalone mock OAuth 2.0/OIDC token issuer that emulates Microsoft Entra ID (Azure AD)
+for testing and demos.
 
 ## Features
 

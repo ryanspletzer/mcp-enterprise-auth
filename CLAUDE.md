@@ -2,12 +2,18 @@
 
 ## Project Overview
 
-This project demonstrates proper enterprise authentication for Model Context Protocol (MCP) servers using Microsoft Entra ID (Azure AD) with OAuth 2.0 and OpenID Connect. Unlike many examples that "mint their own tokens," this implementation properly delegates authentication to an enterprise Identity Provider (IdP) and performs comprehensive JWT validation.
+This project demonstrates proper enterprise authentication for Model Context Protocol (MCP) servers
+using Microsoft Entra ID (Azure AD) with OAuth 2.0 and OpenID Connect.
+Unlike many examples that "mint their own tokens,"
+this implementation properly delegates authentication to an enterprise Identity Provider (IdP)
+and performs comprehensive JWT validation.
 
 ## Key Features
 
-- **DCR Emulation**: Since Entra ID doesn't support native Dynamic Client Registration, the MCP server intelligently detects client types and returns appropriate pre-registered credentials
-- **Multiple OAuth Flows**: Supports Authorization Code + PKCE for user contexts and Client Credentials for service principals
+- **DCR Emulation**: Since Entra ID doesn't support native Dynamic Client Registration,
+  the MCP server intelligently detects client types and returns appropriate pre-registered credentials
+- **Multiple OAuth Flows**: Supports Authorization Code + PKCE for user contexts
+  and Client Credentials for service principals
 - **Comprehensive JWT Validation**: Validates signature, exp, nbf, iat, aud, iss, tid, scope/roles, and more
 - **Multi-Client Support**: Pre-configured for VS Code, Claude Desktop, Claude Code, ChatGPT, and generic clients
 - **Dual Deployment**: Runs in AWS ECS Fargate or Agent Core runtime with same codebase
@@ -489,7 +495,8 @@ mcp-with-proper-enterprise-auth/
 
 ## Contributing
 
-This is a demonstration project. Contributions welcome for:
+This is a demonstration project.
+Contributions welcome for:
 
 - Additional client examples
 - Improved client detection logic
@@ -503,4 +510,5 @@ This project is released into the public domain under [The Unlicense](LICENSE).
 
 ## Contact
 
-For questions about this implementation approach or OAuth/OIDC specifics, please open an issue.
+For questions about this implementation approach or OAuth/OIDC specifics,
+please open an issue.

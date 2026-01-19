@@ -6,10 +6,10 @@ This guide walks you through setting up the MCP server using uv for blazing-fast
 
 This project now uses **uv** instead of traditional pip/venv because:
 
-- ⚡ **10-100x faster** installs
-- 🔒 **Reproducible** builds with lockfile
-- 🎯 **Simpler** workflow (no venv activation)
-- 🚀 **Better for CI/CD** (faster, more reliable)
+- 10-100x faster installs
+- Reproducible builds with lockfile
+- Simpler workflow (no venv activation)
+- Better for CI/CD (faster, more reliable)
 
 ## Complete Setup (First Time)
 
@@ -73,8 +73,8 @@ What this does:
 make test
 
 # Should see output like:
-# ✓ 100+ tests passing
-# ✓ Coverage report
+# 100+ tests passing
+# Coverage report
 ```
 
 ### Step 5: Start Developing!
@@ -274,7 +274,7 @@ source venv/bin/activate  # Every time!
 pip install -r requirements.txt
 pytest
 deactivate
-```text
+```
 
 **New way (uv):**
 
@@ -405,8 +405,8 @@ Add to `.vscode/settings.json`:
 
 ### PyCharm
 
-1. File → Settings → Project → Python Interpreter
-2. Click gear icon → Add
+1. File -> Settings -> Project -> Python Interpreter
+2. Click gear icon -> Add
 3. Select "Existing environment"
 4. Choose `mcp-server/.venv/bin/python`
 
@@ -427,9 +427,9 @@ GitHub Actions automatically uses uv:
 
 Benefits:
 
-- ✅ Faster builds (~3x speedup)
-- ✅ Reproducible (uses uv.lock)
-- ✅ Better caching
+- Faster builds (~3x speedup)
+- Reproducible (uses uv.lock)
+- Better caching
 
 ## Docker
 
@@ -503,10 +503,10 @@ RUN uv sync --no-dev
 
 **With uv, you get:**
 
-- ✅ Faster everything (10-100x speedup)
-- ✅ Simpler workflow (no venv activation)
-- ✅ Reproducible builds (lockfile)
-- ✅ Better tooling (modern, Rust-based)
+- Faster everything (10-100x speedup)
+- Simpler workflow (no venv activation)
+- Reproducible builds (lockfile)
+- Better tooling (modern, Rust-based)
 
 **Your workflow:**
 
@@ -524,4 +524,4 @@ make watch  # Auto-run tests on changes
 make ci     # Run all checks
 ```
 
-**That's it! Happy coding! 🚀**
+**That's it! Happy coding!**

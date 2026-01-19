@@ -1,54 +1,55 @@
 # MCP Confidential Client - Auth Code + PKCE + Client Secret
 
-This example demonstrates a **confidential client** that uses OAuth Authorization Code + PKCE flow with client secret authentication.
+This example demonstrates a **confidential client** that uses OAuth Authorization Code + PKCE flow
+with client secret authentication.
 
 ## Flow Overview
 
 ```text
-┌──────────┐                 ┌────────────┐                ┌──────────┐
-│  Client  │                 │ MCP Server │                │ Entra ID │
-└────┬─────┘                 └─────┬──────┘                └────┬─────┘
-     │                             │                            │
-     │ 1. Authorization Code + PKCE                             │
-     │────────────────────────────────────────────────────────────>
-     │    (client_id, no secret in URL)                         │
-     │                              │                            │
-     │ 2. User Login & Consent      │                            │
-     │<────────────────────────────────────────────────────────────
-     │                              │                            │
-     │ 3. Authorization Code        │                            │
-     │<────────────────────────────────────────────────────────────
-     │                              │                            │
-     │ 4. Exchange code for token   │                            │
-     │────────────────────────────────────────────────────────────>
-     │    (client_id + client_secret + code_verifier)           │
-     │                              │                            │
-     │ 5. Validate client_secret    │                            │
-     │                              │<────────────────────────────
-     │                              │                            │
-     │ 6. Access Token + Refresh Token                           │
-     │<────────────────────────────────────────────────────────────
-     │                              │                            │
-     │ 7. Call MCP API with token   │                            │
-     │─────────────────────────────>│                            │
-     │                              │ 8. Validate JWT            │
-     │                              │────────────────────────────>
-     │                              │                            │
-     │                              │ 9. JWKS + validation       │
-     │                              │<────────────────────────────
-     │                              │                            │
-     │ 10. MCP Response             │                            │
-     │<─────────────────────────────│                            │
++-----------+                 +-------------+                +-----------+
+|  Client   |                 | MCP Server  |                | Entra ID  |
++-----+-----+                 +------+------+                +-----+-----+
+      |                              |                             |
+      | 1. Authorization Code + PKCE                               |
+      |----------------------------------------------------------->|
+      |    (client_id, no secret in URL)                           |
+      |                              |                             |
+      | 2. User Login & Consent      |                             |
+      |<-----------------------------------------------------------|
+      |                              |                             |
+      | 3. Authorization Code        |                             |
+      |<-----------------------------------------------------------|
+      |                              |                             |
+      | 4. Exchange code for token   |                             |
+      |----------------------------------------------------------->|
+      |    (client_id + client_secret + code_verifier)             |
+      |                              |                             |
+      | 5. Validate client_secret    |                             |
+      |                              |<----------------------------|
+      |                              |                             |
+      | 6. Access Token + Refresh Token                            |
+      |<-----------------------------------------------------------|
+      |                              |                             |
+      | 7. Call MCP API with token   |                             |
+      |----------------------------->|                             |
+      |                              | 8. Validate JWT             |
+      |                              |---------------------------->|
+      |                              |                             |
+      |                              | 9. JWKS + validation        |
+      |                              |<----------------------------|
+      |                              |                             |
+      | 10. MCP Response             |                             |
+      |<-----------------------------|                             |
 ```
 
 ## Key Features
 
-- ✅ **Confidential client** - Can securely store client_secret
-- ✅ **Client authentication** - Secret validates client identity
-- ✅ **PKCE still used** - Defense in depth
-- ✅ **Refresh token support** - Long-lived sessions
-- ✅ **Higher security** - Suitable for backend/server applications
-- ✅ **State parameter** - CSRF protection
+- **Confidential client** - Can securely store client_secret
+- **Client authentication** - Secret validates client identity
+- **PKCE still used** - Defense in depth
+- **Refresh token support** - Long-lived sessions
+- **Higher security** - Suitable for backend/server applications
+- **State parameter** - CSRF protection
 
 ## Prerequisites
 
@@ -61,11 +62,11 @@ This example demonstrates a **confidential client** that uses OAuth Authorizatio
 
 This client requires a **confidential client** app registration in Entra ID:
 
-1. Go to Azure Portal → Entra ID → App registrations
+1. Go to Azure Portal -> Entra ID -> App registrations
 2. Create new registration:
    - **Name**: "MCP Confidential Client"
    - **Supported account types**: Single tenant
-   - **Redirect URI**: Web → `http://localhost:8080/callback`
+   - **Redirect URI**: Web -> `http://localhost:8080/callback`
 3. Under **Certificates & secrets**:
    - Click "New client secret"
    - Add description: "MCP Client Secret"
@@ -75,7 +76,7 @@ This client requires a **confidential client** app registration in Entra ID:
    - Add redirect URI: `http://localhost:8080/callback`
    - **Do NOT enable public client flows** (confidential client)
 5. Under **API permissions**:
-   - Add permission → My APIs → "MCP Server"
+   - Add permission -> My APIs -> "MCP Server"
    - Select delegated permissions: `mcp.read`, `mcp.write`
    - Grant admin consent
 6. Copy:
@@ -96,7 +97,7 @@ pip install -r requirements.txt
 ```bash
 cp .env.example .env
 # Edit .env with your configuration
-```text
+```
 
 Required values:
 
@@ -109,7 +110,7 @@ REDIRECT_URI=http://localhost:8080/callback
 SCOPE=api://mcp-server/.default
 ```
 
-⚠️ **IMPORTANT**: Never commit `.env` with real secrets to version control!
+**IMPORTANT**: Never commit `.env` with real secrets to version control!
 
 ### 3. Run the Client
 
@@ -157,19 +158,19 @@ POST https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token
 Content-Type: application/x-www-form-urlencoded
 
 client_id={client_id}
-&client_secret={client_secret}     ← Client authentication
+&client_secret={client_secret}     <- Client authentication
 &grant_type=authorization_code
 &code={authorization_code}
 &redirect_uri=http://localhost:8080/callback
-&code_verifier={code_verifier}     ← PKCE verification
+&code_verifier={code_verifier}     <- PKCE verification
 ```
 
 Entra ID validates:
 
-1. ✅ Client secret is correct
-2. ✅ Code verifier matches code challenge
-3. ✅ Authorization code is valid and not expired
-4. ✅ Redirect URI matches
+1. Client secret is correct
+2. Code verifier matches code challenge
+3. Authorization code is valid and not expired
+4. Redirect URI matches
 
 ### Step 3: Token Response
 
@@ -192,7 +193,7 @@ POST https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token
 Content-Type: application/x-www-form-urlencoded
 
 client_id={client_id}
-&client_secret={client_secret}     ← Required for confidential clients
+&client_secret={client_secret}     <- Required for confidential clients
 &grant_type=refresh_token
 &refresh_token={refresh_token}
 ```
@@ -234,7 +235,7 @@ docker run --rm \
   mcp-confidential-client
 ```
 
-⚠️ **Security**: Use Docker secrets or secret management for production!
+**Security**: Use Docker secrets or secret management for production!
 
 ```bash
 # Using Docker secrets
@@ -249,7 +250,7 @@ docker run --rm \
 
 ## Security Best Practices
 
-### ✅ DO
+### DO
 
 - **Store secrets securely**: Use environment variables, secret management systems, or secure vaults
 - **Rotate secrets regularly**: Set expiration when creating client secrets
@@ -259,7 +260,7 @@ docker run --rm \
 - **Validate state parameter**: Prevents CSRF attacks
 - **Log carefully**: Never log client_secret or access_tokens
 
-### ❌ DON'T
+### DON'T
 
 - **Commit secrets to version control**: Use `.env.example` without real values
 - **Embed secrets in code**: Always use configuration/environment
@@ -340,14 +341,14 @@ Even with client_secret, PKCE is still validated:
 
 ## When to Use Confidential Client
 
-✅ **Use confidential client when:**
+**Use confidential client when:**
 
 - Running on a secure backend server
 - Can securely store secrets (not browser/mobile)
 - Need user context (delegated permissions)
 - Want additional security layer beyond PKCE
 
-❌ **Don't use confidential client for:**
+**Don't use confidential client for:**
 
 - Browser-based applications (SPA)
 - Mobile applications

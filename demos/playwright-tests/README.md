@@ -35,11 +35,11 @@ npm run show-report
 
 ### Service Principal Flow
 
-- ✅ Client credentials grant
-- ✅ App-only token validation
-- ✅ MCP server authentication
-- ✅ MCP protocol initialization
-- ✅ Error handling (invalid credentials)
+- Client credentials grant
+- App-only token validation
+- MCP server authentication
+- MCP protocol initialization
+- Error handling (invalid credentials)
 
 ### Future Tests
 

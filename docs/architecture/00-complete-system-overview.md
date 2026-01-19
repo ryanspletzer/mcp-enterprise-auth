@@ -1,6 +1,7 @@
 # Complete System Overview
 
-This document provides a high-level overview of the entire MCP authentication system, showing how all the components and flows work together.
+This document provides a high-level overview of the entire MCP authentication system,
+showing how all the components and flows work together.
 
 ## System Architecture Diagram
 
@@ -130,64 +131,64 @@ graph TB
 ### 1. DCR Emulation (for clients without credentials)
 
 ```text
-MCP Client → MCP Server DCR Endpoint
-↓ (analyzes redirect_uri, User-Agent, etc.)
-MCP Server → Returns appropriate client_id
-↓
-MCP Client now has client_id → Proceeds to OAuth flow
+MCP Client -> MCP Server DCR Endpoint
+| (analyzes redirect_uri, User-Agent, etc.)
+MCP Server -> Returns appropriate client_id
+|
+MCP Client now has client_id -> Proceeds to OAuth flow
 ```
 
 ### 2. Authorization Code + PKCE (Public/Confidential Clients)
 
 ```text
-MCP Client → Entra ID Authorization Endpoint (with PKCE challenge)
-↓
+MCP Client -> Entra ID Authorization Endpoint (with PKCE challenge)
+|
 User signs in and consents
-↓
-Entra ID → Redirect to client with auth code
-↓
-MCP Client → Entra ID Token Endpoint (with code_verifier)
-↓
-Entra ID → Returns access token (+ ID token)
-↓
-MCP Client → MCP Server (with Bearer token)
+|
+Entra ID -> Redirect to client with auth code
+|
+MCP Client -> Entra ID Token Endpoint (with code_verifier)
+|
+Entra ID -> Returns access token (+ ID token)
+|
+MCP Client -> MCP Server (with Bearer token)
 ```
 
 ### 3. Client Credentials Grant (Service Principals)
 
 ```text
-Service Principal → Entra ID Token Endpoint (with client_secret)
-↓
+Service Principal -> Entra ID Token Endpoint (with client_secret)
+|
 Entra ID validates credentials
-↓
-Entra ID → Returns access token (app-only)
-↓
-Service Principal → MCP Server (with Bearer token)
+|
+Entra ID -> Returns access token (app-only)
+|
+Service Principal -> MCP Server (with Bearer token)
 ```
 
 ### 4. JWT Validation (MCP Server)
 
 ```text
 MCP Server receives request with Bearer token
-↓
+|
 Extract JWT from Authorization header
-↓
+|
 Parse header and payload (3-part structure check)
-↓
+|
 Get JWKS (from cache or Entra ID)
-↓
+|
 Verify signature with public key (RS256)
-↓
+|
 Validate temporal claims (exp, nbf, iat)
-↓
+|
 Validate issuer, audience, tenant
-↓
+|
 Detect token type (user vs app-only)
-├─ User token: validate scp claim
-└─ App-only token: validate roles claim
-↓
+|- User token: validate scp claim
+|- App-only token: validate roles claim
+|
 Extract identity (user or service principal)
-↓
+|
 Process MCP request
 ```
 
@@ -237,11 +238,11 @@ graph TD
   "iat": 1234567890,
   "nbf": 1234567890,
   "exp": 1234571490,
-  "scp": "mcp.read mcp.write",           ← User scopes
-  "oid": "user-object-id",                ← User identity
+  "scp": "mcp.read mcp.write",
+  "oid": "user-object-id",
   "sub": "user-subject-id",
   "preferred_username": "user@example.com",
-  "appid": "client-app-id",               ← Client identity
+  "appid": "client-app-id",
   "tid": "tenant-id",
   "ver": "2.0"
 }
@@ -256,9 +257,9 @@ graph TD
   "iat": 1234567890,
   "nbf": 1234567890,
   "exp": 1234571490,
-  "roles": ["MCP.ReadWrite.All"],         ← App roles
-  "idtyp": "app",                         ← Token type indicator
-  "oid": "sp-object-id",                  ← Service principal identity
+  "roles": ["MCP.ReadWrite.All"],
+  "idtyp": "app",
+  "oid": "sp-object-id",
   "sub": "sp-object-id",
   "appid": "client-app-id",
   "tid": "tenant-id",
@@ -297,52 +298,52 @@ graph TD
 ## Security Layers
 
 ```text
-┌─────────────────────────────────────────────┐
-│  Layer 1: Client Authentication             │
-│  ├─ Public: PKCE                            │
-│  ├─ Confidential: Client Secret + PKCE      │
-│  └─ Service Principal: Client Secret        │
-└─────────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────┐
-│  Layer 2: User Authentication (if needed)   │
-│  └─ Entra ID login + MFA (optional)         │
-└─────────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────┐
-│  Layer 3: Token Issuance                    │
-│  └─ Entra ID issues signed JWT              │
-└─────────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────┐
-│  Layer 4: JWT Signature Verification        │
-│  └─ Verify with JWKS public key             │
-└─────────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────┐
-│  Layer 5: JWT Claims Validation             │
-│  ├─ Temporal: exp, nbf, iat                 │
-│  ├─ Issuer: iss, tid                        │
-│  ├─ Audience: aud                           │
-│  └─ Version: ver                            │
-└─────────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────┐
-│  Layer 6: Permission Validation             │
-│  ├─ User tokens: scp claim                  │
-│  └─ App-only tokens: roles claim            │
-└─────────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────┐
-│  Layer 7: Identity Extraction               │
-│  └─ User: oid, sub, preferred_username      │
-│  └─ App: appid, oid                         │
-└─────────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────┐
-│  Layer 8: MCP Request Processing            │
-│  └─ Execute MCP tools/resources             │
-└─────────────────────────────────────────────┘
++---------------------------------------------+
+|  Layer 1: Client Authentication             |
+|  |- Public: PKCE                            |
+|  |- Confidential: Client Secret + PKCE      |
+|  |- Service Principal: Client Secret        |
++---------------------------------------------+
+                    |
++---------------------------------------------+
+|  Layer 2: User Authentication (if needed)   |
+|  |- Entra ID login + MFA (optional)         |
++---------------------------------------------+
+                    |
++---------------------------------------------+
+|  Layer 3: Token Issuance                    |
+|  |- Entra ID issues signed JWT              |
++---------------------------------------------+
+                    |
++---------------------------------------------+
+|  Layer 4: JWT Signature Verification        |
+|  |- Verify with JWKS public key             |
++---------------------------------------------+
+                    |
++---------------------------------------------+
+|  Layer 5: JWT Claims Validation             |
+|  |- Temporal: exp, nbf, iat                 |
+|  |- Issuer: iss, tid                        |
+|  |- Audience: aud                           |
+|  |- Version: ver                            |
++---------------------------------------------+
+                    |
++---------------------------------------------+
+|  Layer 6: Permission Validation             |
+|  |- User tokens: scp claim                  |
+|  |- App-only tokens: roles claim            |
++---------------------------------------------+
+                    |
++---------------------------------------------+
+|  Layer 7: Identity Extraction               |
+|  |- User: oid, sub, preferred_username      |
+|  |- App: appid, oid                         |
++---------------------------------------------+
+                    |
++---------------------------------------------+
+|  Layer 8: MCP Request Processing            |
+|  |- Execute MCP tools/resources             |
++---------------------------------------------+
 ```
 
 ## Deployment Modes
@@ -350,17 +351,17 @@ graph TD
 ### Fargate Mode
 
 ```text
-Internet → ALB → ECS Fargate (MCP Server) → Entra ID
-                      ↓
+Internet -> ALB -> ECS Fargate (MCP Server) -> Entra ID
+                      |
                   CloudWatch
-                      ↓
+                      |
                    X-Ray
 ```
 
 ### Agent Core Mode
 
 ```text
-Internet → CloudFront → Agent Core → MCP Server → Entra ID
+Internet -> CloudFront -> Agent Core -> MCP Server -> Entra ID
            (URL rewrite)  (Auth proxy)
 ```
 

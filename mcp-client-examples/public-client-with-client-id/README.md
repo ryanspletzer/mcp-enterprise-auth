@@ -1,51 +1,52 @@
 # MCP Public Client - With Credentials (Auth Code + PKCE)
 
-This example demonstrates a **public client with pre-configured credentials** that uses OAuth Authorization Code + PKCE flow to authenticate with Entra ID.
+This example demonstrates a **public client with pre-configured credentials**
+that uses OAuth Authorization Code + PKCE flow to authenticate with Entra ID.
 
 ## Flow Overview
 
 ```text
-┌──────────┐                 ┌────────────┐                ┌──────────┐
-│  Client  │                 │ MCP Server │                │ Entra ID │
-└────┬─────┘                 └─────┬──────┘                └────┬─────┘
-     │                             │                            │
-     │ 1. Authorization Code + PKCE                             │
-     │────────────────────────────────────────────────────────────>
-     │    (using pre-configured client_id)                      │
-     │                              │                            │
-     │ 2. User Login & Consent      │                            │
-     │<────────────────────────────────────────────────────────────
-     │                              │                            │
-     │ 3. Authorization Code        │                            │
-     │<────────────────────────────────────────────────────────────
-     │                              │                            │
-     │ 4. Exchange code for token   │                            │
-     │────────────────────────────────────────────────────────────>
-     │    (with PKCE code_verifier) │                            │
-     │                              │                            │
-     │ 5. Access Token + Refresh Token                           │
-     │<────────────────────────────────────────────────────────────
-     │                              │                            │
-     │ 6. Call MCP API with token   │                            │
-     │─────────────────────────────>│                            │
-     │                              │ 7. Validate JWT            │
-     │                              │────────────────────────────>
-     │                              │                            │
-     │                              │ 8. JWKS + validation       │
-     │                              │<────────────────────────────
-     │                              │                            │
-     │ 9. MCP Response              │                            │
-     │<─────────────────────────────│                            │
++-----------+                 +-------------+                +-----------+
+|  Client   |                 | MCP Server  |                | Entra ID  |
++-----+-----+                 +------+------+                +-----+-----+
+      |                              |                             |
+      | 1. Authorization Code + PKCE                               |
+      |----------------------------------------------------------->|
+      |    (using pre-configured client_id)                        |
+      |                              |                             |
+      | 2. User Login & Consent      |                             |
+      |<-----------------------------------------------------------|
+      |                              |                             |
+      | 3. Authorization Code        |                             |
+      |<-----------------------------------------------------------|
+      |                              |                             |
+      | 4. Exchange code for token   |                             |
+      |----------------------------------------------------------->|
+      |    (with PKCE code_verifier) |                             |
+      |                              |                             |
+      | 5. Access Token + Refresh Token                            |
+      |<-----------------------------------------------------------|
+      |                              |                             |
+      | 6. Call MCP API with token   |                             |
+      |----------------------------->|                             |
+      |                              | 7. Validate JWT             |
+      |                              |---------------------------->|
+      |                              |                             |
+      |                              | 8. JWKS + validation        |
+      |                              |<----------------------------|
+      |                              |                             |
+      | 9. MCP Response              |                             |
+      |<-----------------------------|                             |
 ```
 
 ## Key Features
 
-- ✅ **Pre-configured client_id** - No DCR needed
-- ✅ **OAuth Authorization Code + PKCE** - Industry standard flow
-- ✅ **Refresh token support** - Long-lived sessions
-- ✅ **State parameter validation** - CSRF protection
-- ✅ **Interactive browser flow** - User authentication
-- ✅ **Structured logging** - Clear visibility into each step
+- **Pre-configured client_id** - No DCR needed
+- **OAuth Authorization Code + PKCE** - Industry standard flow
+- **Refresh token support** - Long-lived sessions
+- **State parameter validation** - CSRF protection
+- **Interactive browser flow** - User authentication
+- **Structured logging** - Clear visibility into each step
 
 ## Prerequisites
 
@@ -58,16 +59,16 @@ This example demonstrates a **public client with pre-configured credentials** th
 
 This client requires a **public client** app registration in Entra ID:
 
-1. Go to Azure Portal → Entra ID → App registrations
+1. Go to Azure Portal -> Entra ID -> App registrations
 2. Create new registration:
    - **Name**: "MCP Public Client"
    - **Supported account types**: Single tenant
-   - **Redirect URI**: Web → `http://localhost:8080/callback`
+   - **Redirect URI**: Web -> `http://localhost:8080/callback`
 3. Under **Authentication**:
-   - Enable "Public client flows" → NO (use Auth Code flow)
+   - Enable "Public client flows" -> NO (use Auth Code flow)
    - Add redirect URI: `http://localhost:8080/callback`
 4. Under **API permissions**:
-   - Add permission → My APIs → "MCP Server"
+   - Add permission -> My APIs -> "MCP Server"
    - Select delegated permissions: `mcp.read`, `mcp.write`
    - Grant admin consent
 5. Copy **Application (client) ID** and **Directory (tenant) ID**
@@ -186,7 +187,8 @@ Authorization: Bearer {access_token}
 
 ### Step 7: Token Refresh (Optional)
 
-When the access token expires, use the refresh token:
+When the access token expires,
+use the refresh token:
 
 ```python
 await client.refresh_access_token()
@@ -274,9 +276,9 @@ except Exception as e:
 
 Ensure the redirect URI in `.env` **exactly matches** the one registered in Entra ID:
 
-- `http://localhost:8080/callback` ✅
-- `http://localhost:8080/callback/` ❌ (trailing slash)
-- `https://localhost:8080/callback` ❌ (https vs http)
+- `http://localhost:8080/callback` (correct)
+- `http://localhost:8080/callback/` (incorrect - trailing slash)
+- `https://localhost:8080/callback` (incorrect - https vs http)
 
 ### "Invalid client"
 
@@ -313,12 +315,12 @@ Paste into browser and complete the flow.
 
 ## Security Notes
 
-- ✅ **PKCE required** - Mitigates authorization code interception
-- ✅ **State parameter** - CSRF protection
-- ✅ **Public client** - No client_secret (can't be kept secret)
-- ✅ **Refresh tokens** - Long-lived sessions without re-authentication
-- ⚠️ **Token storage** - Tokens are in memory only (consider secure storage for production)
-- ⚠️ **Local redirect** - Works for localhost/desktop apps only
+- **PKCE required** - Mitigates authorization code interception
+- **State parameter** - CSRF protection
+- **Public client** - No client_secret (can't be kept secret)
+- **Refresh tokens** - Long-lived sessions without re-authentication
+- **Token storage** - Tokens are in memory only (consider secure storage for production)
+- **Local redirect** - Works for localhost/desktop apps only
 
 ## Differences from public-client-without-client-id
 

@@ -1,20 +1,21 @@
 # Environment Variables Reference
 
-This document provides a comprehensive reference for all environment variables used in the MCP server and client applications.
+This document provides a comprehensive reference for all environment variables
+used in the MCP server and client applications.
 
 ## Quick Reference
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `ENTRA_TENANT_ID` | ✅ | - | Your Entra ID tenant ID |
-| `MCP_SERVER_APP_ID` | ✅ | - | MCP server app ID or URI |
-| `REQUIRED_SCOPE` | ✅ | - | Required scope for user tokens |
-| `REQUIRED_ROLE` | ✅ | - | Required role for service principals |
-| `VSCODE_CLIENT_ID` | ✅ | - | VS Code client app ID |
-| `CLAUDE_DESKTOP_CLIENT_ID` | ✅ | - | Claude Desktop client app ID |
-| `CLAUDE_CODE_CLIENT_ID` | ✅ | - | Claude Code client app ID |
-| `CHATGPT_CLIENT_ID` | ✅ | - | ChatGPT client app ID |
-| `GENERIC_CLIENT_ID` | ✅ | - | Generic fallback client app ID |
+| `ENTRA_TENANT_ID` | Yes | - | Your Entra ID tenant ID |
+| `MCP_SERVER_APP_ID` | Yes | - | MCP server app ID or URI |
+| `REQUIRED_SCOPE` | Yes | - | Required scope for user tokens |
+| `REQUIRED_ROLE` | Yes | - | Required role for service principals |
+| `VSCODE_CLIENT_ID` | Yes | - | VS Code client app ID |
+| `CLAUDE_DESKTOP_CLIENT_ID` | Yes | - | Claude Desktop client app ID |
+| `CLAUDE_CODE_CLIENT_ID` | Yes | - | Claude Code client app ID |
+| `CHATGPT_CLIENT_ID` | Yes | - | ChatGPT client app ID |
+| `GENERIC_CLIENT_ID` | Yes | - | Generic fallback client app ID |
 
 ## Detailed Reference
 
@@ -25,7 +26,8 @@ This document provides a comprehensive reference for all environment variables u
 - **Type**: UUID
 - **Required**: Yes
 - **Example**: `12345678-1234-1234-1234-123456789abc`
-- **Description**: Your Microsoft Entra ID (Azure AD) tenant ID. Found in Azure Portal → Entra ID → Overview.
+- **Description**: Your Microsoft Entra ID (Azure AD) tenant ID.
+  Found in Azure Portal -> Entra ID -> Overview.
 
 #### `ENTRA_AUTHORITY`
 
@@ -58,7 +60,9 @@ This document provides a comprehensive reference for all environment variables u
 - **Type**: String (URI or UUID)
 - **Required**: Yes
 - **Example**: `api://mcp-server` or `87654321-4321-4321-4321-cba987654321`
-- **Description**: The identifier for your MCP server app registration. This is the audience (`aud`) claim expected in JWTs. Can be the App ID URI or the client ID GUID.
+- **Description**: The identifier for your MCP server app registration.
+  This is the audience (`aud`) claim expected in JWTs.
+  Can be the App ID URI or the client ID GUID.
 
 #### `MCP_SERVER_SCOPE_PREFIX`
 
@@ -77,21 +81,24 @@ This document provides a comprehensive reference for all environment variables u
 - **Type**: String (space-separated)
 - **Required**: Yes (for user token validation)
 - **Example**: `mcp.read mcp.write`
-- **Description**: Required scope(s) in the `scp` claim for user (delegated) tokens. Token must have at least one of these scopes.
+- **Description**: Required scope(s) in the `scp` claim for user (delegated) tokens.
+  Token must have at least one of these scopes.
 
 #### `REQUIRED_SCOPES_ANY`
 
 - **Type**: String (comma-separated)
 - **Required**: No
 - **Example**: `mcp.read,mcp.write`
-- **Description**: Alternative to `REQUIRED_SCOPE`. Token must have ANY of these scopes (OR logic).
+- **Description**: Alternative to `REQUIRED_SCOPE`.
+  Token must have ANY of these scopes (OR logic).
 
 #### `REQUIRED_SCOPES_ALL`
 
 - **Type**: String (comma-separated)
 - **Required**: No
 - **Example**: `mcp.read,mcp.write`
-- **Description**: Alternative to `REQUIRED_SCOPE`. Token must have ALL of these scopes (AND logic).
+- **Description**: Alternative to `REQUIRED_SCOPE`.
+  Token must have ALL of these scopes (AND logic).
 
 #### `REQUIRED_ROLE`
 
@@ -105,7 +112,8 @@ This document provides a comprehensive reference for all environment variables u
 - **Type**: String (comma-separated)
 - **Required**: No
 - **Example**: `MCP.Read.All,MCP.ReadWrite.All`
-- **Description**: Alternative to `REQUIRED_ROLE`. Token must have ANY of these roles (OR logic).
+- **Description**: Alternative to `REQUIRED_ROLE`.
+  Token must have ANY of these roles (OR logic).
 
 ---
 
@@ -146,7 +154,8 @@ These are the client IDs of app registrations created in Entra ID for each MCP c
 - **Type**: UUID
 - **Required**: Yes
 - **Example**: `55555555-5555-5555-5555-555555555555`
-- **Description**: Client ID for generic/fallback MCP client app registration. Used when client type cannot be determined.
+- **Description**: Client ID for generic/fallback MCP client app registration.
+  Used when client type cannot be determined.
 
 #### `CONFIDENTIAL_CLIENT_ID` / `CONFIDENTIAL_CLIENT_SECRET`
 
@@ -192,7 +201,8 @@ These are the client IDs of app registrations created in Entra ID for each MCP c
 - **Required**: No
 - **Default**: `http://localhost:8000`
 - **Example**: `https://mcp-server.example.com`
-- **Description**: Public base URL of the MCP server. Used for generating callback URLs, etc.
+- **Description**: Public base URL of the MCP server.
+  Used for generating callback URLs, etc.
 
 ---
 
@@ -217,7 +227,8 @@ These are the client IDs of app registrations created in Entra ID for each MCP c
 - **Type**: Boolean
 - **Required**: No
 - **Default**: `true`
-- **Description**: Whether to validate the `ver` claim in tokens. Should be "2.0" for AAD v2.0 tokens.
+- **Description**: Whether to validate the `ver` claim in tokens.
+  Should be "2.0" for AAD v2.0 tokens.
 
 #### `ALLOWED_TOKEN_VERSIONS`
 
@@ -231,7 +242,8 @@ These are the client IDs of app registrations created in Entra ID for each MCP c
 - **Type**: Boolean
 - **Required**: No
 - **Default**: `false` (local dev), `true` (production)
-- **Description**: Whether to enforce HTTPS for redirect URIs. Disable for local development.
+- **Description**: Whether to enforce HTTPS for redirect URIs.
+  Disable for local development.
 
 ---
 
@@ -262,7 +274,8 @@ These are the client IDs of app registrations created in Entra ID for each MCP c
 - **Type**: Integer
 - **Required**: No
 - **Default**: `3600` (1 hour)
-- **Description**: TTL for revocation cache entries. Should match or exceed token expiration.
+- **Description**: TTL for revocation cache entries.
+  Should match or exceed token expiration.
 
 ---
 
@@ -347,19 +360,20 @@ These are the client IDs of app registrations created in Entra ID for each MCP c
 - **Type**: Boolean
 - **Required**: No
 - **Default**: `false`
-- **⚠️ Warning**: DO NOT enable in production (exposes sensitive data)
+- **Warning**: DO NOT enable in production (exposes sensitive data)
 - **Description**: Log decoded JWT claims for debugging.
 
 ---
 
-### Performance & Scalability
+### Performance and Scalability
 
 #### `UVICORN_WORKERS`
 
 - **Type**: Integer
 - **Required**: No
 - **Default**: `4`
-- **Description**: Number of Uvicorn worker processes. Set to number of CPU cores for production.
+- **Description**: Number of Uvicorn worker processes.
+  Set to number of CPU cores for production.
 
 #### `UVICORN_TIMEOUT`
 
@@ -409,7 +423,7 @@ These are the client IDs of app registrations created in Entra ID for each MCP c
 - **Type**: Boolean
 - **Required**: No
 - **Default**: `false`
-- **⚠️ Warning**: DO NOT enable in production
+- **Warning**: DO NOT enable in production
 - **Description**: Enable debug mode with verbose logging and error details.
 
 #### `ENABLE_SWAGGER`
@@ -431,7 +445,7 @@ These are the client IDs of app registrations created in Entra ID for each MCP c
 - **Type**: Boolean
 - **Required**: No
 - **Default**: `false`
-- **⚠️ Warning**: DO NOT enable in production
+- **Warning**: DO NOT enable in production
 - **Description**: Enable mock authentication for testing without Entra ID.
 
 ---
@@ -489,7 +503,7 @@ MCP_SERVER_BASE_URL=http://localhost:8000
 ENFORCE_HTTPS_REDIRECTS=false
 DEBUG_MODE=true
 LOG_LEVEL=DEBUG
-```bash
+```
 
 ### Production (AWS Fargate)
 
@@ -504,7 +518,7 @@ LOG_LEVEL=INFO
 LOG_FORMAT=json
 ENABLE_XRAY=true
 CORS_ALLOWED_ORIGINS=https://app.example.com
-```bash
+```
 
 ### Production (Agent Core)
 
@@ -517,7 +531,7 @@ AGENTCORE_PATH_PREFIX=/mcp
 ENFORCE_HTTPS_REDIRECTS=true
 DEBUG_MODE=false
 LOG_LEVEL=INFO
-```bash
+```
 
 ## Security Best Practices
 
@@ -532,7 +546,8 @@ LOG_LEVEL=INFO
 
 ## Validation
 
-The MCP server validates all required environment variables on startup and will fail fast with clear error messages if any are missing or invalid.
+The MCP server validates all required environment variables on startup
+and will fail fast with clear error messages if any are missing or invalid.
 
 To validate your configuration:
 

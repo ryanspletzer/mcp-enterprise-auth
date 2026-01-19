@@ -102,10 +102,10 @@ make test-watch-unit
 
 The watch mode will:
 
-- ✅ Auto-detect file changes
-- ✅ Clear terminal on each run
-- ✅ Show only relevant output
-- ✅ Stop on first failure for quick feedback
+- Auto-detect file changes
+- Clear terminal on each run
+- Show only relevant output
+- Stop on first failure for quick feedback
 
 ### Coverage Reports
 
@@ -351,7 +351,8 @@ make ci-test
 
 ### Import Errors
 
-If you see import errors, ensure you're running pytest from the `mcp-server` directory:
+If you see import errors,
+ensure you're running pytest from the `mcp-server` directory:
 
 ```bash
 cd mcp-server
@@ -360,7 +361,8 @@ pytest
 
 ### Mock Auth
 
-Some tests may require ENABLE_MOCK_AUTH=false (set in conftest.py). This prevents actual JWT validation during tests.
+Some tests may require ENABLE_MOCK_AUTH=false (set in conftest.py).
+This prevents actual JWT validation during tests.
 
 ### Redis Tests
 

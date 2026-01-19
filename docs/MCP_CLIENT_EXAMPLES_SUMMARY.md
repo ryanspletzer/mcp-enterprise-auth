@@ -59,12 +59,12 @@ mcp-client-examples/
 
 **Features:**
 
-- ✅ DCR (Dynamic Client Registration) emulation
-- ✅ OAuth Authorization Code + PKCE flow
-- ✅ Browser-based user authentication
-- ✅ Local callback server (port 8080)
-- ✅ Automatic client type detection
-- ✅ Structured logging with structlog
+- DCR (Dynamic Client Registration) emulation
+- OAuth Authorization Code + PKCE flow
+- Browser-based user authentication
+- Local callback server (port 8080)
+- Automatic client type detection
+- Structured logging with structlog
 
 **Key Components:**
 
@@ -93,12 +93,12 @@ SCOPE=api://mcp-server/.default
 
 **Features:**
 
-- ✅ Pre-configured client_id (no DCR)
-- ✅ OAuth Authorization Code + PKCE flow
-- ✅ State parameter for CSRF protection
-- ✅ Refresh token support
-- ✅ Browser-based user authentication
-- ✅ Local callback server
+- Pre-configured client_id (no DCR)
+- OAuth Authorization Code + PKCE flow
+- State parameter for CSRF protection
+- Refresh token support
+- Browser-based user authentication
+- Local callback server
 
 **Key Components:**
 
@@ -128,12 +128,12 @@ SCOPE=api://mcp-server/.default
 
 **Features:**
 
-- ✅ Client authentication with client_secret
-- ✅ OAuth Authorization Code + PKCE flow
-- ✅ PKCE + secret (defense in depth)
-- ✅ State parameter validation
-- ✅ Refresh token with client auth
-- ✅ Higher security level
+- Client authentication with client_secret
+- OAuth Authorization Code + PKCE flow
+- PKCE + secret (defense in depth)
+- State parameter validation
+- Refresh token with client auth
+- Higher security level
 
 **Key Components:**
 
@@ -164,12 +164,12 @@ SCOPE=api://mcp-server/.default
 
 **Features:**
 
-- ✅ Client Credentials flow (no user interaction)
-- ✅ App-only token acquisition
-- ✅ Automatic token refresh management
-- ✅ No browser required
-- ✅ Ideal for automation
-- ✅ Application roles (not scopes)
+- Client Credentials flow (no user interaction)
+- App-only token acquisition
+- Automatic token refresh management
+- No browser required
+- Ideal for automation
+- Application roles (not scopes)
 
 **Key Components:**
 
@@ -286,23 +286,23 @@ docker-compose --profile interactive up
 
 ### Common Features
 
-✅ **Async/await** - All clients use `asyncio` for async operations
-✅ **Structured logging** - `structlog` with JSON output
-✅ **Error handling** - Comprehensive exception handling
-✅ **Type hints** - Full type annotations
-✅ **Environment config** - `.env` file support
-✅ **Docker support** - Containerized deployment
-✅ **httpx** - Modern async HTTP client
-✅ **Production-ready** - Real-world error scenarios handled
+- **Async/await** - All clients use `asyncio` for async operations
+- **Structured logging** - `structlog` with JSON output
+- **Error handling** - Comprehensive exception handling
+- **Type hints** - Full type annotations
+- **Environment config** - `.env` file support
+- **Docker support** - Containerized deployment
+- **httpx** - Modern async HTTP client
+- **Production-ready** - Real-world error scenarios handled
 
 ### Security Features
 
-✅ **PKCE** - All interactive flows (SHA256)
-✅ **State parameter** - CSRF protection
-✅ **Client authentication** - Where appropriate (confidential, SP)
-✅ **Token validation** - Server-side JWT validation
-✅ **No token logging** - Secrets never logged
-✅ **Secure defaults** - Following OAuth best practices
+- **PKCE** - All interactive flows (SHA256)
+- **State parameter** - CSRF protection
+- **Client authentication** - Where appropriate (confidential, SP)
+- **Token validation** - Server-side JWT validation
+- **No token logging** - Secrets never logged
+- **Secure defaults** - Following OAuth best practices
 
 ## Code Quality
 
@@ -316,12 +316,12 @@ docker-compose --profile interactive up
 
 ### Best Practices
 
-✅ **Clean code** - Clear function names, logical structure
-✅ **DRY principle** - Shared patterns across clients
-✅ **SOLID principles** - Single responsibility, clear interfaces
-✅ **Documentation** - Every function documented
-✅ **Examples** - Real-world usage examples
-✅ **Security** - Follows OAuth/OIDC specifications
+- **Clean code** - Clear function names, logical structure
+- **DRY principle** - Shared patterns across clients
+- **SOLID principles** - Single responsibility, clear interfaces
+- **Documentation** - Every function documented
+- **Examples** - Real-world usage examples
+- **Security** - Follows OAuth/OIDC specifications
 
 ## Testing Recommendations
 
@@ -387,28 +387,28 @@ All clients integrate seamlessly with the MCP server:
 
 **DO:**
 
-- ✅ Use environment variables
-- ✅ Use secret management systems (Azure Key Vault, etc.)
-- ✅ Rotate secrets regularly
-- ✅ Use managed identities on Azure
+- Use environment variables
+- Use secret management systems (Azure Key Vault, etc.)
+- Rotate secrets regularly
+- Use managed identities on Azure
 
 **DON'T:**
 
-- ❌ Commit `.env` files with real secrets
-- ❌ Hard-code secrets in code
-- ❌ Share secrets across environments
-- ❌ Log secrets or tokens
+- Commit `.env` files with real secrets
+- Hard-code secrets in code
+- Share secrets across environments
+- Log secrets or tokens
 
 ### OAuth Best Practices
 
 All clients follow:
 
-- ✅ PKCE for public clients (RFC 7636)
-- ✅ State parameter for CSRF protection
-- ✅ Redirect URI validation
-- ✅ Token expiration handling
-- ✅ Secure token storage (memory only)
-- ✅ HTTPS in production
+- PKCE for public clients (RFC 7636)
+- State parameter for CSRF protection
+- Redirect URI validation
+- Token expiration handling
+- Secure token storage (memory only)
+- HTTPS in production
 
 ## Deployment Considerations
 
@@ -476,29 +476,29 @@ All clients work locally:
 
 **What was built:**
 
-- ✅ 4 complete OAuth client implementations
-- ✅ 28 files total (code, docs, config, Docker)
-- ✅ ~880 lines of production code
-- ✅ ~1,650 lines of documentation
-- ✅ Full Docker support with compose
-- ✅ Comprehensive flow comparison
-- ✅ Security best practices throughout
+- 4 complete OAuth client implementations
+- 28 files total (code, docs, config, Docker)
+- ~880 lines of production code
+- ~1,650 lines of documentation
+- Full Docker support with compose
+- Comprehensive flow comparison
+- Security best practices throughout
 
 **Ready for:**
 
-- ✅ Development and testing
-- ✅ Production deployment (with proper configuration)
-- ✅ Educational purposes
-- ✅ Integration with real Entra ID tenants
-- ✅ Docker/Kubernetes deployment
-- ✅ CI/CD pipeline integration
+- Development and testing
+- Production deployment (with proper configuration)
+- Educational purposes
+- Integration with real Entra ID tenants
+- Docker/Kubernetes deployment
+- CI/CD pipeline integration
 
 **Standards compliance:**
 
-- ✅ OAuth 2.0 (RFC 6749)
-- ✅ PKCE (RFC 7636)
-- ✅ OpenID Connect Core 1.0
-- ✅ JWT (RFC 7519)
-- ✅ Microsoft Identity Platform
+- OAuth 2.0 (RFC 6749)
+- PKCE (RFC 7636)
+- OpenID Connect Core 1.0
+- JWT (RFC 7519)
+- Microsoft Identity Platform
 
-All clients are **production-ready** and follow OAuth/OIDC best practices! 🎉
+All clients are **production-ready** and follow OAuth/OIDC best practices!

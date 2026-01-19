@@ -27,38 +27,38 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 ### 1. Public Client (No Credentials) - DCR Flow
 
 ```text
-┌─────────┐         ┌────────────┐         ┌──────────┐
-│ Client  │         │ MCP Server │         │ Entra ID │
-└────┬────┘         └─────┬──────┘         └────┬─────┘
-     │                    │                     │
-     │ 1. DCR Register    │                     │
-     │───────────────────>│                     │
-     │                    │                     │
-     │ 2. Client ID       │                     │
-     │<───────────────────│                     │
-     │                    │                     │
-     │ 3. Auth Request (PKCE)                   │
-     │─────────────────────────────────────────>│
-     │                    │                     │
-     │ 4. User Login      │                     │
-     │<─────────────────────────────────────────│
-     │                    │                     │
-     │ 5. Auth Code       │                     │
-     │<─────────────────────────────────────────│
-     │                    │                     │
-     │ 6. Token Exchange (code_verifier)        │
-     │─────────────────────────────────────────>│
-     │                    │                     │
-     │ 7. Access Token    │                     │
-     │<─────────────────────────────────────────│
-     │                    │                     │
-     │ 8. API Call        │                     │
-     │───────────────────>│                     │
-     │                    │ 9. Validate JWT     │
-     │                    │────────────────────>│
-     │                    │                     │
-     │ 10. Response       │                     │
-     │<───────────────────│                     │
++----------+         +-------------+         +-----------+
+| Client   |         | MCP Server  |         | Entra ID  |
++----+-----+         +------+------+         +-----+-----+
+     |                      |                      |
+     | 1. DCR Register      |                      |
+     |--------------------->|                      |
+     |                      |                      |
+     | 2. Client ID         |                      |
+     |<---------------------|                      |
+     |                      |                      |
+     | 3. Auth Request (PKCE)                      |
+     |-------------------------------------------->|
+     |                      |                      |
+     | 4. User Login        |                      |
+     |<--------------------------------------------|
+     |                      |                      |
+     | 5. Auth Code         |                      |
+     |<--------------------------------------------|
+     |                      |                      |
+     | 6. Token Exchange (code_verifier)           |
+     |-------------------------------------------->|
+     |                      |                      |
+     | 7. Access Token      |                      |
+     |<--------------------------------------------|
+     |                      |                      |
+     | 8. API Call          |                      |
+     |--------------------->|                      |
+     |                      | 9. Validate JWT      |
+     |                      |--------------------->|
+     |                      |                      |
+     | 10. Response         |                      |
+     |<---------------------|                      |
 ```
 
 **Steps:**
@@ -70,42 +70,41 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 5. Client receives authorization code
 6. Client exchanges code for token (with PKCE)
 7. Client receives access + refresh token
-
-8-10. Client calls MCP API with validated token
+8. Client calls MCP API with validated token
 
 **Unique Features:**
 
-- ✨ No pre-configuration needed
-- ✨ Server-side client detection
-- ⚠️ Relies on DCR emulation accuracy
+- No pre-configuration needed
+- Server-side client detection
+- Relies on DCR emulation accuracy
 
 ---
 
 ### 2. Public Client (With Credentials) - Standard Auth Code
 
 ```text
-┌─────────┐                              ┌──────────┐
-│ Client  │                              │ Entra ID │
-└────┬────┘                              └────┬─────┘
-     │                                        │
-     │ 1. Auth Request (PKCE)                 │
-     │───────────────────────────────────────>│
-     │    client_id={pre-configured}          │
-     │    code_challenge={PKCE}               │
-     │                                        │
-     │ 2. User Login                          │
-     │<───────────────────────────────────────│
-     │                                        │
-     │ 3. Auth Code                           │
-     │<───────────────────────────────────────│
-     │                                        │
-     │ 4. Token Exchange                      │
-     │───────────────────────────────────────>│
-     │    client_id={pre-configured}          │
-     │    code_verifier={PKCE}                │
-     │                                        │
-     │ 5. Access Token + Refresh Token        │
-     │<───────────────────────────────────────│
++----------+                               +-----------+
+| Client   |                               | Entra ID  |
++----+-----+                               +-----+-----+
+     |                                           |
+     | 1. Auth Request (PKCE)                    |
+     |------------------------------------------>|
+     |    client_id={pre-configured}             |
+     |    code_challenge={PKCE}                  |
+     |                                           |
+     | 2. User Login                             |
+     |<------------------------------------------|
+     |                                           |
+     | 3. Auth Code                              |
+     |<------------------------------------------|
+     |                                           |
+     | 4. Token Exchange                         |
+     |------------------------------------------>|
+     |    client_id={pre-configured}             |
+     |    code_verifier={PKCE}                   |
+     |                                           |
+     | 5. Access Token + Refresh Token           |
+     |<------------------------------------------|
 ```
 
 **Steps:**
@@ -118,39 +117,39 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 
 **Unique Features:**
 
-- ✨ Standard OAuth 2.0 flow
-- ✨ No server dependencies (DCR)
-- ✨ Direct to Entra ID
+- Standard OAuth 2.0 flow
+- No server dependencies (DCR)
+- Direct to Entra ID
 
 ---
 
 ### 3. Confidential Client - Auth Code with Client Authentication
 
 ```text
-┌─────────┐                              ┌──────────┐
-│ Client  │                              │ Entra ID │
-└────┬────┘                              └────┬─────┘
-     │                                        │
-     │ 1. Auth Request (PKCE)                 │
-     │───────────────────────────────────────>│
-     │    client_id={pre-configured}          │
-     │    code_challenge={PKCE}               │
-     │    (no secret in URL)                  │
-     │                                        │
-     │ 2. User Login                          │
-     │<───────────────────────────────────────│
-     │                                        │
-     │ 3. Auth Code                           │
-     │<───────────────────────────────────────│
-     │                                        │
-     │ 4. Token Exchange + Client Auth        │
-     │───────────────────────────────────────>│
-     │    client_id={pre-configured}          │
-     │    client_secret={secret}              │
-     │    code_verifier={PKCE}                │
-     │                                        │
-     │ 5. Access Token + Refresh Token        │
-     │<───────────────────────────────────────│
++----------+                               +-----------+
+| Client   |                               | Entra ID  |
++----+-----+                               +-----+-----+
+     |                                           |
+     | 1. Auth Request (PKCE)                    |
+     |------------------------------------------>|
+     |    client_id={pre-configured}             |
+     |    code_challenge={PKCE}                  |
+     |    (no secret in URL)                     |
+     |                                           |
+     | 2. User Login                             |
+     |<------------------------------------------|
+     |                                           |
+     | 3. Auth Code                              |
+     |<------------------------------------------|
+     |                                           |
+     | 4. Token Exchange + Client Auth           |
+     |------------------------------------------>|
+     |    client_id={pre-configured}             |
+     |    client_secret={secret}                 |
+     |    code_verifier={PKCE}                   |
+     |                                           |
+     | 5. Access Token + Refresh Token           |
+     |<------------------------------------------|
 ```
 
 **Steps:**
@@ -163,32 +162,32 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 
 **Unique Features:**
 
-- ✨ Client authentication with secret
-- ✨ Higher security than public clients
-- ✨ PKCE + secret (defense in depth)
-- ⚠️ Must securely store secret
+- Client authentication with secret
+- Higher security than public clients
+- PKCE + secret (defense in depth)
+- Must securely store secret
 
 ---
 
 ### 4. Service Principal - Client Credentials
 
 ```text
-┌─────────┐                              ┌──────────┐
-│ Service │                              │ Entra ID │
-│Principal│                              │          │
-└────┬────┘                              └────┬─────┘
-     │                                        │
-     │ 1. Client Credentials Request          │
-     │───────────────────────────────────────>│
-     │    client_id={service-principal}       │
-     │    client_secret={secret}              │
-     │    scope=api://mcp-server/.default     │
-     │    grant_type=client_credentials       │
-     │                                        │
-     │ 2. App-Only Access Token               │
-     │<───────────────────────────────────────│
-     │    (no refresh token)                  │
-     │    (no user context)                   │
++-------------+                            +-----------+
+| Service     |                            | Entra ID  |
+| Principal   |                            |           |
++------+------+                            +-----+-----+
+       |                                         |
+       | 1. Client Credentials Request           |
+       |---------------------------------------->|
+       |    client_id={service-principal}        |
+       |    client_secret={secret}               |
+       |    scope=api://mcp-server/.default      |
+       |    grant_type=client_credentials        |
+       |                                         |
+       | 2. App-Only Access Token                |
+       |<----------------------------------------|
+       |    (no refresh token)                   |
+       |    (no user context)                    |
 ```
 
 **Steps:**
@@ -199,11 +198,11 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 
 **Unique Features:**
 
-- ✨ No user interaction
-- ✨ No browser required
-- ✨ App-only permissions
-- ✨ Ideal for automation
-- ⚠️ No refresh token (re-acquire when expired)
+- No user interaction
+- No browser required
+- App-only permissions
+- Ideal for automation
+- No refresh token (re-acquire when expired)
 
 ## Token Comparison
 
@@ -220,7 +219,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
   "iat": 1705500000,
   "exp": 1705503599,
   "nbf": 1705500000,
-  "scp": "mcp.read mcp.write",        ← Delegated scopes
+  "scp": "mcp.read mcp.write",
   "name": "John Doe",
   "upn": "john.doe@example.com",
   "oid": "user-object-id",
@@ -256,12 +255,12 @@ This document provides a detailed comparison of all OAuth flows implemented in t
   "iat": 1705500000,
   "exp": 1705503599,
   "nbf": 1705500000,
-  "roles": [                           ← Application roles
+  "roles": [
     "MCP.Read.All",
     "MCP.ReadWrite.All"
   ],
   "appid": "service-principal-id",
-  "idtyp": "app",                      ← Indicates app-only
+  "idtyp": "app",
   "oid": "service-principal-object-id",
   "tid": "tenant-id",
   "ver": "2.0"
@@ -350,38 +349,38 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 
 ### Choose Public Client (No Creds) when
 
-- ✅ Client type is unknown
-- ✅ Testing/prototyping
-- ✅ Don't want to pre-register
-- ✅ Server supports DCR
-- ❌ Production deployments (prefer pre-registered)
+- Client type is unknown
+- Testing/prototyping
+- Don't want to pre-register
+- Server supports DCR
+- Not for production deployments (prefer pre-registered)
 
 ### Choose Public Client (With Creds) when
 
-- ✅ Desktop application
-- ✅ Mobile application
-- ✅ Single-page application (SPA)
-- ✅ Cannot securely store secrets
-- ✅ Need user context
-- ❌ Backend server (use confidential)
+- Desktop application
+- Mobile application
+- Single-page application (SPA)
+- Cannot securely store secrets
+- Need user context
+- Not for backend server (use confidential)
 
 ### Choose Confidential Client when
 
-- ✅ Backend web application
-- ✅ Server-side application
-- ✅ Can securely store secrets
-- ✅ Need user context
-- ✅ Want higher security
-- ❌ Browser/mobile (cannot secure secret)
+- Backend web application
+- Server-side application
+- Can securely store secrets
+- Need user context
+- Want higher security
+- Not for browser/mobile (cannot secure secret)
 
 ### Choose Service Principal when
 
-- ✅ Automation/scheduled tasks
-- ✅ CI/CD pipelines
-- ✅ Background jobs
-- ✅ No user interaction possible
-- ✅ Machine-to-machine
-- ❌ Need user context (use Auth Code flow)
+- Automation/scheduled tasks
+- CI/CD pipelines
+- Background jobs
+- No user interaction possible
+- Machine-to-machine
+- Not for scenarios requiring user context (use Auth Code flow)
 
 ## Performance Comparison
 
@@ -391,7 +390,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 | **Auth Time** | High (DCR + OAuth) | Medium (OAuth) | Medium (OAuth) | **Low (direct)** |
 | **User Friction** | High (login) | High (login) | High (login) | **None** |
 | **Token Refresh** | Automatic | Automatic | Automatic | Re-acquire |
-| **Headless Support** | ❌ No | ❌ No | ❌ No | ✅ **Yes** |
+| **Headless Support** | No | No | No | **Yes** |
 
 ## Error Scenarios Comparison
 

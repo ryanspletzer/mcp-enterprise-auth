@@ -22,7 +22,7 @@ tests/
 ├── test_public_client_with_creds.py     # 25+ tests for public client
 ├── test_confidential_client.py          # 20+ tests for confidential client
 └── test_service_principal.py            # 25+ tests for service principal
-```bash
+```
 
 ### Coverage by Component
 
@@ -41,13 +41,13 @@ tests/
 ```bash
 cd mcp-client-examples/tests
 pip install -r requirements.txt
-```bash
+```
 
 ### 2. Run All Tests
 
 ```bash
 pytest
-```bash
+```
 
 ### 3. Run Specific Test Suite
 
@@ -60,14 +60,14 @@ pytest test_service_principal.py
 pytest -m unit          # Only unit tests (fast)
 pytest -m integration   # Only integration tests
 pytest -m asyncio       # Only async tests
-```bash
+```
 
 ### 4. Run with Coverage
 
 ```bash
 pytest --cov --cov-report=html
 open htmlcov/index.html
-```bash
+```
 
 ## Test Organization
 
@@ -88,7 +88,7 @@ pytest -m integration
 
 # Run all async tests
 pytest -m asyncio
-```bash
+```
 
 ### Test Categories
 
@@ -149,7 +149,7 @@ def test_client_initialization(test_config):
 
     assert client.mcp_server_url == test_config["mcp_server_url"]
     assert client.access_token is None
-```bash
+```
 
 ### Integration Test Example
 
@@ -171,7 +171,7 @@ async def test_token_exchange_success(
 
         token = await client._exchange_code_for_token(...)
         assert token is not None
-```bash
+```
 
 ## Running Tests
 
@@ -195,7 +195,7 @@ pytest -s
 
 # Run specific test
 pytest tests/test_service_principal.py::test_acquire_token_success
-```bash
+```
 
 ### With Coverage
 
@@ -209,7 +209,7 @@ open htmlcov/index.html
 
 # Generate XML report (for CI)
 pytest --cov=. --cov-report=xml
-```bash
+```
 
 ### Filtering Tests
 
@@ -226,14 +226,14 @@ pytest -k "test_acquire"
 # By file
 pytest test_service_principal.py
 pytest test_public_client*.py
-```bash
+```
 
 ### CI Mode
 
 ```bash
 # Run with CI-friendly settings
 pytest --tb=short --strict-markers -v --color=yes
-```bash
+```
 
 ## Test Patterns
 
@@ -248,7 +248,7 @@ with patch("httpx.AsyncClient") as mock_client_class:
     mock_client.post.return_value = mock_successful_response
 
     result = await client.some_method()
-```bash
+```
 
 ### Testing Async Functions
 
@@ -259,26 +259,26 @@ Use `pytest-asyncio` for async tests:
 async def test_async_function():
     result = await some_async_function()
     assert result is not None
-```bash
+```
 
 ### Testing Exceptions
 
 ```python
 with pytest.raises(Exception, match="Expected error message"):
     await client.some_failing_method()
-```bash
+```
 
 ## What Gets Tested
 
 ### 1. Public Client (No Credentials)
 
-- ✅ Client initialization
-- ✅ PKCE generation and uniqueness
-- ✅ DCR registration (success and failure)
-- ✅ User-Agent header inclusion
-- ✅ Token exchange with PKCE
-- ✅ MCP API calls with authentication
-- ✅ Error handling
+- Client initialization
+- PKCE generation and uniqueness
+- DCR registration (success and failure)
+- User-Agent header inclusion
+- Token exchange with PKCE
+- MCP API calls with authentication
+- Error handling
 
 **Key Tests:**
 
@@ -288,14 +288,14 @@ with pytest.raises(Exception, match="Expected error message"):
 
 ### 2. Public Client (With Credentials)
 
-- ✅ Client initialization with credentials
-- ✅ Endpoint construction
-- ✅ PKCE generation
-- ✅ Token exchange without client secret
-- ✅ Refresh token flow
-- ✅ State validation
-- ✅ MCP API calls
-- ✅ Custom headers
+- Client initialization with credentials
+- Endpoint construction
+- PKCE generation
+- Token exchange without client secret
+- Refresh token flow
+- State validation
+- MCP API calls
+- Custom headers
 
 **Key Tests:**
 
@@ -305,13 +305,13 @@ with pytest.raises(Exception, match="Expected error message"):
 
 ### 3. Confidential Client
 
-- ✅ Client initialization with secret
-- ✅ PKCE + client secret (defense in depth)
-- ✅ Token exchange with client authentication
-- ✅ Refresh token with client authentication
-- ✅ Client secret security
-- ✅ Error handling for invalid secrets
-- ✅ MCP API calls
+- Client initialization with secret
+- PKCE + client secret (defense in depth)
+- Token exchange with client authentication
+- Refresh token with client authentication
+- Client secret security
+- Error handling for invalid secrets
+- MCP API calls
 
 **Key Tests:**
 
@@ -321,14 +321,14 @@ with pytest.raises(Exception, match="Expected error message"):
 
 ### 4. Service Principal
 
-- ✅ Client initialization
-- ✅ App-only token acquisition (Client Credentials)
-- ✅ Token expiration calculation
-- ✅ Token caching logic
-- ✅ Automatic token refresh (5-min buffer)
-- ✅ MCP API calls with auto-token acquisition
-- ✅ Multiple API calls with caching
-- ✅ No user interaction required
+- Client initialization
+- App-only token acquisition (Client Credentials)
+- Token expiration calculation
+- Token caching logic
+- Automatic token refresh (5-min buffer)
+- MCP API calls with auto-token acquisition
+- Multiple API calls with caching
+- No user interaction required
 
 **Key Tests:**
 
@@ -369,7 +369,7 @@ jobs:
 
       - name: Upload coverage
         uses: codecov/codecov-action@v2
-```bash
+```
 
 ## Coverage Goals
 
@@ -377,23 +377,24 @@ Target coverage levels:
 
 | Component | Target | Current |
 |-----------|--------|---------|
-| Client initialization | 100% | ✅ 100% |
-| PKCE generation | 100% | ✅ 100% |
-| Token exchange | 95% | ✅ 95%+ |
-| Refresh flows | 95% | ✅ 95%+ |
-| API calls | 100% | ✅ 100% |
-| Error handling | 90% | ✅ 90%+ |
+| Client initialization | 100% | 100% |
+| PKCE generation | 100% | 100% |
+| Token exchange | 95% | 95%+ |
+| Refresh flows | 95% | 95%+ |
+| API calls | 100% | 100% |
+| Error handling | 90% | 90%+ |
 
 ## Troubleshooting
 
 ### "ModuleNotFoundError: No module named 'client'"
 
-The tests add the parent directory to `sys.path`. Ensure you're running pytest from the `tests/` directory:
+The tests add the parent directory to `sys.path`.
+Ensure you're running pytest from the `tests/` directory:
 
 ```bash
 cd mcp-client-examples/tests
 pytest
-```bash
+```
 
 ### "fixture 'mock_client' not found"
 
@@ -407,7 +408,7 @@ async def test_something(mock_successful_token_response):
 # Incorrect
 async def test_something(mock_token_response_wrong_name):
     pass
-```bash
+```
 
 ### Async test warnings
 
@@ -417,7 +418,7 @@ Ensure tests are marked with `@pytest.mark.asyncio`:
 @pytest.mark.asyncio  # Add this decorator
 async def test_async_function():
     result = await some_async_function()
-```bash
+```
 
 ### ImportError in tests
 
@@ -427,7 +428,7 @@ Make sure client dependencies are installed:
 # From each client directory
 cd mcp-client-examples/public-client-without-client-id
 pip install -r requirements.txt
-```bash
+```
 
 ## Best Practices
 
@@ -484,4 +485,4 @@ async def test_feature_name_success(
 
 ---
 
-**Test Coverage: 90%+ | 90+ Tests | All OAuth Flows Covered** ✅
+**Test Coverage: 90%+ | 90+ Tests | All OAuth Flows Covered**

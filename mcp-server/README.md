@@ -1,6 +1,7 @@
 # MCP Server Implementation
 
-This directory contains the MCP (Model Context Protocol) server implementation with proper enterprise authentication via Microsoft Entra ID (Azure AD).
+This directory contains the MCP (Model Context Protocol) server implementation
+with proper enterprise authentication via Microsoft Entra ID (Azure AD).
 
 ## Architecture
 
@@ -59,7 +60,8 @@ app/
 
 ### DCR Emulation
 
-Since Entra ID doesn't support native DCR, the server emulates it:
+Since Entra ID doesn't support native DCR,
+the server emulates it:
 
 1. **Client Detection**: Analyze redirect_uri, User-Agent, client_name
 2. **Type Mapping**: Map to known client types (VS Code, Claude, etc.)
@@ -75,14 +77,14 @@ Detection priority:
 
 ### JWT Validation Layers
 
-1. ✓ Structure & format (3-part JWT)
-2. ✓ Signature verification (RS256 with JWKS)
-3. ✓ Temporal validation (exp, nbf, iat with clock skew)
-4. ✓ Required claims (iss, aud, exp, iat, sub, tid)
-5. ✓ Issuer validation (matches Entra ID)
-6. ✓ Audience validation (matches MCP server app ID)
-7. ✓ Tenant validation (matches allowed tenant)
-8. ✓ Token version validation (AAD v2.0)
+1. Structure & format (3-part JWT)
+2. Signature verification (RS256 with JWKS)
+3. Temporal validation (exp, nbf, iat with clock skew)
+4. Required claims (iss, aud, exp, iat, sub, tid)
+5. Issuer validation (matches Entra ID)
+6. Audience validation (matches MCP server app ID)
+7. Tenant validation (matches allowed tenant)
+8. Token version validation (AAD v2.0)
 
 ### Permission Validation
 

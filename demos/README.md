@@ -1,6 +1,7 @@
 # MCP with Mock Entra ID - Demos
 
-This directory contains interactive demos and end-to-end tests for the complete MCP ecosystem with mock Entra ID authentication.
+This directory contains interactive demos and end-to-end tests for the complete MCP ecosystem
+with mock Entra ID authentication.
 
 ## Quick Start
 
@@ -195,7 +196,8 @@ docker compose -f docker-compose.demo.yml exec mcp-server env | grep ENTRA
 
 ### Browser flow doesn't work
 
-Make sure you have a callback listener on http://localhost:8080/callback or use the provided client examples that include a callback server.
+Make sure you have a callback listener on http://localhost:8080/callback
+or use the provided client examples that include a callback server.
 
 ## Next Steps
 

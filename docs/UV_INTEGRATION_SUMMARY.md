@@ -57,26 +57,26 @@ Complete integration of `uv` for Python environment and package management.
 
 ## Benefits of uv
 
-### Speed ⚡
+### Speed
 
 - **10-100x faster** than pip
 - Parallel downloads
 - Better caching
 - Rust-powered performance
 
-### Reliability 🔒
+### Reliability
 
 - **Lockfile** (`uv.lock`) ensures reproducible builds
 - Deterministic installs
 - Conflict resolution built-in
 
-### Simplicity 🎯
+### Simplicity
 
 - **No virtual env activation** needed
 - `uv run` handles everything
 - Automatic environment management
 
-### Compatibility 🔄
+### Compatibility
 
 - Works with existing Python tools
 - Standard pyproject.toml
@@ -179,9 +179,9 @@ GitHub Actions now uses uv:
 
 Benefits:
 
-- ✅ Faster builds (better caching)
-- ✅ Reproducible (uses uv.lock)
-- ✅ Simpler (fewer steps)
+- Faster builds (better caching)
+- Reproducible (uses uv.lock)
+- Simpler (fewer steps)
 
 ## Lockfile
 
@@ -239,7 +239,8 @@ uv sync --extra dev
 make test
 ```
 
-That's it! All your existing workflows work with `make` commands.
+That's it!
+All your existing workflows work with `make` commands.
 
 ## Backwards Compatibility
 
@@ -258,7 +259,8 @@ uv pip compile pyproject.toml -o requirements.txt
 
 ### Docker still works
 
-The Dockerfile hasn't changed. It can optionally be updated to use uv for faster builds.
+The Dockerfile hasn't changed.
+It can optionally be updated to use uv for faster builds.
 
 ### CI/CD still works
 
@@ -306,10 +308,10 @@ uv run pytest -m jwt
 
 Updated documentation:
 
-- ✅ UV_SETUP.md - Complete uv guide
-- ✅ TEST_QUICKSTART.md - Uses uv
-- ✅ QUICKSTART.md - Lists uv as prerequisite
-- ✅ Makefile - Self-documenting with `make help`
+- UV_SETUP.md - Complete uv guide
+- TEST_QUICKSTART.md - Uses uv
+- QUICKSTART.md - Lists uv as prerequisite
+- Makefile - Self-documenting with `make help`
 
 ## Troubleshooting
 
@@ -350,11 +352,11 @@ uv sync --extra dev
 
 ## Best Practices
 
-1. **Always commit `uv.lock`** ✅
-2. **Use `make` commands** - They handle uv for you ✅
-3. **Run `uv sync` after pulling** - Keep dependencies updated ✅
-4. **Use `uv run`** - No need to activate environments ✅
-5. **Use `--extra dev`** - For development dependencies ✅
+1. **Always commit `uv.lock`**
+2. **Use `make` commands** - They handle uv for you
+3. **Run `uv sync` after pulling** - Keep dependencies updated
+4. **Use `uv run`** - No need to activate environments
+5. **Use `--extra dev`** - For development dependencies
 
 ## Performance
 
@@ -373,21 +375,21 @@ uv sync --extra dev
 
 ### Developer Experience
 
-- ⚡ Faster `git pull` → test cycle
-- 🎯 Simpler commands (`uv run` vs activation)
-- 🔒 Reproducible environments (lockfile)
-- 📦 Better caching (disk and network)
+- Faster `git pull` -> test cycle
+- Simpler commands (`uv run` vs activation)
+- Reproducible environments (lockfile)
+- Better caching (disk and network)
 
 ## Summary
 
 **uv integration is complete and ready to use!**
 
-✅ All commands updated to use uv
-✅ CI/CD using uv
-✅ Documentation updated
-✅ Backwards compatible (make commands work the same)
-✅ Significantly faster
-✅ More reliable (lockfile)
+- All commands updated to use uv
+- CI/CD using uv
+- Documentation updated
+- Backwards compatible (make commands work the same)
+- Significantly faster
+- More reliable (lockfile)
 
 **To get started:**
 
@@ -402,7 +404,7 @@ cd mcp-server && make setup
 make watch
 ```
 
-**Everything works as before, but faster!** 🚀
+**Everything works as before, but faster!**
 
 ## Resources
 

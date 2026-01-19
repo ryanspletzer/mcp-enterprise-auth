@@ -8,7 +8,8 @@ This document summarizes all the artifacts created for the MCP with Proper Enter
 
 ### Root Level
 
-- **[CLAUDE.md](../CLAUDE.md)** - Comprehensive project documentation with architecture, configuration, and development roadmap
+- **[CLAUDE.md](../CLAUDE.md)** -
+  Comprehensive project documentation with architecture, configuration, and development roadmap
 - **[README.md](../README.md)** - Quick start guide and project overview
 - **[.env.example](../.env.example)** - Complete environment variable template with detailed comments
 - **[.gitignore](../.gitignore)** - Git ignore patterns for Python, Docker, AWS, secrets, etc.
@@ -74,7 +75,8 @@ Located in `docs/setup/`:
 
 ### Mermaid Sequence Diagrams
 
-All diagrams are in Mermaid format and can be rendered in GitHub, VS Code, or any Mermaid-compatible viewer:
+All diagrams are in Mermaid format and can be rendered in GitHub, VS Code,
+or any Mermaid-compatible viewer:
 
 1. **DCR Emulation Flow** - Shows how MCP server detects client type and returns appropriate credentials
 2. **Public Client Auth Flow** - Complete Authorization Code + PKCE flow with JWT validation
@@ -114,8 +116,8 @@ The following project structure has been documented in CLAUDE.md:
 ```text
 mcp-with-proper-enterprise-auth/
 ├── docs/
-│   ├── architecture/       # 6 architecture documents ✓
-│   ├── setup/              # 1 setup document ✓ (more to come)
+│   ├── architecture/       # 6 architecture documents
+│   ├── setup/              # 1 setup document (more to come)
 │   └── api/                # API docs (to be created)
 ├── mcp-server/             # FastAPI server (to be implemented)
 │   ├── app/
@@ -140,44 +142,44 @@ mcp-with-proper-enterprise-auth/
 
 ### OAuth 2.0 / OIDC Concepts
 
-- ✓ Authorization Code Grant
-- ✓ PKCE (Proof Key for Code Exchange)
-- ✓ Client Credentials Grant
-- ✓ Dynamic Client Registration (DCR) emulation
-- ✓ Delegated permissions vs application permissions
-- ✓ Public clients vs confidential clients
-- ✓ Service principals
+- Authorization Code Grant
+- PKCE (Proof Key for Code Exchange)
+- Client Credentials Grant
+- Dynamic Client Registration (DCR) emulation
+- Delegated permissions vs application permissions
+- Public clients vs confidential clients
+- Service principals
 
 ### JWT Validation
 
-- ✓ Signature verification with JWKS
-- ✓ Temporal claim validation (exp, nbf, iat)
-- ✓ Issuer and audience validation
-- ✓ Scope validation (scp claim)
-- ✓ Role validation (roles claim)
-- ✓ Token type detection (user vs app-only)
-- ✓ Clock skew tolerance
-- ✓ JWKS caching strategy
+- Signature verification with JWKS
+- Temporal claim validation (exp, nbf, iat)
+- Issuer and audience validation
+- Scope validation (scp claim)
+- Role validation (roles claim)
+- Token type detection (user vs app-only)
+- Clock skew tolerance
+- JWKS caching strategy
 
 ### Security Best Practices
 
-- ✓ Defense in depth (8 layers)
-- ✓ Fail-closed validation
-- ✓ HTTPS enforcement (production)
-- ✓ Rate limiting (DCR endpoints)
-- ✓ Token revocation support (optional)
-- ✓ No token logging
-- ✓ Secrets management
-- ✓ CORS configuration
+- Defense in depth (8 layers)
+- Fail-closed validation
+- HTTPS enforcement (production)
+- Rate limiting (DCR endpoints)
+- Token revocation support (optional)
+- No token logging
+- Secrets management
+- CORS configuration
 
 ### Entra ID Integration
 
-- ✓ App registration requirements (8 apps)
-- ✓ Scope exposure (mcp.read, mcp.write)
-- ✓ App role definition (MCP.Read.All, MCP.ReadWrite.All)
-- ✓ Redirect URI configuration
-- ✓ API permissions and admin consent
-- ✓ Tenant isolation
+- App registration requirements (8 apps)
+- Scope exposure (mcp.read, mcp.write)
+- App role definition (MCP.Read.All, MCP.ReadWrite.All)
+- Redirect URI configuration
+- API permissions and admin consent
+- Tenant isolation
 
 ## Development Roadmap
 
@@ -191,7 +193,7 @@ Documented in CLAUDE.md:
 - [ ] Example MCP clients for each flow
 - [ ] Unit tests
 
-### Phase 2: Testing & Documentation
+### Phase 2: Testing and Documentation
 
 - [ ] Integration tests for all flows
 - [ ] Entra ID setup guide
@@ -260,22 +262,22 @@ Documented in CLAUDE.md:
 
 ### From User
 
-1. ✓ How to handle clients without client_id? → DCR emulation
-2. ✓ How to validate JWTs properly? → 8-layer validation process
-3. ✓ How to support multiple client types? → Pre-registered apps + detection
-4. ✓ How to support both user and service principal tokens? → Token type detection (scp vs roles)
-5. ✓ How to deploy to Fargate and Agent Core? → Same codebase, different config
+1. How to handle clients without client_id? -> DCR emulation
+2. How to validate JWTs properly? -> 8-layer validation process
+3. How to support multiple client types? -> Pre-registered apps + detection
+4. How to support both user and service principal tokens? -> Token type detection (scp vs roles)
+5. How to deploy to Fargate and Agent Core? -> Same codebase, different config
 
 ### Decisions Made
 
-1. ✓ Use python-jose for JWT validation
-2. ✓ Use FastAPI for MCP server
-3. ✓ Implement DCR emulation (Entra ID doesn't support native DCR)
-4. ✓ Support both Auth Code + PKCE and Client Credentials flows
-5. ✓ Validate tokens comprehensively (signature, claims, scopes/roles)
-6. ✓ Cache JWKS with 24-hour TTL
-7. ✓ Optional token revocation with Redis
-8. ✓ Environment-based configuration
+1. Use python-jose for JWT validation
+2. Use FastAPI for MCP server
+3. Implement DCR emulation (Entra ID doesn't support native DCR)
+4. Support both Auth Code + PKCE and Client Credentials flows
+5. Validate tokens comprehensively (signature, claims, scopes/roles)
+6. Cache JWKS with 24-hour TTL
+7. Optional token revocation with Redis
+8. Environment-based configuration
 
 ## Files by Category
 
@@ -311,11 +313,11 @@ Documented in CLAUDE.md:
 
 With these artifacts, the project has:
 
-- ✓ Clear architecture and design
-- ✓ Comprehensive security model
-- ✓ Detailed implementation guidance
-- ✓ Environment configuration template
-- ✓ Development roadmap
+- Clear architecture and design
+- Comprehensive security model
+- Detailed implementation guidance
+- Environment configuration template
+- Development roadmap
 
 The next step is to begin Phase 1 implementation, starting with:
 

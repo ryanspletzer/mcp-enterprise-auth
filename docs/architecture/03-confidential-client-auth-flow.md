@@ -1,6 +1,7 @@
 # Confidential Client Authentication Flow (Auth Code + PKCE + Client Secret)
 
-This flow is used for confidential clients that have both client_id and client_secret. Still uses Auth Code flow for user context, but authenticates the client itself.
+This flow is used for confidential clients that have both client_id and client_secret.
+Still uses Auth Code flow for user context, but authenticates the client itself.
 
 ```mermaid
 sequenceDiagram

@@ -123,11 +123,11 @@ sequenceDiagram
     end
 
     alt All validations pass
-        MCP Server->>MCP Server: Token valid ✓
+        MCP Server->>MCP Server: Token valid
         MCP Server->>MCP Server: Process request
         MCP Server-->>MCP Client: Success response
     else Any validation fails
-        MCP Server->>MCP Server: Token invalid ✗
+        MCP Server->>MCP Server: Token invalid
         MCP Server-->>MCP Client: 401 Unauthorized
         Note left of MCP Server: {<br/>  "error": "invalid_token",<br/>  "error_description": "specific reason"<br/>}
     end
@@ -135,33 +135,34 @@ sequenceDiagram
 
 ## Validation Checklist
 
-### 1. Structure & Format ✓
+### 1. Structure and Format
 
 - [ ] JWT has three parts (header.payload.signature)
 - [ ] Base64URL decoding successful
 - [ ] JSON parsing successful
 
-### 2. Signature Verification ✓
+### 2. Signature Verification
 
 - [ ] JWKS retrieved and cached
 - [ ] Matching key found by `kid`
 - [ ] RS256 signature verified with public key
 - [ ] Signature is valid and not tampered
 
-### 3. Temporal Claims ✓
+### 3. Temporal Claims
 
 - [ ] `exp` (expiration) > current time (with 5-min skew)
 - [ ] `nbf` (not before) <= current time (with 5-min skew)
 - [ ] `iat` (issued at) is reasonable (not too old, not in future)
 
-### 4. Required Claims ✓
+### 4. Required Claims
 
 - [ ] `iss` (issuer) matches expected Entra ID endpoint
 - [ ] `aud` (audience) matches MCP server app ID
 - [ ] `tid` (tenant ID) matches allowed tenant(s)
 - [ ] `ver` (version) is "2.0" (AAD v2.0 tokens)
 
-### 5. Token Type & Permissions ✓
+### 5. Token Type and Permissions
+
 **For User Tokens (delegated):**
 
 - [ ] `scp` claim present with required scopes
@@ -175,7 +176,7 @@ sequenceDiagram
 - [ ] `appid` present (application ID)
 - [ ] `sub` equals `oid` (for app-only)
 
-### 6. Security Best Practices ✓
+### 6. Security Best Practices
 
 - [ ] Token not in revocation list (if applicable)
 - [ ] `acr` (auth context class) meets requirements (e.g., MFA)
@@ -257,7 +258,7 @@ from authlib.jose.rfc7517 import JsonWebKey
 
 ### Alternative: `PyJWT`
 
-```pythonw
+```python
 import jwt
 from cryptography.hazmat.primitives import serialization
 

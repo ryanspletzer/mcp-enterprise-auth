@@ -2,7 +2,7 @@
 
 Get up and running with the test suite in 2 minutes!
 
-## 🚀 Quick Setup
+## Quick Setup
 
 ```bash
 # 1. Install uv (if not already installed)
@@ -18,7 +18,7 @@ uv sync --extra dev
 make test
 ```
 
-## 🎯 Recommended Workflow for Claude Code
+## Recommended Workflow for Claude Code
 
 ### Option 1: Watch Mode (Best for Active Development)
 
@@ -40,10 +40,10 @@ Terminal 2 - Edit code:
 
 **Benefits:**
 
-- ✅ Instant feedback on code changes
-- ✅ See test results without switching windows
-- ✅ Catches errors immediately
-- ✅ Red/green feedback loop
+- Instant feedback on code changes
+- See test results without switching windows
+- Catches errors immediately
+- Red/green feedback loop
 
 ### Option 2: Quick Runs (Best for Check-ins)
 
@@ -56,9 +56,9 @@ make test
 
 # Or full CI checks
 make ci
-```bash
+```
 
-## 📊 Most Useful Commands
+## Most Useful Commands
 
 ```bash
 # Run all tests (verbose)
@@ -87,7 +87,7 @@ make test-failed
 make ci
 ```
 
-## 🏃 Running Specific Tests
+## Running Specific Tests
 
 ```bash
 # By marker
@@ -112,9 +112,9 @@ pytest -x
 pytest -s
 ```
 
-## 🎨 Understanding Test Output
+## Understanding Test Output
 
-### Success ✅
+### Success
 
 ```text
 tests/test_config.py::TestSettings::test_settings_from_env PASSED     [ 10%]
@@ -123,7 +123,7 @@ tests/test_config.py::TestSettings::test_entra_authority_property PASSED [ 20%]
 ================================ 25 passed in 2.35s ================================
 ```
 
-### Failure ❌
+### Failure
 
 ```text
 tests/test_jwt_validator.py::TestJWTValidator::test_validate_token FAILED [50%]
@@ -132,7 +132,7 @@ ________________________________ FAILURES ______________________________________
 AssertionError: Expected X but got Y
 ```
 
-### Watch Mode 👀
+### Watch Mode
 
 ```text
 ========================================
@@ -146,7 +146,7 @@ Clear: True
 [CHANGES DETECTED] Running tests...
 ```
 
-## 🔍 Debugging Failed Tests
+## Debugging Failed Tests
 
 If a test fails:
 
@@ -172,7 +172,7 @@ If a test fails:
    pytest --pdb  # Drops into debugger on failure
    ```
 
-## 📈 Coverage Reports
+## Coverage Reports
 
 ```bash
 # Generate coverage report
@@ -187,11 +187,11 @@ open htmlcov/index.html
 
 Coverage reports show:
 
-- ✅ Which lines are tested (green)
-- ❌ Which lines are not tested (red)
-- 📊 Coverage percentage per file
+- Which lines are tested (green)
+- Which lines are not tested (red)
+- Coverage percentage per file
 
-## ✍️ Writing Your Own Tests
+## Writing Your Own Tests
 
 ### 1. Create test file
 
@@ -232,14 +232,14 @@ def test_with_fixture(valid_user_token):
     assert len(valid_user_token) > 0
 ```
 
-## 🎓 Learning Resources
+## Learning Resources
 
 1. **Start here**: `tests/README.md` - Comprehensive testing guide
 2. **See examples**: Look at existing test files in `tests/`
 3. **Fixtures**: Check `tests/conftest.py` for available fixtures
 4. **Pytest docs**: https://docs.pytest.org/
 
-## ⚡ Pro Tips
+## Pro Tips
 
 1. **Keep watch mode running** while you code - instant feedback!
 2. **Use `make quick`** for fast check before commits
@@ -248,7 +248,7 @@ def test_with_fixture(valid_user_token):
 5. **Use fixtures** - Don't repeat setup code
 6. **Test one thing per test** - Makes failures easier to debug
 
-## 🐛 Common Issues
+## Common Issues
 
 ### "ModuleNotFoundError: No module named 'app'"
 
@@ -280,7 +280,7 @@ chmod +x scripts/test-watch.sh
 
 **Solution**: Check environment variables are set in `tests/conftest.py`
 
-## 🎯 Your First Test Run
+## Your First Test Run
 
 Try this right now:
 
@@ -296,7 +296,7 @@ pytest
 
 # 4. If all pass, try watch mode!
 make watch
-```text
+```
 
 Expected output:
 
@@ -310,7 +310,7 @@ tests/test_config.py::TestSettings::test_entra_authority_property PASSED [ 13%]
 ========================= 15 passed in 1.23s ===========================
 ```
 
-## 🚀 Next Steps
+## Next Steps
 
 1. **Run tests now** - Make sure everything works
 2. **Start watch mode** - Try the recommended workflow
@@ -320,6 +320,7 @@ tests/test_config.py::TestSettings::test_entra_authority_property PASSED [ 13%]
 
 ---
 
-**Happy Testing! 🎉**
+**Happy Testing!**
 
-The test suite is here to help you code with confidence. Use it!
+The test suite is here to help you code with confidence.
+Use it!

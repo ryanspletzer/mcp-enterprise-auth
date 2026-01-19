@@ -127,7 +127,7 @@ Complete test suite and infrastructure for the MCP server implementation.
 
 ### What's Tested
 
-#### Configuration Module ✅
+#### Configuration Module
 
 - [x] Settings loading from environment
 - [x] Property methods (ENTRA_AUTHORITY, JWKS_URL, etc.)
@@ -135,7 +135,7 @@ Complete test suite and infrastructure for the MCP server implementation.
 - [x] Default values
 - [x] Scope/role parsing (AND/OR logic)
 
-#### JWKS Cache ✅
+#### JWKS Cache
 
 - [x] Initial fetch
 - [x] Caching behavior (TTL)
@@ -144,7 +144,7 @@ Complete test suite and infrastructure for the MCP server implementation.
 - [x] Error handling (HTTP errors, invalid structure, empty keys)
 - [x] Cache properties (is_cached, cache_age)
 
-#### JWT Validator ✅
+#### JWT Validator
 
 - [x] Valid token validation
 - [x] Signature verification (mocked)
@@ -158,7 +158,7 @@ Complete test suite and infrastructure for the MCP server implementation.
 - [x] Future iat detection
 - [x] Claims sanitization
 
-#### Token Validator ✅
+#### Token Validator
 
 - [x] User token detection (by scp)
 - [x] App-only token detection (by idtyp, by missing scp)
@@ -169,7 +169,7 @@ Complete test suite and infrastructure for the MCP server implementation.
 - [x] AND logic for scopes
 - [x] OR logic for scopes/roles
 
-#### DCR Client Detector ✅
+#### DCR Client Detector
 
 - [x] VS Code detection (redirect_uri, User-Agent, name)
 - [x] Claude Desktop detection
@@ -180,7 +180,7 @@ Complete test suite and infrastructure for the MCP server implementation.
 - [x] Confidence scoring
 - [x] Edge cases (case-insensitive, None, empty strings)
 
-#### API Endpoints ✅
+#### API Endpoints
 
 - [x] Health check (/health)
 - [x] Readiness check (/ready)
@@ -226,9 +226,9 @@ make watch
    - Terminal 2: Edit code
 
 2. **See instant feedback:**
-   - Save file → tests auto-run
+   - Save file -> tests auto-run
    - Red = failing, Green = passing
-   - Fix and save → tests re-run
+   - Fix and save -> tests re-run
 
 3. **Before committing:**
 
@@ -466,14 +466,14 @@ make test-cov
 
 **Testing infrastructure is production-ready!**
 
-✅ 100+ test cases covering all major components
-✅ Comprehensive fixtures for easy test writing
-✅ Watch mode for rapid development
-✅ Full CI/CD pipeline with GitHub Actions
-✅ Multiple test categories and markers
-✅ Coverage tracking and reporting
-✅ Documentation and guides
-✅ Easy-to-use Makefile commands
+- 100+ test cases covering all major components
+- Comprehensive fixtures for easy test writing
+- Watch mode for rapid development
+- Full CI/CD pipeline with GitHub Actions
+- Multiple test categories and markers
+- Coverage tracking and reporting
+- Documentation and guides
+- Easy-to-use Makefile commands
 
 **Recommended workflow:**
 
@@ -485,4 +485,5 @@ make test-cov
 
 **Total testing infrastructure: ~2,000+ lines of code and documentation**
 
-The test suite ensures the MCP server's authentication and authorization components work correctly and will continue to work as we make changes!
+The test suite ensures the MCP server's authentication and authorization components work correctly
+and will continue to work as we make changes!

@@ -1,6 +1,7 @@
 # DCR Emulation Flow
 
-Since Entra ID doesn't support native Dynamic Client Registration (DCR), the MCP server emulates this by detecting the client type and returning pre-registered client credentials.
+Since Entra ID doesn't support native Dynamic Client Registration (DCR),
+the MCP server emulates this by detecting the client type and returning pre-registered client credentials.
 
 ```mermaid
 sequenceDiagram

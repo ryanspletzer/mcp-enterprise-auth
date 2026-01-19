@@ -1,55 +1,56 @@
 # MCP Public Client - No Credentials (DCR Flow)
 
-This example demonstrates a **public client without pre-configured credentials** that uses the MCP server's DCR (Dynamic Client Registration) emulation to obtain OAuth credentials.
+This example demonstrates a **public client without pre-configured credentials**
+that uses the MCP server's DCR (Dynamic Client Registration) emulation to obtain OAuth credentials.
 
 ## Flow Overview
 
 ```text
-┌──────────┐                 ┌────────────┐                ┌──────────┐
-│  Client  │                 │ MCP Server │                │ Entra ID │
-└────┬─────┘                 └─────┬──────┘                └────┬─────┘
-     │                             │                            │
-     │ 1. POST /dcr/register       │                            │
-     │─────────────────────────────>                            │
-     │    (no client_id)            │                            │
-     │                              │                            │
-     │ 2. DCR Response              │                            │
-     │<─────────────────────────────│                            │
-     │    (client_id, endpoints)    │                            │
-     │                              │                            │
-     │ 3. Authorization Code + PKCE │                            │
-     │────────────────────────────────────────────────────────────>
-     │    (using client_id from DCR)│                            │
-     │                              │                            │
-     │ 4. Authorization Code        │                            │
-     │<────────────────────────────────────────────────────────────
-     │                              │                            │
-     │ 5. Exchange code for token   │                            │
-     │────────────────────────────────────────────────────────────>
-     │                              │                            │
-     │ 6. Access Token              │                            │
-     │<────────────────────────────────────────────────────────────
-     │                              │                            │
-     │ 7. Call MCP API with token   │                            │
-     │─────────────────────────────>│                            │
-     │                              │ 8. Validate JWT            │
-     │                              │────────────────────────────>
-     │                              │                            │
-     │                              │ 9. JWKS + validation       │
-     │                              │<────────────────────────────
-     │                              │                            │
-     │ 10. MCP Response             │                            │
-     │<─────────────────────────────│                            │
++-----------+                 +-------------+                +-----------+
+|  Client   |                 | MCP Server  |                | Entra ID  |
++-----+-----+                 +------+------+                +-----+-----+
+      |                              |                             |
+      | 1. POST /dcr/register        |                             |
+      |----------------------------->|                             |
+      |    (no client_id)            |                             |
+      |                              |                             |
+      | 2. DCR Response              |                             |
+      |<-----------------------------|                             |
+      |    (client_id, endpoints)    |                             |
+      |                              |                             |
+      | 3. Authorization Code + PKCE |                             |
+      |----------------------------------------------------------->|
+      |    (using client_id from DCR)|                             |
+      |                              |                             |
+      | 4. Authorization Code        |                             |
+      |<-----------------------------------------------------------|
+      |                              |                             |
+      | 5. Exchange code for token   |                             |
+      |----------------------------------------------------------->|
+      |                              |                             |
+      | 6. Access Token              |                             |
+      |<-----------------------------------------------------------|
+      |                              |                             |
+      | 7. Call MCP API with token   |                             |
+      |----------------------------->|                             |
+      |                              | 8. Validate JWT             |
+      |                              |---------------------------->|
+      |                              |                             |
+      |                              | 9. JWKS + validation        |
+      |                              |<----------------------------|
+      |                              |                             |
+      | 10. MCP Response             |                             |
+      |<-----------------------------|                             |
 ```
 
 ## Key Features
 
-- ✅ **No pre-configured client_id** - Relies on DCR emulation
-- ✅ **Client detection** - Server detects client type from redirect_uri/User-Agent
-- ✅ **OAuth Authorization Code + PKCE** - Secure public client flow
-- ✅ **Interactive browser flow** - Opens browser for user login
-- ✅ **Local callback server** - Receives OAuth callback
-- ✅ **Structured logging** - Clear visibility into each step
+- **No pre-configured client_id** - Relies on DCR emulation
+- **Client detection** - Server detects client type from redirect_uri/User-Agent
+- **OAuth Authorization Code + PKCE** - Secure public client flow
+- **Interactive browser flow** - Opens browser for user login
+- **Local callback server** - Receives OAuth callback
+- **Structured logging** - Clear visibility into each step
 
 ## Prerequisites
 
@@ -82,7 +83,8 @@ python client.py
 
 ### Step 1: DCR Registration
 
-The client calls the MCP server's `/dcr/register` endpoint **without** providing a `client_id`. The server:
+The client calls the MCP server's `/dcr/register` endpoint **without** providing a `client_id`.
+The server:
 
 1. Examines the `redirect_uri` (e.g., `http://localhost:8080/callback`)
 2. Checks the `User-Agent` header
@@ -185,7 +187,8 @@ docker run --rm \
   mcp-client-no-creds
 ```
 
-**Note:** Interactive browser flow may not work in Docker. Consider using network mode or running locally.
+**Note:** Interactive browser flow may not work in Docker.
+Consider using network mode or running locally.
 
 ## Customization
 
@@ -241,11 +244,11 @@ And update the Entra ID app registration redirect URIs accordingly.
 
 ## Security Notes
 
-- ✅ **PKCE required** - Protects against authorization code interception
-- ✅ **Public client** - No client_secret (can't be kept secret in browser/desktop app)
-- ✅ **Local redirect** - Callback to localhost only
-- ⚠️ **User interaction required** - Not suitable for automated/headless scenarios
-- ⚠️ **Token storage** - Access token is in memory only (not persisted)
+- **PKCE required** - Protects against authorization code interception
+- **Public client** - No client_secret (can't be kept secret in browser/desktop app)
+- **Local redirect** - Callback to localhost only
+- **User interaction required** - Not suitable for automated/headless scenarios
+- **Token storage** - Access token is in memory only (not persisted)
 
 ## Next Steps
 

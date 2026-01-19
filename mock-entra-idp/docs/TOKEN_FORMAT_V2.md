@@ -1,6 +1,7 @@
 # Entra ID v2.0 Token Format
 
-This document describes the exact v2.0 token format implemented by the mock Entra ID service, matching the official Microsoft Entra ID specification.
+This document describes the exact v2.0 token format implemented by the mock Entra ID service,
+matching the official Microsoft Entra ID specification.
 
 ## References
 
@@ -51,33 +52,31 @@ Issued when a user delegates permissions to an application via authorization cod
 }
 ```
 
-​
-
 ### Claim Descriptions
 
 | Claim | Type | Required | Description | V2 Specific |
 | ------- | ------ | ---------- | ------------- | ------------- |
 | **Standard OIDC Claims** | | | | |
-| `aud` | String | ✅ | Token audience (always API application ID in v2.0) | ✅ |
-| `iss` | String | ✅ | Issuer URL (ends with `/v2.0` for v2 tokens) | ✅ |
-| `iat` | Integer | ✅ | Issued at (Unix timestamp) | |
-| `nbf` | Integer | ✅ | Not before (Unix timestamp) | |
-| `exp` | Integer | ✅ | Expiration time (Unix timestamp) | |
+| `aud` | String | Yes | Token audience (always API application ID in v2.0) | Yes |
+| `iss` | String | Yes | Issuer URL (ends with `/v2.0` for v2 tokens) | Yes |
+| `iat` | Integer | Yes | Issued at (Unix timestamp) | |
+| `nbf` | Integer | Yes | Not before (Unix timestamp) | |
+| `exp` | Integer | Yes | Expiration time (Unix timestamp) | |
 | **User Identity Claims** | | | | |
-| `sub` | String | ✅ | Subject (immutable user ID per app) | |
-| `oid` | String | ✅ | Object ID (immutable user ID across tenant) | |
-| `tid` | String | ✅ | Tenant ID | |
-| `preferred_username` | String | ✅ | User's email or UPN | ✅ |
-| `name` | String | ✅ | User's display name | |
+| `sub` | String | Yes | Subject (immutable user ID per app) | |
+| `oid` | String | Yes | Object ID (immutable user ID across tenant) | |
+| `tid` | String | Yes | Tenant ID | |
+| `preferred_username` | String | Yes | User's email or UPN | Yes |
+| `name` | String | Yes | User's display name | |
 | **Authorization Claims** | | | | |
-| `scp` | String | ✅ | Space-separated scopes (delegated permissions) | ✅ |
+| `scp` | String | Yes | Space-separated scopes (delegated permissions) | Yes |
 | **Client Claims** | | | | |
-| `appid` | String | ✅ | Client application ID (v1 compat) | |
-| `azp` | String | ✅ | Authorized party (client app ID) | ✅ |
-| `azpacr` | String | ✅ | Client auth method: `"0"`=public, `"1"`=secret, `"2"`=cert | ✅ |
+| `appid` | String | Yes | Client application ID (v1 compat) | |
+| `azp` | String | Yes | Authorized party (client app ID) | Yes |
+| `azpacr` | String | Yes | Client auth method: `"0"`=public, `"1"`=secret, `"2"`=cert | Yes |
 | **Token Metadata** | | | | |
-| `ver` | String | ✅ | Token version (always `"2.0"`) | ✅ |
-| `uti` | String | ✅ | Unique token identifier | |
+| `ver` | String | Yes | Token version (always `"2.0"`) | Yes |
+| `uti` | String | Yes | Unique token identifier | |
 
 ## App-Only (Service Principal) Token Claims
 
@@ -106,34 +105,32 @@ Issued when an application acts on its own behalf via client credentials flow.
 }
 ```
 
-​
-
 ### Claim Descriptions
 
 | Claim | Type | Required | Description | V2 Specific |
 | ------- | ------ | ---------- | ------------- | ------------- |
 | **Standard OIDC Claims** | | | | |
-| `aud` | String | ✅ | Token audience (always API application ID in v2.0) | ✅ |
-| `iss` | String | ✅ | Issuer URL (ends with `/v2.0` for v2 tokens) | ✅ |
-| `iat` | Integer | ✅ | Issued at (Unix timestamp) | |
-| `nbf` | Integer | ✅ | Not before (Unix timestamp) | |
-| `exp` | Integer | ✅ | Expiration time (Unix timestamp) | |
+| `aud` | String | Yes | Token audience (always API application ID in v2.0) | Yes |
+| `iss` | String | Yes | Issuer URL (ends with `/v2.0` for v2 tokens) | Yes |
+| `iat` | Integer | Yes | Issued at (Unix timestamp) | |
+| `nbf` | Integer | Yes | Not before (Unix timestamp) | |
+| `exp` | Integer | Yes | Expiration time (Unix timestamp) | |
 | **Service Principal Identity Claims** | | | | |
-| `sub` | String | ✅ | Subject (service principal object ID) | |
-| `oid` | String | ✅ | Object ID (service principal object ID) | |
-| `tid` | String | ✅ | Tenant ID | |
+| `sub` | String | Yes | Subject (service principal object ID) | |
+| `oid` | String | Yes | Object ID (service principal object ID) | |
+| `tid` | String | Yes | Tenant ID | |
 | **Authorization Claims** | | | | |
-| `roles` | Array | ✅ | Application roles (application permissions) | ✅ |
+| `roles` | Array | Yes | Application roles (application permissions) | Yes |
 | **Client Claims** | | | | |
-| `appid` | String | ✅ | Client application ID (v1 compat) | |
-| `azp` | String | ✅ | Authorized party (client app ID) | ✅ |
-| `azpacr` | String | ✅ | Client auth method: `"1"`=secret, `"2"`=cert | ✅ |
-| `app_displayname` | String | ✅ | Service principal display name | |
+| `appid` | String | Yes | Client application ID (v1 compat) | |
+| `azp` | String | Yes | Authorized party (client app ID) | Yes |
+| `azpacr` | String | Yes | Client auth method: `"1"`=secret, `"2"`=cert | Yes |
+| `app_displayname` | String | Yes | Service principal display name | |
 | **Token Type Indicator** | | | | |
-| `idtyp` | String | ✅ | **CRITICAL** - Always `"app"` for app-only tokens | ✅ |
+| `idtyp` | String | Yes | **CRITICAL** - Always `"app"` for app-only tokens | Yes |
 | **Token Metadata** | | | | |
-| `ver` | String | ✅ | Token version (always `"2.0"`) | ✅ |
-| `uti` | String | ✅ | Unique token identifier | |
+| `ver` | String | Yes | Token version (always `"2.0"`) | Yes |
+| `uti` | String | Yes | Unique token identifier | |
 
 ## Key Differences: V1.0 vs V2.0
 
@@ -143,7 +140,7 @@ Issued when an application acts on its own behalf via client credentials flow.
 | **Issuer format** | `https://sts.windows.net/{tenant}/` | `https://login.microsoftonline.com/{tenant}/v2.0` |
 | **Client ID claim** | `appid` only | `azp` (with `appid` for compat) |
 | **Client auth claim** | `appidacr` | `azpacr` |
-| **App-only indicator** | ❌ No specific claim | ✅ `"idtyp": "app"` |
+| **App-only indicator** | No specific claim | `"idtyp": "app"` |
 | **Audience format** | Can be resource URI | Always client ID |
 | **User claims** | `upn`, `unique_name` | `preferred_username` |
 
@@ -163,8 +160,6 @@ else:
     check_scopes(token.get("scp", ""))
 ```
 
-​
-
 ### 2. Client Authentication Method (`azpacr`)
 
 The `azpacr` claim indicates how the client authenticated:
@@ -182,8 +177,6 @@ if azpacr == "2":
     grant_privileged_access()
 ```
 
-​
-
 ### 3. Issuer Validation
 
 V2.0 tokens **MUST** have issuer ending in `/v2.0`:
@@ -197,11 +190,10 @@ V2.0 tokens **MUST** have issuer ending in `/v2.0`:
 "https://sts.windows.net/{tenant}/"
 ```
 
-​
-
 ### 4. Audience Claim
 
-In v2.0, `aud` is **always** the application ID (not resource URI):
+In v2.0,
+`aud` is **always** the application ID (not resource URI):
 
 ```text
 # V2.0: Always client ID format
@@ -214,7 +206,8 @@ In v2.0, `aud` is **always** the application ID (not resource URI):
 
 ## Optional Claims (Not Included by Default)
 
-These claims require explicit configuration via [optional claims](https://learn.microsoft.com/en-us/entra/identity-platform/optional-claims-reference):
+These claims require explicit configuration via
+[optional claims](https://learn.microsoft.com/en-us/entra/identity-platform/optional-claims-reference):
 
 | Claim | Description |
 | ------- | ------------- |
@@ -266,11 +259,11 @@ if "MCP.ReadWrite.All" not in roles:
 
 ### Security Notes
 
-- ⚠️ **Never use mutable claims** (`name`, `preferred_username`) for authorization
-- ✅ **Use `oid`** as the immutable user identifier
-- ✅ **Use `idtyp`** to distinguish app vs user tokens
-- ✅ **Validate `azpacr`** for trust level decisions
-- ⚠️ **Don't assume claim order or presence** - always check with `.get()`
+- Never use mutable claims (`name`, `preferred_username`) for authorization
+- Use `oid` as the immutable user identifier
+- Use `idtyp` to distinguish app vs user tokens
+- Validate `azpacr` for trust level decisions
+- Don't assume claim order or presence - always check with `.get()`
 
 ## Example Token Validation
 
@@ -336,12 +329,12 @@ curl -X POST "http://localhost:8001/oauth2/v2.0/token" \
 
 The mock Entra ID implementation provides **100% compliant v2.0 tokens** with:
 
-✅ All required v2.0 claims
-✅ Correct header format (`typ`, `alg`, `kid`)
-✅ `idtyp: "app"` for app-only tokens
-✅ `azpacr` for client authentication method
-✅ `ver: "2.0"` version indicator
-✅ Issuer ending in `/v2.0`
-✅ Both `azp` and `appid` for compatibility
-✅ `scp` for user tokens, `roles` for app tokens
-❌ No v1.0 legacy claims (unless explicitly requested)
+- All required v2.0 claims
+- Correct header format (`typ`, `alg`, `kid`)
+- `idtyp: "app"` for app-only tokens
+- `azpacr` for client authentication method
+- `ver: "2.0"` version indicator
+- Issuer ending in `/v2.0`
+- Both `azp` and `appid` for compatibility
+- `scp` for user tokens, `roles` for app tokens
+- No v1.0 legacy claims (unless explicitly requested)

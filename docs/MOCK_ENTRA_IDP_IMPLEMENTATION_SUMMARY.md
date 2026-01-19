@@ -1,6 +1,7 @@
 # Mock Entra ID Implementation Summary
 
-Complete implementation of a standalone mock OAuth 2.0/OIDC token issuer that emulates Microsoft Entra ID for testing and demos.
+Complete implementation of a standalone mock OAuth 2.0/OIDC token issuer
+that emulates Microsoft Entra ID for testing and demos.
 
 ## Overview
 
@@ -282,55 +283,55 @@ def verify_code_challenge(
 
 **KeyManager Tests:**
 
-- ✅ Initialization with default key
-- ✅ Get current signing key
-- ✅ JWKS generation
-- ✅ Key rotation
-- ✅ JWKS after rotation
+- Initialization with default key
+- Get current signing key
+- JWKS generation
+- Key rotation
+- JWKS after rotation
 
 **JWT Issuer Tests:**
 
-- ✅ Issue user token with correct claims
-- ✅ Issue app-only token with idtyp="app"
-- ✅ Issue refresh token (opaque string)
-- ✅ Token has kid header
+- Issue user token with correct claims
+- Issue app-only token with idtyp="app"
+- Issue refresh token (opaque string)
+- Token has kid header
 
 **PKCE Tests:**
 
-- ✅ Validate code challenge methods
-- ✅ Generate code verifier
-- ✅ Generate code challenge (S256 and plain)
-- ✅ Verify code challenge (valid and invalid)
+- Validate code challenge methods
+- Generate code verifier
+- Generate code challenge (S256 and plain)
+- Verify code challenge (valid and invalid)
 
 ### Integration Tests (180+ lines, 10+ tests)
 
 **Authorization Code Flow:**
 
-- ✅ Authorization endpoint renders login
-- ✅ PKCE required for public clients
-- ✅ Invalid client rejected
+- Authorization endpoint renders login
+- PKCE required for public clients
+- Invalid client rejected
 
 **Token Endpoint:**
 
-- ✅ Client credentials grant success
-- ✅ Invalid client secret rejected
-- ✅ Unsupported grant type rejected
+- Client credentials grant success
+- Invalid client secret rejected
+- Unsupported grant type rejected
 
 **Discovery:**
 
-- ✅ JWKS endpoint returns public keys
-- ✅ OIDC discovery metadata
-- ✅ Health check
+- JWKS endpoint returns public keys
+- OIDC discovery metadata
+- Health check
 
 ### Playwright E2E Tests (80+ lines)
 
 **Service Principal Flow:**
 
-- ✅ Obtain app-only token
-- ✅ Verify token claims (idtyp="app", roles)
-- ✅ Call MCP server /api/me
-- ✅ Initialize MCP connection
-- ✅ Invalid credentials rejected
+- Obtain app-only token
+- Verify token claims (idtyp="app", roles)
+- Call MCP server /api/me
+- Initialize MCP connection
+- Invalid credentials rejected
 
 ## Demo Infrastructure
 
@@ -378,8 +379,8 @@ Mock Entra ID + MCP Server Demo
 
 [1/6] Starting services...
 [2/6] Waiting for services to be healthy...
-Waiting for Mock IdP ✓
-Waiting for MCP Server ✓
+Waiting for Mock IdP
+Waiting for MCP Server
 
 All services are healthy!
 
@@ -391,7 +392,7 @@ All services are healthy!
 [5/6] Demo: Service Principal Flow
 -----------------------------------
 Getting access token via client_credentials grant...
-✓ Access token obtained
+Access token obtained
 
 Token claims (decoded):
 {
@@ -402,7 +403,7 @@ Token claims (decoded):
   ...
 }
 
-✓ MCP Server response:
+MCP Server response:
 {
   "token_type": "app_only",
   "identity": { ... }
@@ -499,7 +500,7 @@ CLAUDE_CODE_CLIENT_ID=33333333-3333-3333-3333-333333333333
    - Required scopes/roles present
 5. MCP server allows access
 
-**Compatibility:** ✅ 100% compatible with existing MCP server JWT validation
+**Compatibility:** 100% compatible with existing MCP server JWT validation
 
 ## Usage Examples
 
@@ -660,14 +661,14 @@ python -m uvicorn app.main:app --reload --port 8000
 
 ## Security Features
 
-✅ **PKCE Enforcement** - Required for public clients
-✅ **Single-use Codes** - Authorization codes marked as used
-✅ **Code Expiration** - 10-minute TTL for auth codes
-✅ **Token Expiration** - Configurable TTLs
-✅ **Client Authentication** - Secret validation for confidential clients
-✅ **Redirect URI Validation** - Exact match required
-✅ **State Parameter** - CSRF protection
-✅ **RS256 Signing** - Asymmetric key signatures
+- **PKCE Enforcement** - Required for public clients
+- **Single-use Codes** - Authorization codes marked as used
+- **Code Expiration** - 10-minute TTL for auth codes
+- **Token Expiration** - Configurable TTLs
+- **Client Authentication** - Secret validation for confidential clients
+- **Redirect URI Validation** - Exact match required
+- **State Parameter** - CSRF protection
+- **RS256 Signing** - Asymmetric key signatures
 
 ## Future Enhancements
 
@@ -685,34 +686,34 @@ python -m uvicorn app.main:app --reload --port 8000
 
 **What was built:**
 
-- ✅ Standalone mock Entra ID OAuth 2.0/OIDC server
-- ✅ Complete token issuance (user & app-only)
-- ✅ All OAuth grant types (authorization_code, refresh_token, client_credentials)
-- ✅ PKCE implementation and validation
-- ✅ Realistic Microsoft-styled UI
-- ✅ RSA key generation and JWKS endpoint
-- ✅ Pre-seeded test clients, users, and service principals
-- ✅ 25+ unit and integration tests
-- ✅ Playwright E2E browser automation
-- ✅ Docker Compose demo environment
-- ✅ Interactive demo scripts
-- ✅ Comprehensive documentation
+- Standalone mock Entra ID OAuth 2.0/OIDC server
+- Complete token issuance (user & app-only)
+- All OAuth grant types (authorization_code, refresh_token, client_credentials)
+- PKCE implementation and validation
+- Realistic Microsoft-styled UI
+- RSA key generation and JWKS endpoint
+- Pre-seeded test clients, users, and service principals
+- 25+ unit and integration tests
+- Playwright E2E browser automation
+- Docker Compose demo environment
+- Interactive demo scripts
+- Comprehensive documentation
 
 **Ready for:**
 
-- ✅ Testing OAuth flows without real Entra ID
-- ✅ Demos and presentations
-- ✅ CI/CD integration testing
-- ✅ Development without Azure subscriptions
-- ✅ MCP client development and testing
-- ✅ Learning OAuth 2.0/OIDC flows
+- Testing OAuth flows without real Entra ID
+- Demos and presentations
+- CI/CD integration testing
+- Development without Azure subscriptions
+- MCP client development and testing
+- Learning OAuth 2.0/OIDC flows
 
 **Standards compliance:**
 
-- ✅ OAuth 2.0 RFC 6749
-- ✅ PKCE RFC 7636
-- ✅ OpenID Connect Core 1.0
-- ✅ JWT RFC 7519
-- ✅ JWKS RFC 7517
+- OAuth 2.0 RFC 6749
+- PKCE RFC 7636
+- OpenID Connect Core 1.0
+- JWT RFC 7519
+- JWKS RFC 7517
 
-The mock Entra ID is now fully functional and production-ready for testing and demos! 🎉
+The mock Entra ID is now fully functional and production-ready for testing and demos!

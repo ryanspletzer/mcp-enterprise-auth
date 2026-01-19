@@ -1,6 +1,7 @@
 # MCP Client Examples
 
-This directory contains example MCP clients demonstrating all OAuth flows supported by the MCP server with proper enterprise authentication.
+This directory contains example MCP clients demonstrating all OAuth flows supported
+by the MCP server with proper enterprise authentication.
 
 ## Overview
 
@@ -37,7 +38,7 @@ python client.py
 # Option 3: With client_id and client_secret (backend)
 cd confidential-client
 python client.py
-```text
+```
 
 **For automated/headless scenarios:**
 
@@ -74,11 +75,11 @@ python client.py
 
 **Security:**
 
-- ✅ PKCE protects against code interception
-- ✅ No secrets (public client)
-- ⚠️ Relies on server-side client detection
+- PKCE protects against code interception
+- No secrets (public client)
+- Relies on server-side client detection
 
-[Full documentation →](./public-client-without-client-id/README.md)
+[Full documentation](./public-client-without-client-id/README.md)
 
 ---
 
@@ -109,12 +110,12 @@ python client.py
 
 **Security:**
 
-- ✅ PKCE protects against code interception
-- ✅ State parameter for CSRF protection
-- ✅ No secrets (public client)
-- ✅ Standard OAuth flow
+- PKCE protects against code interception
+- State parameter for CSRF protection
+- No secrets (public client)
+- Standard OAuth flow
 
-[Full documentation →](./public-client-with-client-id/README.md)
+[Full documentation](./public-client-with-client-id/README.md)
 
 ---
 
@@ -145,13 +146,13 @@ python client.py
 
 **Security:**
 
-- ✅ Client secret authenticates the client
-- ✅ PKCE adds defense in depth
-- ✅ State parameter for CSRF protection
-- ✅ Higher trust level than public clients
-- ⚠️ Must securely store client_secret
+- Client secret authenticates the client
+- PKCE adds defense in depth
+- State parameter for CSRF protection
+- Higher trust level than public clients
+- Must securely store client_secret
 
-[Full documentation →](./confidential-client/README.md)
+[Full documentation](./confidential-client/README.md)
 
 ---
 
@@ -182,13 +183,13 @@ python client.py
 
 **Security:**
 
-- ✅ No user interaction required
-- ✅ App-only permissions (application roles)
-- ✅ Suitable for trusted environments
-- ⚠️ Must securely store client_secret
-- ⚠️ Higher privileges (use least privilege principle)
+- No user interaction required
+- App-only permissions (application roles)
+- Suitable for trusted environments
+- Must securely store client_secret
+- Higher privileges (use least privilege principle)
 
-[Full documentation →](./service-principal/README.md)
+[Full documentation](./service-principal/README.md)
 
 ## Setup Instructions
 
@@ -227,7 +228,8 @@ python client.py
 
 ## Entra ID Configuration
 
-Each client type requires specific Entra ID configuration. See the [Entra ID Setup Guide](../docs/setup/entra-id-setup.md) for detailed instructions.
+Each client type requires specific Entra ID configuration.
+See the [Entra ID Setup Guide](../docs/setup/entra-id-setup.md) for detailed instructions.
 
 ### Quick Reference
 
@@ -270,27 +272,27 @@ See [docker-compose.yml](./docker-compose.yml) for configuration.
 
 ```text
 Need to authenticate with MCP server?
-│
-├─ YES, with user context (delegated permissions)
-│  │
-│  ├─ Do you have a pre-registered client_id?
-│  │  │
-│  │  ├─ NO
-│  │  │  └─> Use: public-client-without-client-id (DCR flow)
-│  │  │
-│  │  └─ YES
-│  │     │
-│  │     ├─ Can you securely store a client_secret?
-│  │     │  │
-│  │     │  ├─ NO (browser/mobile/desktop)
-│  │     │  │  └─> Use: public-client-with-client-id
-│  │     │  │
-│  │     │  └─ YES (backend/server)
-│  │     │     └─> Use: confidential-client
-│  │     │
-│  │
-└─ NO, machine-to-machine (no user)
-   └─> Use: service-principal (Client Credentials)
+|
++- YES, with user context (delegated permissions)
+|  |
+|  +- Do you have a pre-registered client_id?
+|  |  |
+|  |  +- NO
+|  |  |  --> Use: public-client-without-client-id (DCR flow)
+|  |  |
+|  |  +- YES
+|  |     |
+|  |     +- Can you securely store a client_secret?
+|  |     |  |
+|  |     |  +- NO (browser/mobile/desktop)
+|  |     |  |  --> Use: public-client-with-client-id
+|  |     |  |
+|  |     |  +- YES (backend/server)
+|  |     |     --> Use: confidential-client
+|  |     |
+|  |
++- NO, machine-to-machine (no user)
+   --> Use: service-principal (Client Credentials)
 ```
 
 ## Token Types
@@ -384,26 +386,26 @@ logging.basicConfig(level=logging.DEBUG)
 
 ### All Clients
 
-- ✅ Never commit `.env` files with real credentials
-- ✅ Use HTTPS in production
-- ✅ Validate all tokens server-side
-- ✅ Implement token refresh before expiration
-- ✅ Handle errors gracefully
+- Never commit `.env` files with real credentials
+- Use HTTPS in production
+- Validate all tokens server-side
+- Implement token refresh before expiration
+- Handle errors gracefully
 
 ### Public Clients
 
-- ✅ Always use PKCE
-- ✅ Validate state parameter
-- ✅ Use local redirect URIs for desktop apps
-- ⚠️ Cannot securely store secrets
+- Always use PKCE
+- Validate state parameter
+- Use local redirect URIs for desktop apps
+- Cannot securely store secrets
 
 ### Confidential Clients & Service Principals
 
-- ✅ Store secrets securely (Key Vault, environment variables, not code)
-- ✅ Rotate secrets regularly
-- ✅ Use managed identities when possible (Azure)
-- ✅ Apply least privilege principle
-- ✅ Monitor and audit usage
+- Store secrets securely (Key Vault, environment variables, not code)
+- Rotate secrets regularly
+- Use managed identities when possible (Azure)
+- Apply least privilege principle
+- Monitor and audit usage
 
 ## Development Workflow
 
@@ -466,7 +468,3 @@ For issues or questions:
 2. Review [troubleshooting section](../README.md#troubleshooting) in main README
 3. Check MCP server logs for validation errors
 4. Open an issue in the repository
-
----
-
-**Happy authenticating!** 🔐

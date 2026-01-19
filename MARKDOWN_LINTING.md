@@ -27,53 +27,40 @@ Markdown linting is configured in `.markdownlint.json` with the following key ru
 
 ## Code Block Language Requirements
 
-**All code blocks MUST specify a language**, even if it's just `text`:
+**All code blocks MUST specify a language**,
+even if it's just `text`:
 
 ````markdown
-<!-- ❌ WRONG -->
+<!-- WRONG -->
 ```
-
 some content
-
 ```
 
-<!-- ✅ CORRECT -->
+<!-- CORRECT -->
 ```text
-
 some content
-
 ```
 
-<!-- ✅ CORRECT - Common languages -->
+<!-- CORRECT - Common languages -->
 ```bash
-
 echo "Shell commands"
-
 ```
 
 ```python
-
 def example():
     pass
-
 ```
 
 ```json
-
 {"key": "value"}
-
 ```
 
 ```yaml
-
 key: value
-
 ```
 
 ```typescript
-
 const x: string = "typed";
-
 ```
 ````
 
@@ -177,9 +164,11 @@ The extension will automatically:
 
 Most editors support markdownlint via plugins:
 
-- **Vim/Neovim**: [ALE](https://github.com/dense-analysis/ale) or [coc-markdownlint](https://github.com/fannheyward/coc-markdownlint)
+- **Vim/Neovim**: [ALE](https://github.com/dense-analysis/ale)
+  or [coc-markdownlint](https://github.com/fannheyward/coc-markdownlint)
 - **Emacs**: [flycheck-markdownlint](https://github.com/prosains/flycheck-markdownlint)
-- **Sublime Text**: [SublimeLinter-contrib-markdownlint](https://github.com/jonlabelle/SublimeLinter-contrib-markdownlint)
+- **Sublime Text**:
+  [SublimeLinter-contrib-markdownlint](https://github.com/jonlabelle/SublimeLinter-contrib-markdownlint)
 
 ## CI Integration
 
@@ -209,9 +198,7 @@ jobs:
 
 ````markdown
 ```
-
 code here
-
 ```
 ````
 
@@ -219,9 +206,7 @@ code here
 
 ````markdown
 ```text
-
 code here
-
 ```
 ````
 
@@ -279,7 +264,8 @@ code here
 
 ## Manual Override
 
-To disable a rule for a specific file, add a comment at the top:
+To disable a rule for a specific file,
+add a comment at the top:
 
 ````markdown
 <!-- markdownlint-disable MD013 -->
@@ -296,11 +282,12 @@ To disable a rule for a specific line:
 
 ## Summary
 
-- ✅ All code blocks have language specifiers
-- ✅ Consistent heading hierarchy
-- ✅ Consistent list formatting
-- ✅ ATX-style headings
-- ✅ Single top-level heading per file
-- ✅ Limited inline HTML
+- All code blocks have language specifiers
+- Consistent heading hierarchy
+- Consistent list formatting
+- ATX-style headings
+- Single top-level heading per file
+- Limited inline HTML
 
-Run `python3 fix-markdown.py`, `python3 fix-md032.py`, and `python3 fix-md031.py` to auto-fix most issues, then `./lint-markdown.sh` to validate.
+Run `python3 fix-markdown.py`, `python3 fix-md032.py`, and `python3 fix-md031.py` to auto-fix most issues,
+then `./lint-markdown.sh` to validate.

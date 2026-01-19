@@ -1,6 +1,7 @@
 # Public Client Authentication Flow (Auth Code + PKCE)
 
-This flow is used for public clients (both those that obtained client_id via DCR and those that already have one).
+This flow is used for public clients
+(both those that obtained client_id via DCR and those that already have one).
 
 ```mermaid
 sequenceDiagram

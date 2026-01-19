@@ -96,7 +96,9 @@ curl -X POST http://localhost:8000/dcr/register \
 
 ### Test JWT Validation (with real token)
 
-First, get a token from Entra ID using OAuth flow. Here's a quick way using `curl`:
+First,
+get a token from Entra ID using OAuth flow.
+Here's a quick way using `curl`:
 
 ```bash
 # Step 1: Get authorization code (open in browser)
@@ -154,7 +156,8 @@ You'll see interactive API documentation with all endpoints.
 
 ## Step 5: Test with Mock Authentication (Optional, for Testing Only)
 
-**WARNING**: Only for local testing! Never enable in production!
+**WARNING**: Only for local testing!
+Never enable in production!
 
 ```bash
 # Edit .env
@@ -181,7 +184,8 @@ docker-compose config | grep ENTRA_TENANT_ID
 
 ### DCR returns wrong client_id
 
-The client detection is based on redirect_uri and User-Agent. Try:
+The client detection is based on redirect_uri and User-Agent.
+Try:
 
 1. Match redirect_uri exactly (e.g., `vscode://mcp-auth/callback`)
 2. Include appropriate User-Agent header
@@ -227,7 +231,8 @@ The client detection is based on redirect_uri and User-Agent. Try:
 
 ## Next Steps
 
-1. **Set up Entra ID** - If you haven't already, follow [docs/setup/entra-id-setup.md](./docs/setup/entra-id-setup.md)
+1. **Set up Entra ID** - If you haven't already,
+   follow [docs/setup/entra-id-setup.md](./docs/setup/entra-id-setup.md)
 2. **Test all flows** - Try public client, confidential client, and service principal flows
 3. **Integrate with MCP clients** - Connect VS Code, Claude Desktop, or custom clients
 4. **Deploy to production** - Follow deployment guides in `docs/setup/`
@@ -260,4 +265,4 @@ Before deploying to production:
 - [ ] Set appropriate `CORS_ALLOWED_ORIGINS`
 - [ ] Review all security settings in `.env`
 
-Enjoy your MCP server with proper enterprise authentication! 🎉
+Enjoy your MCP server with proper enterprise authentication!
