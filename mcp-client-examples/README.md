@@ -24,6 +24,7 @@ Each example demonstrates a different OAuth 2.0 / OpenID Connect flow with Entra
 ### Choose Your Client
 
 **For interactive user authentication:**
+
 ```bash
 # Option 1: No credentials (uses DCR)
 cd public-client-no-creds
@@ -39,6 +40,7 @@ python client.py
 ```text
 
 **For automated/headless scenarios:**
+
 ```bash
 cd service-principal
 python client.py
@@ -230,9 +232,9 @@ Each client type requires specific Entra ID configuration. See the [Entra ID Set
 ### Quick Reference
 
 | Client Type | App Type | Client Secret? | Redirect URI? | Permissions |
-|-------------|----------|----------------|---------------|-------------|
-| public-client-no-creds | Public | No | Yes | Delegated |
-| public-client-with-creds | Public | No | Yes | Delegated |
+| ----------- | -------- | -------------- | ------------- | ----------- |
+| public-client-no-credentials | Public | No | Yes | Delegated |
+| public-client-with-credentials | Public | No | Yes | Delegated |
 | confidential-client | Confidential | Yes | Yes | Delegated |
 | service-principal | Confidential | Yes | No | Application |
 

@@ -76,6 +76,7 @@ mcp-client-examples/
 - MCP API call wrapper
 
 **Configuration:**
+
 ```bash
 MCP_SERVER_URL=http://localhost:8000
 REDIRECT_URI=http://localhost:8080/callback
@@ -108,6 +109,7 @@ SCOPE=api://mcp-server/.default
 - Enhanced error handling
 
 **Configuration:**
+
 ```bash
 CLIENT_ID=your-client-id-here
 TENANT_ID=your-tenant-id-here
@@ -142,6 +144,7 @@ SCOPE=api://mcp-server/.default
 - Production-ready error handling
 
 **Configuration:**
+
 ```bash
 CLIENT_ID=your-client-id-here
 CLIENT_SECRET=your-client-secret-here
@@ -178,6 +181,7 @@ SCOPE=api://mcp-server/.default
 - Example automated task function
 
 **Configuration:**
+
 ```bash
 CLIENT_ID=your-service-principal-id-here
 CLIENT_SECRET=your-service-principal-secret-here
@@ -244,6 +248,7 @@ Each client has comprehensive documentation (260-320 lines each):
 ### Individual Dockerfiles
 
 Each client includes a Dockerfile:
+
 ```dockerfile
 FROM python:3.11-slim
 WORKDIR /app
@@ -268,6 +273,7 @@ CMD ["python", "client.py"]
 - Health checks
 
 **Usage:**
+
 ```bash
 # Run service principal only
 docker-compose up service-principal
@@ -324,6 +330,7 @@ docker-compose --profile interactive up
 Each client can be tested independently:
 
 1. **Setup environment:**
+
    ```bash
    cd mcp-client-examples/<client-type>
    pip install -r requirements.txt
@@ -332,6 +339,7 @@ Each client can be tested independently:
    ```
 
 2. **Run client:**
+
    ```bash
    python client.py
    ```
@@ -457,12 +465,12 @@ All clients work locally:
 ### By Use Case
 
 | Use Case | Recommended Client | Complexity | Setup Time |
-|----------|-------------------|------------|------------|
-| Desktop app | public-client-with-creds | Medium | 10 min |
-| Mobile app | public-client-with-creds | Medium | 10 min |
+| -------- | ------------------ | ---------- | ---------- |
+| Desktop app | public-client-with-credentials | Medium | 10 min |
+| Mobile app | public-client-with-credentials | Medium | 10 min |
 | Web backend | confidential-client | Medium | 15 min |
 | Automation | service-principal | Low | 10 min |
-| Prototyping | public-client-no-creds | High | 5 min |
+| Prototyping | public-client-no-credentials | High | 5 min |
 
 ## Summary
 

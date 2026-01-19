@@ -237,11 +237,13 @@ See `../.env.example` for complete list.
 The server uses structured logging with configurable format:
 
 **JSON format (production):**
+
 ```json
 {"timestamp": "2026-01-17T...", "level": "INFO", "message": "jwt_validated", "sub": "user-id"}
 ```
 
 **Text format (development):**
+
 ```text
 2026-01-17 12:34:56 - app.auth.jwt_validator - INFO - jwt_validated sub=user-id
 ```

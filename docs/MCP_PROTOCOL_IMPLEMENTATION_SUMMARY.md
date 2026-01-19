@@ -361,7 +361,7 @@ All endpoints (except health check) require:
 ### Test Coverage
 
 | Component | Coverage | Tests |
-|-----------|----------|-------|
+| --------- | -------- | ----- |
 | Initialize | 100% | 3 |
 | Tools | 95%+ | 8 |
 | Resources | 100% | 4 |

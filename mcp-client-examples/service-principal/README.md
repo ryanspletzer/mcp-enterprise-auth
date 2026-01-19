@@ -106,6 +106,7 @@ cp .env.example .env
 ```
 
 Required values:
+
 ```bash
 CLIENT_ID=12345678-1234-1234-1234-123456789abc
 CLIENT_SECRET=abc~def123456789

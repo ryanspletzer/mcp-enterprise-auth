@@ -32,34 +32,48 @@ Markdown linting is configured in `.markdownlint.json` with the following key ru
 ````markdown
 <!-- ❌ WRONG -->
 ```
+
 some content
+
 ```
 
 <!-- ✅ CORRECT -->
 ```text
+
 some content
+
 ```
 
 <!-- ✅ CORRECT - Common languages -->
 ```bash
+
 echo "Shell commands"
+
 ```
 
 ```python
+
 def example():
     pass
+
 ```
 
 ```json
+
 {"key": "value"}
+
 ```
 
 ```yaml
+
 key: value
+
 ```
 
 ```typescript
+
 const x: string = "typed";
+
 ```
 ````
 
@@ -98,6 +112,22 @@ The script:
 - Adds blank lines after lists that end without proper spacing
 - Handles both unordered (`-`, `*`, `+`) and ordered (`1.`, `2.`) lists
 - Skips content inside code blocks
+- Reports number of violations fixed per file
+
+### `fix-md031.py`
+
+Automatically fixes MD031 violations - ensures fenced code blocks are surrounded by blank lines:
+
+```bash
+# Fix all markdown files
+python3 fix-md031.py
+```
+
+The script:
+
+- Adds blank lines before code blocks that start without proper spacing
+- Adds blank lines after code blocks that end without proper spacing
+- Handles both ` ``` ` and `~~~~` style fences
 - Reports number of violations fixed per file
 
 ### `lint-markdown.sh`
@@ -179,7 +209,9 @@ jobs:
 
 ````markdown
 ```
+
 code here
+
 ```
 ````
 
@@ -187,7 +219,9 @@ code here
 
 ````markdown
 ```text
+
 code here
+
 ```
 ````
 
@@ -269,4 +303,4 @@ To disable a rule for a specific line:
 - ✅ Single top-level heading per file
 - ✅ Limited inline HTML
 
-Run `python3 fix-markdown.py` and `python3 fix-md032.py` to auto-fix most issues, then `./lint-markdown.sh` to validate.
+Run `python3 fix-markdown.py`, `python3 fix-md032.py`, and `python3 fix-md031.py` to auto-fix most issues, then `./lint-markdown.sh` to validate.

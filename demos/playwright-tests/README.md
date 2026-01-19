@@ -77,6 +77,7 @@ The tests are configured to run in CI environments with:
 - Auto-starting services with Docker Compose
 
 Add to your CI pipeline:
+
 ```yaml
 - name: Run E2E tests
   run: |

@@ -28,9 +28,9 @@ mcp-client-examples/tests/
 ### Coverage by Client
 
 | Client Type | Unit Tests | Integration Tests | Total Tests | LOC |
-|-------------|------------|-------------------|-------------|-----|
-| public-client-no-creds | 8 | 12 | 20+ | 250 |
-| public-client-with-creds | 10 | 15 | 25+ | 280 |
+| ----------- | ---------- | ----------------- | ----------- | --- |
+| public-client-no-credentials | 8 | 12 | 20+ | 250 |
+| public-client-with-credentials | 10 | 15 | 25+ | 280 |
 | confidential-client | 8 | 12 | 20+ | 250 |
 | service-principal | 10 | 15 | 25+ | 280 |
 | **Shared Fixtures** | - | - | - | 300 |
@@ -127,6 +127,7 @@ Total Tests: 90+
 - ✅ Complete user authentication flow
 
 **Key Test:**
+
 ```python
 @pytest.mark.asyncio
 @pytest.mark.integration
@@ -169,6 +170,7 @@ async def test_full_flow_dcr_to_token():
 - ✅ Error recovery scenarios
 
 **Key Test:**
+
 ```python
 @pytest.mark.asyncio
 @pytest.mark.integration
@@ -210,6 +212,7 @@ async def test_token_refresh_then_api_call():
 - ✅ Error scenarios
 
 **Key Test:**
+
 ```python
 @pytest.mark.asyncio
 @pytest.mark.integration
@@ -253,6 +256,7 @@ async def test_defense_in_depth_pkce_and_secret():
 - ✅ Token lifecycle management
 
 **Key Test:**
+
 ```python
 @pytest.mark.asyncio
 @pytest.mark.integration
@@ -418,7 +422,7 @@ pytest --cov=. --cov-report=html
 ### Code Coverage
 
 | Component | Coverage | Status |
-|-----------|----------|--------|
+| --------- | -------- | ------ |
 | Client initialization | 100% | ✅ |
 | PKCE generation | 100% | ✅ |
 | Token acquisition | 95%+ | ✅ |

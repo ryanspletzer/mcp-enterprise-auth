@@ -231,6 +231,7 @@ make watch
    - Fix and save → tests re-run
 
 3. **Before committing:**
+
    ```bash
    make ci  # Run all CI checks locally
    ```
@@ -274,7 +275,7 @@ pytest -vv -s
 Use markers to run specific test categories:
 
 | Marker | Description | Example |
-|--------|-------------|---------|
+| ------ | ----------- | ------- |
 | `unit` | Fast, isolated unit tests | `pytest -m unit` |
 | `integration` | Integration tests (may need external services) | `pytest -m integration` |
 | `security` | Security-related tests | `pytest -m security` |
@@ -427,7 +428,7 @@ pytest --version
 
 # Clear cache
 make clean
-```bash
+```
 
 ### Import errors
 
@@ -438,7 +439,7 @@ export PYTHONPATH=/path/to/mcp-server:$PYTHONPATH
 # Or run from mcp-server directory
 cd mcp-server
 pytest
-```bash
+```
 
 ### Watch mode not working
 
@@ -451,7 +452,7 @@ chmod +x scripts/test-watch.sh
 
 # Run directly
 ./scripts/test-watch.sh
-```bash
+```
 
 ### Coverage not updating
 

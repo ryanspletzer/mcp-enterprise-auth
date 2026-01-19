@@ -50,11 +50,13 @@ Issued when a user delegates permissions to an application via authorization cod
   "uti": "unique-token-id"
 }
 ```
+
 ​
+
 ### Claim Descriptions
 
 | Claim | Type | Required | Description | V2 Specific |
-|-------|------|----------|-------------|-------------|
+| ------- | ------ | ---------- | ------------- | ------------- |
 | **Standard OIDC Claims** | | | | |
 | `aud` | String | ✅ | Token audience (always API application ID in v2.0) | ✅ |
 | `iss` | String | ✅ | Issuer URL (ends with `/v2.0` for v2 tokens) | ✅ |
@@ -103,11 +105,13 @@ Issued when an application acts on its own behalf via client credentials flow.
   "uti": "unique-token-id"
 }
 ```
+
 ​
+
 ### Claim Descriptions
 
 | Claim | Type | Required | Description | V2 Specific |
-|-------|------|----------|-------------|-------------|
+| ------- | ------ | ---------- | ------------- | ------------- |
 | **Standard OIDC Claims** | | | | |
 | `aud` | String | ✅ | Token audience (always API application ID in v2.0) | ✅ |
 | `iss` | String | ✅ | Issuer URL (ends with `/v2.0` for v2 tokens) | ✅ |
@@ -134,7 +138,7 @@ Issued when an application acts on its own behalf via client credentials flow.
 ## Key Differences: V1.0 vs V2.0
 
 | Aspect | V1.0 | V2.0 |
-|--------|------|------|
+| -------- | ------ | ------ |
 | **Version claim** | `"ver": "1.0"` | `"ver": "2.0"` |
 | **Issuer format** | `https://sts.windows.net/{tenant}/` | `https://login.microsoftonline.com/{tenant}/v2.0` |
 | **Client ID claim** | `appid` only | `azp` (with `appid` for compat) |
@@ -158,7 +162,9 @@ else:
     # User token - check scopes
     check_scopes(token.get("scp", ""))
 ```
+
 ​
+
 ### 2. Client Authentication Method (`azpacr`)
 
 The `azpacr` claim indicates how the client authenticated:
@@ -168,13 +174,16 @@ The `azpacr` claim indicates how the client authenticated:
 - `"2"` - Confidential client using certificate
 
 **Usage:**
+
 ```python
 azpacr = token.get("azpacr", "0")
 if azpacr == "2":
     # Higher trust - certificate-based authentication
     grant_privileged_access()
 ```
+
 ​
+
 ### 3. Issuer Validation
 
 V2.0 tokens **MUST** have issuer ending in `/v2.0`:
@@ -187,7 +196,9 @@ V2.0 tokens **MUST** have issuer ending in `/v2.0`:
 # Invalid (v1.0)
 "https://sts.windows.net/{tenant}/"
 ```
+
 ​
+
 ### 4. Audience Claim
 
 In v2.0, `aud` is **always** the application ID (not resource URI):
@@ -200,13 +211,13 @@ In v2.0, `aud` is **always** the application ID (not resource URI):
 # V1.0: Could be resource URI
 "aud": "https://management.azure.com/"
 ```
-​
+
 ## Optional Claims (Not Included by Default)
 
 These claims require explicit configuration via [optional claims](https://learn.microsoft.com/en-us/entra/identity-platform/optional-claims-reference):
 
 | Claim | Description |
-|-------|-------------|
+| ------- | ------------- |
 | `acr` | Authentication context class |
 | `amr` | Authentication methods (pwd, mfa, etc.) |
 | `family_name` | User's last name |
@@ -232,14 +243,16 @@ These claims require explicit configuration via [optional claims](https://learn.
 ### Authorization Validations
 
 #### User (Delegated) Tokens
+
 ```python
 # Check for delegated permissions
 scopes = token.get("scp", "").split()
 if "api://mcp-server/.default" not in scopes:
     raise Unauthorized("Missing required scope")
 ```
-​
+
 #### App-Only Tokens
+
 ```python
 # CRITICAL: Check idtyp first
 if token.get("idtyp") != "app":
@@ -250,7 +263,7 @@ roles = token.get("roles", [])
 if "MCP.ReadWrite.All" not in roles:
     raise Unauthorized("Missing required role")
 ```
-​
+
 ### Security Notes
 
 - ⚠️ **Never use mutable claims** (`name`, `preferred_username`) for authorization
@@ -302,7 +315,7 @@ def validate_v2_token(token: str, jwks_url: str, expected_audience: str) -> Dict
         assert "scp" in claims, "Missing scp claim"
         return {"type": "user", "claims": claims}
 ```
-​
+
 ## Testing with Mock IdP
 
 The mock Entra ID service issues tokens that exactly match this v2.0 specification:

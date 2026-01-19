@@ -90,6 +90,7 @@ The client calls the MCP server's `/dcr/register` endpoint **without** providing
 4. Returns the appropriate pre-registered `client_id` from Entra ID
 
 **Request:**
+
 ```json
 POST /dcr/register
 {
@@ -102,6 +103,7 @@ POST /dcr/register
 ```
 
 **Response:**
+
 ```json
 {
   "client_id": "12345678-1234-1234-1234-123456789abc",

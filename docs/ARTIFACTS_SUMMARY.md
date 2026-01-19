@@ -14,6 +14,7 @@ This document summarizes all the artifacts created for the MCP with Proper Enter
 - **[.gitignore](../.gitignore)** - Git ignore patterns for Python, Docker, AWS, secrets, etc.
 
 ### Architecture Documentation
+
 Located in `docs/architecture/`:
 
 1. **[00-complete-system-overview.md](./architecture/00-complete-system-overview.md)**
@@ -58,6 +59,7 @@ Located in `docs/architecture/`:
    - Token revocation approach
 
 ### Setup Documentation
+
 Located in `docs/setup/`:
 
 1. **[environment-variables.md](./setup/environment-variables.md)**
@@ -71,6 +73,7 @@ Located in `docs/setup/`:
 ## Diagrams Created
 
 ### Mermaid Sequence Diagrams
+
 All diagrams are in Mermaid format and can be rendered in GitHub, VS Code, or any Mermaid-compatible viewer:
 
 1. **DCR Emulation Flow** - Shows how MCP server detects client type and returns appropriate credentials

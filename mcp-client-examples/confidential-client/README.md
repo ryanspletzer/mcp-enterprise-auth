@@ -99,6 +99,7 @@ cp .env.example .env
 ```text
 
 Required values:
+
 ```bash
 CLIENT_ID=12345678-1234-1234-1234-123456789abc
 CLIENT_SECRET=abc~def123456789
@@ -329,7 +330,7 @@ Even with client_secret, PKCE is still validated:
 ## Comparison with Other Client Types
 
 | Feature | Public Client | Confidential Client | Service Principal |
-|---------|--------------|---------------------|-------------------|
+| ------- | ------------- | ------------------- | ----------------- |
 | **User interaction** | Required | Required | Not required |
 | **Client secret** | No | Yes | Yes |
 | **PKCE** | Required | Recommended | Not used |

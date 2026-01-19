@@ -194,6 +194,7 @@ make ci            # Full CI checks
 ## Comparing uv to pip/venv
 
 ### Old way (pip + venv):
+
 ```bash
 python -m venv venv
 source venv/bin/activate  # or venv\Scripts\activate on Windows
@@ -204,6 +205,7 @@ deactivate
 ```
 
 ### New way (uv):
+
 ```bash
 uv sync --extra dev
 uv run pytest
@@ -299,6 +301,7 @@ make uv-export
 ### "uv: command not found"
 
 Install uv:
+
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 source ~/.bashrc  # or restart shell
@@ -307,6 +310,7 @@ source ~/.bashrc  # or restart shell
 ### Dependencies not found
 
 Sync dependencies:
+
 ```bash
 cd mcp-server
 uv sync --extra dev
@@ -315,6 +319,7 @@ uv sync --extra dev
 ### Wrong Python version
 
 Pin the correct version:
+
 ```bash
 uv python install 3.11
 uv python pin 3.11
@@ -324,6 +329,7 @@ uv sync
 ### Import errors when running tests
 
 Make sure you're using `uv run`:
+
 ```bash
 # Don't do this:
 pytest
@@ -384,6 +390,7 @@ uv sync --extra dev
 - ✅ Modern tooling
 
 **To get started:**
+
 ```bash
 # 1. Install uv
 curl -LsSf https://astral.sh/uv/install.sh | sh

@@ -212,6 +212,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 **Flows:** Auth Code + PKCE (all three interactive clients)
 
 **JWT Structure:**
+
 ```json
 {
   "aud": "api://mcp-server",
@@ -247,6 +248,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 **Flow:** Client Credentials (service principal)
 
 **JWT Structure:**
+
 ```json
 {
   "aud": "api://mcp-server",
@@ -346,7 +348,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 
 ## Use Case Decision Matrix
 
-### Choose Public Client (No Creds) when:
+### Choose Public Client (No Creds) when
 
 - ✅ Client type is unknown
 - ✅ Testing/prototyping
@@ -354,7 +356,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 - ✅ Server supports DCR
 - ❌ Production deployments (prefer pre-registered)
 
-### Choose Public Client (With Creds) when:
+### Choose Public Client (With Creds) when
 
 - ✅ Desktop application
 - ✅ Mobile application
@@ -363,7 +365,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 - ✅ Need user context
 - ❌ Backend server (use confidential)
 
-### Choose Confidential Client when:
+### Choose Confidential Client when
 
 - ✅ Backend web application
 - ✅ Server-side application
@@ -372,7 +374,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 - ✅ Want higher security
 - ❌ Browser/mobile (cannot secure secret)
 
-### Choose Service Principal when:
+### Choose Service Principal when
 
 - ✅ Automation/scheduled tasks
 - ✅ CI/CD pipelines
@@ -384,7 +386,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 ## Performance Comparison
 
 | Metric | Public (No Creds) | Public (With Creds) | Confidential | Service Principal |
-|--------|-------------------|---------------------|--------------|-------------------|
+| ------ | ----------------- | ------------------- | ------------ | ----------------- |
 | **Setup Time** | Low (no config) | Medium (config) | Medium (config + secret) | Medium (config + secret) |
 | **Auth Time** | High (DCR + OAuth) | Medium (OAuth) | Medium (OAuth) | **Low (direct)** |
 | **User Friction** | High (login) | High (login) | High (login) | **None** |
@@ -395,8 +397,8 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 
 ### Common Errors
 
-| Error | Public (No Creds) | Public (With Creds) | Confidential | Service Principal |
-|-------|-------------------|---------------------|--------------|-------------------|
+| Error | Public (No Credentials) | Public (With Credentials) | Confidential | Service Principal |
+| ----- | ----------------------- | ------------------------- | ------------ | ----------------- |
 | **Invalid client_id** | From DCR response | Configuration error | Configuration error | Configuration error |
 | **Invalid redirect_uri** | Yes | Yes | Yes | N/A |
 | **PKCE failure** | Yes | Yes | Yes | N/A |
@@ -409,7 +411,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 ### Lines of Code
 
 | Client | LOC | Complexity |
-|--------|-----|------------|
+| ------ | --- | ---------- |
 | public-client-no-creds | ~250 | High (DCR + OAuth) |
 | public-client-with-creds | ~220 | Medium (OAuth) |
 | confidential-client | ~230 | Medium (OAuth + secret) |

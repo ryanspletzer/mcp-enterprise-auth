@@ -83,6 +83,7 @@ The MCP server performs comprehensive JWT validation on every request:
 - `ver` (token version) should be "2.0"
 
 ### Permission Validation
+
 **User Tokens (delegated permissions):**
 
 - Must have `scp` claim with required scopes
@@ -95,6 +96,7 @@ The MCP server performs comprehensive JWT validation on every request:
 - `idtyp` claim should be "app"
 
 ### Identity Extraction
+
 **User Tokens:**
 
 - `oid` - Object ID (unique user identifier)
@@ -371,6 +373,7 @@ mcp-with-proper-enterprise-auth/
 ### Quick Start
 
 1. **Clone the repository**
+
    ```bash
    git clone <repo-url>
    cd mcp-with-proper-enterprise-auth
@@ -381,17 +384,20 @@ mcp-with-proper-enterprise-auth/
    - Note down tenant ID, client IDs, and secrets
 
 3. **Create environment file**
+
    ```bash
    cp .env.example .env
    # Edit .env with your Entra ID configuration
    ```
 
 4. **Start with Docker Compose**
+
    ```bash
    docker-compose up -d
    ```
 
 5. **Test the flows**
+
    ```bash
    ./scripts/test-flows.sh
    ```

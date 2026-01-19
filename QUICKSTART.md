@@ -20,6 +20,7 @@ nano .env  # or vim, code, etc.
 ```
 
 **Required values to set:**
+
 ```bash
 ENTRA_TENANT_ID=your-tenant-id-here
 MCP_SERVER_APP_ID=api://mcp-server  # or your app ID URI
@@ -45,6 +46,7 @@ docker-compose logs -f mcp-server
 ```
 
 You should see:
+
 ```text
 mcp-server  | {"timestamp": "2026-01-17T...", "level": "INFO", "message": "mcp_server_starting"}
 mcp-server  | {"timestamp": "2026-01-17T...", "level": "INFO", "message": "configuration_loaded"}
@@ -172,6 +174,7 @@ curl http://localhost:8000/api/me | jq
 ### "Configuration loaded" not appearing
 
 Check that all required environment variables are set in `.env`:
+
 ```bash
 docker-compose config | grep ENTRA_TENANT_ID
 ```
@@ -187,6 +190,7 @@ The client detection is based on redirect_uri and User-Agent. Try:
 ### JWT validation fails
 
 1. Verify token is from correct tenant:
+
    ```bash
    # Decode token (without verification)
    echo "$TOKEN" | cut -d. -f2 | base64 -d | jq
@@ -195,18 +199,21 @@ The client detection is based on redirect_uri and User-Agent. Try:
    ```
 
 2. Check token hasn't expired:
+
    ```bash
    # Check "exp" claim
    echo "$TOKEN" | cut -d. -f2 | base64 -d | jq -r '.exp' | xargs -I {} date -r {}
    ```
 
 3. Verify token has required scopes:
+
    ```bash
    # Check "scp" or "roles" claim
    echo "$TOKEN" | cut -d. -f2 | base64 -d | jq -r '.scp // .roles'
    ```
 
 4. Enable debug logging:
+
    ```bash
    # In .env
    DEBUG_MODE=true

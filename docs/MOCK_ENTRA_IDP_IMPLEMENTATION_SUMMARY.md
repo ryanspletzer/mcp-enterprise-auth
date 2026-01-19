@@ -82,6 +82,7 @@ demos/
 ### 1. JWT Token Issuer (`app/crypto/jwt_issuer.py`)
 
 **User Token Generation:**
+
 ```python
 def issue_user_token(
     client_id: str,
@@ -97,6 +98,7 @@ def issue_user_token(
 ```
 
 **App-Only Token Generation:**
+
 ```python
 def issue_app_token(
     client_id: str,
@@ -127,6 +129,7 @@ def issue_app_token(
 - Base64url encoding for JWK
 
 **JWKS Output:**
+
 ```json
 {
   "keys": [{
@@ -154,6 +157,7 @@ def issue_app_token(
 #### Token Endpoint (`/oauth2/v2.0/token`)
 
 **Authorization Code Grant:**
+
 ```python
 # Validates:
 - Authorization code (single use, not expired)
@@ -169,6 +173,7 @@ def issue_app_token(
 ```
 
 **Refresh Token Grant:**
+
 ```python
 # Validates:
 - Refresh token (not expired, not revoked)
@@ -180,6 +185,7 @@ def issue_app_token(
 ```
 
 **Client Credentials Grant:**
+
 ```python
 # Validates:
 - Client ID + client_secret
@@ -221,11 +227,13 @@ def issue_app_token(
 ### 5. PKCE Implementation (`app/utils/pkce.py`)
 
 **Code Challenge Generation:**
+
 ```python
 code_challenge = BASE64URL(SHA256(code_verifier))
 ```
 
 **Verification:**
+
 ```python
 def verify_code_challenge(
     code_verifier: str,
@@ -362,6 +370,7 @@ def verify_code_challenge(
 6. Cleanup prompt
 
 **Output Example:**
+
 ```text
 ========================================
 Mock Entra ID + MCP Server Demo
@@ -404,6 +413,7 @@ Token claims (decoded):
 
 ### 1. Registry Pattern
 Used for clients, users, service principals:
+
 ```python
 class InMemoryStorage:
     def __init__(self):
@@ -415,6 +425,7 @@ class InMemoryStorage:
 
 ### 2. Factory Pattern
 JWT issuer, key manager as singletons:
+
 ```python
 _key_manager: KeyManager | None = None
 
@@ -427,6 +438,7 @@ def get_key_manager() -> KeyManager:
 
 ### 3. Dependency Injection
 FastAPI dependencies for settings, storage, crypto:
+
 ```python
 async def endpoint(
     settings: Settings = Depends(get_settings),
@@ -438,6 +450,7 @@ async def endpoint(
 
 ### 4. Pydantic Models
 Type-safe data models with validation:
+
 ```python
 class AuthorizationCode(BaseModel):
     code: str
@@ -454,6 +467,7 @@ class AuthorizationCode(BaseModel):
 ### Configuration Changes
 
 **MCP Server `.env` for demo mode:**
+
 ```bash
 # Point to mock IdP
 ENTRA_AUTHORITY=http://localhost:8001
@@ -531,12 +545,14 @@ curl -X POST http://localhost:8001/oauth2/v2.0/token \
 ## Running the Demo
 
 ### Quick Start
+
 ```bash
 cd demos/guided-demo
 ./demo.sh
 ```
 
 ### Manual Start
+
 ```bash
 # Start services
 cd demos
@@ -558,18 +574,21 @@ docker compose -f docker-compose.demo.yml down
 ## Testing the Implementation
 
 ### Run Unit Tests
+
 ```bash
 cd mock-entra-idp
 pytest tests/unit/ -v
 ```
 
 ### Run Integration Tests
+
 ```bash
 cd mock-entra-idp
 pytest tests/integration/ -v
 ```
 
 ### Run E2E Tests
+
 ```bash
 cd demos/playwright-tests
 npm install
@@ -577,6 +596,7 @@ npm test
 ```
 
 ### Manual Testing
+
 ```bash
 # Start mock IdP
 cd mock-entra-idp

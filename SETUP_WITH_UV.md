@@ -16,16 +16,19 @@ This project now uses **uv** instead of traditional pip/venv because:
 ### Step 1: Install uv
 
 **macOS/Linux:**
+
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 **Windows:**
+
 ```powershell
 powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
 **Verify installation:**
+
 ```bash
 uv --version
 # Should output: uv 0.x.x
@@ -264,6 +267,7 @@ uv sync --upgrade
 ## No Virtual Environment Activation!
 
 **Old way (pip + venv):**
+
 ```bash
 python -m venv venv
 source venv/bin/activate  # Every time!
@@ -273,6 +277,7 @@ deactivate
 ```text
 
 **New way (uv):**
+
 ```bash
 uv sync --extra dev
 uv run pytest  # No activation needed!
@@ -287,6 +292,7 @@ uv automatically uses the `.venv` directory for you!
 uv isn't installed or not in PATH.
 
 **Solution:**
+
 ```bash
 # Install uv
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -302,6 +308,7 @@ source ~/.zshrc
 You're trying to run pytest without `uv run`.
 
 **Solution:**
+
 ```bash
 # Don't do this:
 pytest
@@ -318,6 +325,7 @@ make test
 Dependencies not installed or out of sync.
 
 **Solution:**
+
 ```bash
 cd mcp-server
 uv sync --extra dev
@@ -328,6 +336,7 @@ uv sync --extra dev
 PYTHONPATH issues or not using uv environment.
 
 **Solution:**
+
 ```bash
 # Always use `uv run` for Python commands
 uv run pytest
@@ -343,6 +352,7 @@ make run
 Something is broken, start fresh.
 
 **Solution:**
+
 ```bash
 # Remove everything
 make clean-all
@@ -359,6 +369,7 @@ make test
 Using wrong Python version.
 
 **Solution:**
+
 ```bash
 # Check current version
 python --version
@@ -498,6 +509,7 @@ RUN uv sync --no-dev
 - ✅ Better tooling (modern, Rust-based)
 
 **Your workflow:**
+
 ```bash
 # 1. Install uv (once)
 curl -LsSf https://astral.sh/uv/install.sh | sh

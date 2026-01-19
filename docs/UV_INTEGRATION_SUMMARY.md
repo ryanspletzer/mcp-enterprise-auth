@@ -85,6 +85,7 @@ Complete integration of `uv` for Python environment and package management.
 ## New Workflow
 
 ### Before (pip + venv):
+
 ```bash
 python -m venv venv
 source venv/bin/activate
@@ -95,6 +96,7 @@ deactivate
 ```
 
 ### After (uv):
+
 ```bash
 uv sync --extra dev
 uv run pytest
@@ -358,16 +360,16 @@ uv sync --extra dev
 
 ### Installation Speed
 
-| Tool | Time | Speedup |
-|------|------|---------|
-| pip | ~30s | 1x |
-| uv | ~2s | **15x faster** |
+| Tool | Time | Speedup        |
+|------|------|----------------|
+| pip  | ~30s | 1x             |
+| uv   | ~2s  | **15x faster** |
 
 ### CI Build Time
 
-| Before (pip) | After (uv) | Improvement |
-|--------------|------------|-------------|
-| ~45s | ~15s | **3x faster** |
+| Before (pip) | After (uv) | Improvement   |
+|--------------|------------|---------------|
+| ~45s         | ~15s       | **3x faster** |
 
 ### Developer Experience
 

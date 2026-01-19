@@ -25,12 +25,14 @@ make test
 **Open two terminals:**
 
 Terminal 1 - Start watch mode:
+
 ```bash
 cd mcp-with-proper-enterprise-auth/mcp-server
 make watch
 ```
 
 Terminal 2 - Edit code:
+
 ```bash
 # Edit files in app/ or tests/
 # Tests auto-run when you save!
@@ -113,6 +115,7 @@ pytest -s
 ## 🎨 Understanding Test Output
 
 ### Success ✅
+
 ```text
 tests/test_config.py::TestSettings::test_settings_from_env PASSED     [ 10%]
 tests/test_config.py::TestSettings::test_entra_authority_property PASSED [ 20%]
@@ -121,6 +124,7 @@ tests/test_config.py::TestSettings::test_entra_authority_property PASSED [ 20%]
 ```
 
 ### Failure ❌
+
 ```text
 tests/test_jwt_validator.py::TestJWTValidator::test_validate_token FAILED [50%]
 ________________________________ FAILURES _______________________________________
@@ -129,6 +133,7 @@ AssertionError: Expected X but got Y
 ```
 
 ### Watch Mode 👀
+
 ```text
 ========================================
 MCP Server Test Watch Mode
@@ -147,11 +152,13 @@ If a test fails:
 
 1. **Read the error message** - It usually tells you what's wrong
 2. **Run with verbose output**:
+
    ```bash
    pytest -vv tests/test_that_failed.py
    ```
 
 3. **Add print statements** or use debugger:
+
    ```python
    def test_something():
        result = my_function()
@@ -160,6 +167,7 @@ If a test fails:
    ```
 
 4. **Run with debugger**:
+
    ```bash
    pytest --pdb  # Drops into debugger on failure
    ```
@@ -186,11 +194,13 @@ Coverage reports show:
 ## ✍️ Writing Your Own Tests
 
 ### 1. Create test file
+
 ```bash
 touch tests/test_my_feature.py
 ```
 
 ### 2. Write test
+
 ```python
 import pytest
 
@@ -208,11 +218,13 @@ def test_my_feature():
 ```
 
 ### 3. Run it
+
 ```bash
 pytest tests/test_my_feature.py
 ```
 
 ### 4. Use fixtures
+
 ```python
 def test_with_fixture(valid_user_token):
     """Use existing fixture from conftest.py"""
@@ -241,6 +253,7 @@ def test_with_fixture(valid_user_token):
 ### "ModuleNotFoundError: No module named 'app'"
 
 **Solution**: Run pytest from the `mcp-server` directory:
+
 ```bash
 cd mcp-with-proper-enterprise-auth/mcp-server
 pytest
@@ -249,6 +262,7 @@ pytest
 ### "pytest: command not found"
 
 **Solution**: Install dependencies:
+
 ```bash
 pip install -r requirements.txt
 ```
@@ -256,6 +270,7 @@ pip install -r requirements.txt
 ### Watch mode not working
 
 **Solution**: Install pytest-watch:
+
 ```bash
 pip install pytest-watch
 chmod +x scripts/test-watch.sh
@@ -284,6 +299,7 @@ make watch
 ```text
 
 Expected output:
+
 ```text
 ========================= test session starts ==========================
 collected 15 items

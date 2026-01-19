@@ -128,6 +128,7 @@ graph TB
 ## Flow Summary
 
 ### 1. DCR Emulation (for clients without credentials)
+
 ```text
 MCP Client → MCP Server DCR Endpoint
 ↓ (analyzes redirect_uri, User-Agent, etc.)
@@ -137,6 +138,7 @@ MCP Client now has client_id → Proceeds to OAuth flow
 ```
 
 ### 2. Authorization Code + PKCE (Public/Confidential Clients)
+
 ```text
 MCP Client → Entra ID Authorization Endpoint (with PKCE challenge)
 ↓
@@ -152,6 +154,7 @@ MCP Client → MCP Server (with Bearer token)
 ```
 
 ### 3. Client Credentials Grant (Service Principals)
+
 ```text
 Service Principal → Entra ID Token Endpoint (with client_secret)
 ↓
@@ -163,6 +166,7 @@ Service Principal → MCP Server (with Bearer token)
 ```
 
 ### 4. JWT Validation (MCP Server)
+
 ```text
 MCP Server receives request with Bearer token
 ↓
@@ -225,6 +229,7 @@ graph TD
 ## Token Claim Comparison
 
 ### User Token (Delegated Permissions)
+
 ```json
 {
   "aud": "api://mcp-server",
@@ -243,6 +248,7 @@ graph TD
 ```
 
 ### App-Only Token (Application Permissions)
+
 ```json
 {
   "aud": "api://mcp-server",

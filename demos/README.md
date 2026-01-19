@@ -173,6 +173,7 @@ npm test
 ## Troubleshooting
 
 ### Services won't start
+
 ```bash
 # Check Docker is running
 docker info
@@ -185,6 +186,7 @@ docker compose -f docker-compose.demo.yml restart
 ```
 
 ### Token validation fails
+
 ```bash
 # Ensure MCP server is pointing to mock IdP JWKS
 # Check MCP server environment:
@@ -192,6 +194,7 @@ docker compose -f docker-compose.demo.yml exec mcp-server env | grep ENTRA
 ```
 
 ### Browser flow doesn't work
+
 Make sure you have a callback listener on http://localhost:8080/callback or use the provided client examples that include a callback server.
 
 ## Next Steps

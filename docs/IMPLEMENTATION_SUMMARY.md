@@ -266,6 +266,7 @@ All flows validated with proper JWT checking and permission enforcement.
 ## Architecture Highlights
 
 ### Modular Design
+
 ```text
 FastAPI Application
 ├── Auth Module (JWT validation, JWKS, permissions)

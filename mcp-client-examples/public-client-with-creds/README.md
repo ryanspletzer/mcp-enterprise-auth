@@ -88,6 +88,7 @@ cp .env.example .env
 ```
 
 Required values:
+
 ```bash
 CLIENT_ID=12345678-1234-1234-1234-123456789abc
 TENANT_ID=87654321-4321-4321-4321-987654321cba
@@ -164,6 +165,7 @@ client_id={client_id}
 ```
 
 Response:
+
 ```json
 {
   "access_token": "eyJ0eXAiOiJKV1QiLCJhbGc...",
@@ -302,6 +304,7 @@ Common causes:
 ### Browser doesn't open
 
 Manually copy the authorization URL from logs:
+
 ```text
 2026-01-17T12:00:00 [info] opening_browser_for_authorization
 ```
@@ -320,7 +323,7 @@ Paste into browser and complete the flow.
 ## Differences from public-client-no-creds
 
 | Feature | No Creds (DCR) | With Creds |
-|---------|----------------|------------|
+| ------- | -------------- | ---------- |
 | **DCR call** | Required | Not needed |
 | **client_id** | From DCR response | Pre-configured |
 | **Setup** | Simpler (no Entra ID config) | Requires app registration |
