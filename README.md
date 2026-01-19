@@ -111,7 +111,7 @@ curl -X POST http://localhost:8000/dcr \
   -d '{"redirect_uri": "vscode://mcp-auth/callback"}'
 
 # Test with a real client
-cd mcp-client-examples/public-client-no-creds
+cd mcp-client-examples/public-client-without-client-id
 python client.py
 ```
 
@@ -239,8 +239,8 @@ See [docs/setup/agentcore-deployment.md](./docs/setup/agentcore-deployment.md) f
 
 The project includes example MCP clients demonstrating each flow:
 
-- **`public-client-no-creds/`** - Public client without client_id (uses DCR)
-- **`public-client-with-creds/`** - Public client with pre-configured client_id
+- **`public-client-without-client-id/`** - Public client without client_id (uses DCR)
+- **`public-client-with-client-id/`** - Public client with pre-configured client_id
 - **`confidential-client/`** - Confidential client with client_secret
 - **`service-principal/`** - Service principal with Client Credentials flow
 

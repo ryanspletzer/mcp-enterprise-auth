@@ -1,5 +1,5 @@
 """
-Tests for public-client-with-creds (Auth Code + PKCE flow).
+Tests for public-client-with-client-id (Auth Code + PKCE flow).
 
 Tests cover:
 - Client initialization with pre-configured credentials
@@ -18,7 +18,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import pytest
 
 # Add parent directory to path to import client module
-sys.path.insert(0, str(Path(__file__).parent.parent / "public-client-with-creds"))
+sys.path.insert(0, str(Path(__file__).parent.parent / "public-client-with-client-id"))
 
 from client import MCPPublicClientWithCreds
 

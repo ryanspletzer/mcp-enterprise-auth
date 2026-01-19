@@ -327,12 +327,12 @@ mcp-with-proper-enterprise-auth/
 │
 ├── mcp-client-examples/               # Example MCP clients
 │   │
-│   ├── public-client-no-creds/       # Public client without client_id
+│   ├── public-client-without-client-id/       # Public client without client_id
 │   │   ├── Dockerfile
 │   │   ├── requirements.txt
 │   │   └── client.py
 │   │
-│   ├── public-client-with-creds/     # Public client with client_id
+│   ├── public-client-with-client-id/     # Public client with client_id
 │   │   ├── Dockerfile
 │   │   ├── requirements.txt
 │   │   └── client.py

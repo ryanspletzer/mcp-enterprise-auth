@@ -6,8 +6,8 @@ Comprehensive test suite for all MCP OAuth client implementations.
 
 This test suite validates all four OAuth client types:
 
-- **public-client-no-creds** - DCR + Auth Code + PKCE flow
-- **public-client-with-creds** - Auth Code + PKCE flow
+- **public-client-without-client-id** - DCR + Auth Code + PKCE flow
+- **public-client-with-client-id** - Auth Code + PKCE flow
 - **confidential-client** - Auth Code + PKCE + Client Secret
 - **service-principal** - Client Credentials flow
 
@@ -28,8 +28,8 @@ tests/
 
 | Component | Unit Tests | Integration Tests | Total |
 |-----------|------------|-------------------|-------|
-| public-client-no-creds | 8 | 12 | 20 |
-| public-client-with-creds | 10 | 15 | 25 |
+| public-client-without-client-id | 8 | 12 | 20 |
+| public-client-with-client-id | 10 | 15 | 25 |
 | confidential-client | 8 | 12 | 20 |
 | service-principal | 10 | 15 | 25 |
 | **Total** | **36** | **54** | **90+** |
@@ -425,7 +425,7 @@ Make sure client dependencies are installed:
 
 ```bash
 # From each client directory
-cd mcp-client-examples/public-client-no-creds
+cd mcp-client-examples/public-client-without-client-id
 pip install -r requirements.txt
 ```bash
 

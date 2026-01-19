@@ -126,8 +126,8 @@ mcp-with-proper-enterprise-auth/
 │   │   └── utils/          # Utilities
 │   └── tests/              # Unit/integration tests
 ├── mcp-client-examples/    # Example clients (to be implemented)
-│   ├── public-client-no-creds/
-│   ├── public-client-with-creds/
+│   ├── public-client-without-client-id/
+│   ├── public-client-with-client-id/
 │   ├── confidential-client/
 │   └── service-principal/
 ├── infrastructure/         # IaC for deployment (to be created)

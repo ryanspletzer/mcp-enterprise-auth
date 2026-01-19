@@ -109,7 +109,9 @@ class MCPPublicClientWithCreds:
 
         return code_verifier, code_challenge
 
-    def _start_callback_server(self, expected_state: str, timeout: int = 300) -> Optional[str]:
+    def _start_callback_server(
+        self, expected_state: str, timeout: int = 300
+    ) -> Optional[str]:
         """Start local HTTP server to receive OAuth callback."""
         port = int(urlparse(self.redirect_uri).port or 8080)
         server = HTTPServer(("localhost", port), OAuthCallbackHandler)
@@ -118,7 +120,10 @@ class MCPPublicClientWithCreds:
         logger.info("callback_server_started", port=port, timeout=timeout)
 
         # Wait for callback
-        while OAuthCallbackHandler.authorization_code is None and OAuthCallbackHandler.error is None:
+        while (
+            OAuthCallbackHandler.authorization_code is None
+            and OAuthCallbackHandler.error is None
+        ):
             server.handle_request()
 
         if OAuthCallbackHandler.error:
@@ -315,7 +320,11 @@ async def main():
     scope = os.getenv("SCOPE", "api://mcp-server/.default")
 
     if not client_id or not tenant_id:
-        logger.error("missing_required_config", client_id=bool(client_id), tenant_id=bool(tenant_id))
+        logger.error(
+            "missing_required_config",
+            client_id=bool(client_id),
+            tenant_id=bool(tenant_id),
+        )
         raise Exception("CLIENT_ID and TENANT_ID are required")
 
     logger.info(

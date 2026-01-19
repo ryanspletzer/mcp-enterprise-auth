@@ -526,14 +526,14 @@ jobs:
 
 ### OAuth Flow Testing
 
-✅ **DCR Flow** (public-client-no-creds)
+✅ **DCR Flow** (public-client-without-client-id)
 
 - Client registration
 - Client detection
 - Dynamic credential assignment
 - Full DCR to API flow
 
-✅ **Authorization Code + PKCE** (public-client-with-creds)
+✅ **Authorization Code + PKCE** (public-client-with-client-id)
 
 - PKCE generation
 - Code exchange

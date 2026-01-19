@@ -463,6 +463,6 @@ echo $TOKEN | cut -d. -f2 | base64 -d | jq
 
 ## Related Examples
 
-- **public-client-no-creds** - Public client using DCR (user interaction)
-- **public-client-with-creds** - Public client with client_id (user interaction)
+- **public-client-without-client-id** - Public client using DCR (user interaction)
+- **public-client-with-client-id** - Public client with client_id (user interaction)
 - **confidential-client** - Confidential client with secret (user interaction)

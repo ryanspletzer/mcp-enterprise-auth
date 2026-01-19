@@ -8,8 +8,8 @@ Each example demonstrates a different OAuth 2.0 / OpenID Connect flow with Entra
 
 | Client | Flow | User Interaction | Use Case |
 |--------|------|------------------|----------|
-| **public-client-no-creds** | DCR + Auth Code + PKCE | Required | Generic clients without pre-registration |
-| **public-client-with-creds** | Auth Code + PKCE | Required | Known clients (desktop/mobile apps) |
+| **public-client-without-client-id** | DCR + Auth Code + PKCE | Required | Generic clients without pre-registration |
+| **public-client-with-client-id** | Auth Code + PKCE | Required | Known clients (desktop/mobile apps) |
 | **confidential-client** | Auth Code + PKCE + Secret | Required | Backend/server applications |
 | **service-principal** | Client Credentials | Not required | Automation/machine-to-machine |
 
@@ -27,11 +27,11 @@ Each example demonstrates a different OAuth 2.0 / OpenID Connect flow with Entra
 
 ```bash
 # Option 1: No credentials (uses DCR)
-cd public-client-no-creds
+cd public-client-without-client-id
 python client.py
 
 # Option 2: With pre-configured client_id
-cd public-client-with-creds
+cd public-client-with-client-id
 python client.py
 
 # Option 3: With client_id and client_secret (backend)
@@ -50,7 +50,7 @@ python client.py
 
 ### 1. Public Client (No Credentials)
 
-**Directory:** `public-client-no-creds/`
+**Directory:** `public-client-without-client-id/`
 
 **When to use:**
 
@@ -78,13 +78,13 @@ python client.py
 - ✅ No secrets (public client)
 - ⚠️ Relies on server-side client detection
 
-[Full documentation →](./public-client-no-creds/README.md)
+[Full documentation →](./public-client-without-client-id/README.md)
 
 ---
 
 ### 2. Public Client (With Credentials)
 
-**Directory:** `public-client-with-creds/`
+**Directory:** `public-client-with-client-id/`
 
 **When to use:**
 
@@ -114,7 +114,7 @@ python client.py
 - ✅ No secrets (public client)
 - ✅ Standard OAuth flow
 
-[Full documentation →](./public-client-with-creds/README.md)
+[Full documentation →](./public-client-with-client-id/README.md)
 
 ---
 
@@ -204,7 +204,7 @@ pip install -r requirements.txt
 Or install for all clients:
 
 ```bash
-for dir in public-client-no-creds public-client-with-creds confidential-client service-principal; do
+for dir in public-client-without-client-id public-client-with-client-id confidential-client service-principal; do
     pip install -r $dir/requirements.txt
 done
 ```
@@ -276,14 +276,14 @@ Need to authenticate with MCP server?
 │  ├─ Do you have a pre-registered client_id?
 │  │  │
 │  │  ├─ NO
-│  │  │  └─> Use: public-client-no-creds (DCR flow)
+│  │  │  └─> Use: public-client-without-client-id (DCR flow)
 │  │  │
 │  │  └─ YES
 │  │     │
 │  │     ├─ Can you securely store a client_secret?
 │  │     │  │
 │  │     │  ├─ NO (browser/mobile/desktop)
-│  │     │  │  └─> Use: public-client-with-creds
+│  │     │  │  └─> Use: public-client-with-client-id
 │  │     │  │
 │  │     │  └─ YES (backend/server)
 │  │     │     └─> Use: confidential-client
@@ -326,7 +326,7 @@ Need to authenticate with MCP server?
 ### Test DCR Emulation
 
 ```bash
-cd public-client-no-creds
+cd public-client-without-client-id
 python client.py
 # Should auto-detect client type and return appropriate client_id
 ```
@@ -334,7 +334,7 @@ python client.py
 ### Test Authorization Code Flow
 
 ```bash
-cd public-client-with-creds
+cd public-client-with-client-id
 python client.py
 # Browser should open for user login
 # Should receive access token after login

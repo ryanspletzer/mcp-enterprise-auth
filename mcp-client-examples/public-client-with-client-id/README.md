@@ -320,7 +320,7 @@ Paste into browser and complete the flow.
 - ⚠️ **Token storage** - Tokens are in memory only (consider secure storage for production)
 - ⚠️ **Local redirect** - Works for localhost/desktop apps only
 
-## Differences from public-client-no-creds
+## Differences from public-client-without-client-id
 
 | Feature | No Creds (DCR) | With Creds |
 | ------- | -------------- | ---------- |
@@ -340,6 +340,6 @@ Paste into browser and complete the flow.
 
 ## Related Examples
 
-- **public-client-no-creds** - Public client using DCR (no pre-configured client_id)
+- **public-client-without-client-id** - Public client using DCR (no pre-configured client_id)
 - **confidential-client** - Confidential client with client_secret
 - **service-principal** - Service principal with Client Credentials flow (no user)

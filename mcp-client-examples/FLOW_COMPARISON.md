@@ -6,7 +6,7 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 
 | Feature | Public (No Creds) | Public (With Creds) | Confidential | Service Principal |
 |---------|-------------------|---------------------|--------------|-------------------|
-| **Directory** | `public-client-no-creds/` | `public-client-with-creds/` | `confidential-client/` | `service-principal/` |
+| **Directory** | `public-client-without-client-id/` | `public-client-with-client-id/` | `confidential-client/` | `service-principal/` |
 | **OAuth Flow** | Auth Code + PKCE | Auth Code + PKCE | Auth Code + PKCE | Client Credentials |
 | **DCR Required** | Yes | No | No | No |
 | **User Interaction** | Required | Required | Required | Not required |
@@ -412,8 +412,8 @@ This document provides a detailed comparison of all OAuth flows implemented in t
 
 | Client | LOC | Complexity |
 | ------ | --- | ---------- |
-| public-client-no-creds | ~250 | High (DCR + OAuth) |
-| public-client-with-creds | ~220 | Medium (OAuth) |
+| public-client-without-client-id | ~250 | High (DCR + OAuth) |
+| public-client-with-client-id | ~220 | Medium (OAuth) |
 | confidential-client | ~230 | Medium (OAuth + secret) |
 | service-principal | ~180 | **Low (direct token)** |
 
@@ -433,9 +433,9 @@ Interactive clients also use:
 
 **For user-facing applications:**
 
-- Use **public-client-with-creds** for most cases
+- Use **public-client-with-client-id** for most cases
 - Use **confidential-client** if running on secure backend
-- Use **public-client-no-creds** for prototyping/testing
+- Use **public-client-without-client-id** for prototyping/testing
 
 **For automation/background tasks:**
 

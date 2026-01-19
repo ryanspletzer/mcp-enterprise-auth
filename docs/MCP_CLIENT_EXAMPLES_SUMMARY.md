@@ -22,14 +22,14 @@ mcp-client-examples/
 ├── docker-compose.yml                  # Multi-client orchestration
 ├── .env.example                        # Configuration template
 │
-├── public-client-no-creds/
+├── public-client-without-client-id/
 │   ├── client.py                       # 250+ LOC - DCR flow implementation
 │   ├── requirements.txt                # Dependencies
 │   ├── .env.example                    # Configuration
 │   ├── Dockerfile                      # Container image
 │   └── README.md                       # Complete documentation (260+ lines)
 │
-├── public-client-with-creds/
+├── public-client-with-client-id/
 │   ├── client.py                       # 220+ LOC - Auth Code + PKCE
 │   ├── requirements.txt                # Dependencies
 │   ├── .env.example                    # Configuration
@@ -55,7 +55,7 @@ mcp-client-examples/
 
 ### 1. Public Client (No Credentials)
 
-**File:** `mcp-client-examples/public-client-no-creds/client.py`
+**File:** `mcp-client-examples/public-client-without-client-id/client.py`
 
 **Features:**
 
@@ -89,7 +89,7 @@ SCOPE=api://mcp-server/.default
 
 ### 2. Public Client (With Credentials)
 
-**File:** `mcp-client-examples/public-client-with-creds/client.py`
+**File:** `mcp-client-examples/public-client-with-client-id/client.py`
 
 **Features:**
 

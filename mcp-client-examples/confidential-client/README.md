@@ -354,7 +354,7 @@ Even with client_secret, PKCE is still validated:
 - Desktop applications
 - Any environment where secrets can be extracted
 
-For those scenarios, use **public-client-with-creds** instead.
+For those scenarios, use **public-client-with-client-id** instead.
 
 ## Next Steps
 
@@ -366,6 +366,6 @@ For those scenarios, use **public-client-with-creds** instead.
 
 ## Related Examples
 
-- **public-client-no-creds** - Public client using DCR (no credentials)
-- **public-client-with-creds** - Public client with client_id (no secret)
+- **public-client-without-client-id** - Public client using DCR (no credentials)
+- **public-client-with-client-id** - Public client with client_id (no secret)
 - **service-principal** - Service principal with Client Credentials flow (no user)

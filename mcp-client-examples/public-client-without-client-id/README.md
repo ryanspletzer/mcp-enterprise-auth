@@ -257,6 +257,6 @@ And update the Entra ID app registration redirect URIs accordingly.
 
 ## Related Examples
 
-- **public-client-with-creds** - Public client with pre-configured client_id (no DCR)
+- **public-client-with-client-id** - Public client with pre-configured client_id (no DCR)
 - **confidential-client** - Confidential client with client_secret
 - **service-principal** - Service principal with Client Credentials flow (no user)

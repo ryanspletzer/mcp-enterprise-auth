@@ -1,5 +1,5 @@
 """
-Tests for public-client-no-creds (DCR flow).
+Tests for public-client-without-client-id (DCR flow).
 
 Tests cover:
 - DCR registration
@@ -16,7 +16,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import pytest
 
 # Add parent directory to path to import client module
-sys.path.insert(0, str(Path(__file__).parent.parent / "public-client-no-creds"))
+sys.path.insert(0, str(Path(__file__).parent.parent / "public-client-without-client-id"))
 
 from client import MCPPublicClient
 

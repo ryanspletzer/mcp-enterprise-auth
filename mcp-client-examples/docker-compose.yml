@@ -24,9 +24,9 @@ services:
 
   # Public Client (No Credentials) - For demonstration
   # Note: Browser interaction required - may not work in Docker
-  public-client-no-creds:
+  public-client-without-client-id:
     build:
-      context: ./public-client-no-creds
+      context: ./public-client-without-client-id
       dockerfile: Dockerfile
     environment:
       - MCP_SERVER_URL=http://mcp-server:8000
@@ -43,9 +43,9 @@ services:
 
   # Public Client (With Credentials) - For demonstration
   # Note: Browser interaction required - may not work in Docker
-  public-client-with-creds:
+  public-client-with-client-id:
     build:
-      context: ./public-client-with-creds
+      context: ./public-client-with-client-id
       dockerfile: Dockerfile
     environment:
       - CLIENT_ID=${PUBLIC_CLIENT_ID}
