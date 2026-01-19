@@ -131,8 +131,19 @@ class TestSettings:
         )
         assert settings2.validate_roles_any() is False
 
-    def test_missing_required_field_raises_error(self):
+    def test_missing_required_field_raises_error(self, monkeypatch):
         """Test that missing required fields raise validation error."""
+        # Clear env vars so Settings must get values from constructor
+        monkeypatch.delenv("ENTRA_TENANT_ID", raising=False)
+        monkeypatch.delenv("MCP_SERVER_APP_ID", raising=False)
+        monkeypatch.delenv("REQUIRED_SCOPE", raising=False)
+        monkeypatch.delenv("REQUIRED_ROLE", raising=False)
+        monkeypatch.delenv("VSCODE_CLIENT_ID", raising=False)
+        monkeypatch.delenv("CLAUDE_DESKTOP_CLIENT_ID", raising=False)
+        monkeypatch.delenv("CLAUDE_CODE_CLIENT_ID", raising=False)
+        monkeypatch.delenv("CHATGPT_CLIENT_ID", raising=False)
+        monkeypatch.delenv("GENERIC_CLIENT_ID", raising=False)
+
         with pytest.raises(ValidationError):
             Settings(
                 # Missing ENTRA_TENANT_ID
@@ -146,8 +157,11 @@ class TestSettings:
                 GENERIC_CLIENT_ID="generic",
             )
 
-    def test_default_values(self):
+    def test_default_values(self, monkeypatch):
         """Test default values are set correctly."""
+        # Clear LOG_LEVEL env var to test actual default
+        monkeypatch.delenv("LOG_LEVEL", raising=False)
+
         settings = Settings(
             ENTRA_TENANT_ID="test",
             MCP_SERVER_APP_ID="api://test",

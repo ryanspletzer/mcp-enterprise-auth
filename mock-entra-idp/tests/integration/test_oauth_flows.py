@@ -52,9 +52,13 @@ class TestAuthorizationCodeFlow:
                 "response_type": "code",
                 "scope": scope,
             },
+            follow_redirects=False,
         )
 
-        assert response.status_code == 400
+        # OAuth 2.0 spec: errors are returned via redirect when redirect_uri is valid
+        assert response.status_code == 303
+        assert "error=invalid_request" in response.headers.get("location", "")
+        assert "PKCE" in response.headers.get("location", "")
 
     def test_authorization_with_invalid_client(
         self,

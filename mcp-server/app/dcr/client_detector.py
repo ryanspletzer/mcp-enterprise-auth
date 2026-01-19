@@ -175,7 +175,7 @@ class ClientDetector:
         """
         client_name_lower = client_name.lower()
 
-        if "vscode" in client_name_lower or "visual studio code" in client_name_lower:
+        if "vscode" in client_name_lower or "visual studio code" in client_name_lower or "vs code" in client_name_lower:
             return ClientType.VSCODE
         elif "claude" in client_name_lower and "desktop" in client_name_lower:
             return ClientType.CLAUDE_DESKTOP

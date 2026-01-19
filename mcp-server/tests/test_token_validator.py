@@ -57,7 +57,7 @@ class TestTokenValidator:
         with pytest.raises(AuthorizationError) as exc_info:
             token_validator.validate_permissions(claims, TokenType.USER)
 
-        assert "insufficient" in str(exc_info.value).lower()
+        assert "must have" in str(exc_info.value).lower()
 
     def test_validate_user_permissions_with_no_scopes(
         self, token_validator, user_jwt_claims
@@ -94,7 +94,7 @@ class TestTokenValidator:
         with pytest.raises(AuthorizationError) as exc_info:
             token_validator.validate_permissions(claims, TokenType.APP_ONLY)
 
-        assert "insufficient" in str(exc_info.value).lower()
+        assert "must have role" in str(exc_info.value).lower()
 
     def test_validate_app_permissions_with_no_roles(
         self, token_validator, app_only_jwt_claims

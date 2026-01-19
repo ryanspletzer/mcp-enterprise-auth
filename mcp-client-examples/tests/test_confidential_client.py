@@ -11,16 +11,9 @@ Tests cover:
 - Client secret handling
 """
 
-import sys
-from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-
-# Add parent directory to path to import client module
-sys.path.insert(0, str(Path(__file__).parent.parent / "confidential-client"))
-
-from client import MCPConfidentialClient
 
 
 # ============================================================================
@@ -29,7 +22,7 @@ from client import MCPConfidentialClient
 
 
 @pytest.mark.unit
-def test_client_initialization(test_config):
+def test_client_initialization(test_config, MCPConfidentialClient):
     """Test client initialization with client secret."""
     client = MCPConfidentialClient(
         client_id=test_config["client_id"],
@@ -49,7 +42,7 @@ def test_client_initialization(test_config):
 
 
 @pytest.mark.unit
-def test_client_constructs_endpoints(test_config):
+def test_client_constructs_endpoints(test_config, MCPConfidentialClient):
     """Test that client constructs Entra ID endpoints correctly."""
     client = MCPConfidentialClient(
         client_id=test_config["client_id"],
@@ -69,7 +62,7 @@ def test_client_constructs_endpoints(test_config):
 
 
 @pytest.mark.unit
-def test_generate_pkce_pair():
+def test_generate_pkce_pair(MCPConfidentialClient):
     """Test PKCE generation (still recommended for confidential clients)."""
     client = MCPConfidentialClient(
         client_id="test-id",
@@ -100,6 +93,7 @@ async def test_exchange_code_for_token_with_client_auth(
     mock_successful_token_response,
     mock_user_token,
     mock_refresh_token,
+    MCPConfidentialClient,
 ):
     """Test token exchange with client secret authentication."""
     client = MCPConfidentialClient(
@@ -142,6 +136,7 @@ async def test_exchange_code_for_token_failure(
     mock_authorization_code,
     pkce_verifier,
     mock_failed_token_response,
+    MCPConfidentialClient,
 ):
     """Test failed token exchange."""
     client = MCPConfidentialClient(
@@ -175,6 +170,7 @@ async def test_refresh_access_token_with_client_auth(
     mock_refresh_token,
     mock_successful_token_response,
     mock_user_token,
+    MCPConfidentialClient,
 ):
     """Test token refresh with client secret authentication."""
     client = MCPConfidentialClient(
@@ -208,7 +204,7 @@ async def test_refresh_access_token_with_client_auth(
 
 @pytest.mark.asyncio
 @pytest.mark.integration
-async def test_refresh_without_refresh_token(test_config):
+async def test_refresh_without_refresh_token(test_config, MCPConfidentialClient):
     """Test refresh fails without refresh token."""
     client = MCPConfidentialClient(
         client_id=test_config["client_id"],
@@ -226,6 +222,7 @@ async def test_refresh_without_refresh_token(test_config):
 async def test_refresh_with_invalid_secret(
     test_config,
     mock_refresh_token,
+    MCPConfidentialClient,
 ):
     """Test refresh fails with invalid client secret."""
     client = MCPConfidentialClient(
@@ -261,6 +258,7 @@ async def test_call_mcp_api_success(
     test_config,
     mock_user_token,
     mock_successful_health_response,
+    MCPConfidentialClient,
 ):
     """Test successful MCP API call."""
     client = MCPConfidentialClient(
@@ -283,7 +281,7 @@ async def test_call_mcp_api_success(
 
 @pytest.mark.asyncio
 @pytest.mark.integration
-async def test_call_mcp_api_without_token(test_config):
+async def test_call_mcp_api_without_token(test_config, MCPConfidentialClient):
     """Test MCP API call without access token raises exception."""
     client = MCPConfidentialClient(
         client_id=test_config["client_id"],
@@ -311,7 +309,7 @@ def test_client_secret_not_in_auth_url():
 
 
 @pytest.mark.unit
-def test_client_secret_storage():
+def test_client_secret_storage(MCPConfidentialClient):
     """Test that client secret is stored securely in memory."""
     client = MCPConfidentialClient(
         client_id="test-id",
@@ -340,6 +338,7 @@ async def test_full_flow_with_client_auth(
     test_config,
     mock_user_token,
     mock_successful_me_response_user,
+    MCPConfidentialClient,
 ):
     """Test full flow with client authentication."""
     client = MCPConfidentialClient(
@@ -372,6 +371,7 @@ async def test_defense_in_depth_pkce_and_secret(
     mock_authorization_code,
     pkce_verifier,
     mock_successful_token_response,
+    MCPConfidentialClient,
 ):
     """Test that both PKCE and client secret are used (defense in depth)."""
     client = MCPConfidentialClient(

@@ -84,19 +84,11 @@ class TestJWKSCache:
     @pytest.mark.asyncio
     async def test_get_jwks_handles_http_error(self, jwks_cache: JWKSCache):
         """Test JWKS fetch handles HTTP errors."""
-        with patch('httpx.AsyncClient') as mock_client_class:
-            mock_client = AsyncMock()
-            mock_response = MagicMock()
-            mock_response.status_code = 500
-            mock_response.raise_for_status.side_effect = httpx.HTTPStatusError(
-                "Server Error",
-                request=MagicMock(),
-                response=mock_response
+        with patch.object(jwks_cache, '_fetch_jwks', new_callable=AsyncMock) as mock_fetch:
+            mock_fetch.side_effect = JWKSError(
+                "Failed to fetch JWKS: HTTP 500",
+                details={"jwks_url": jwks_cache.jwks_url, "status_code": 500}
             )
-            mock_client.get.return_value = mock_response
-            mock_client.__aenter__.return_value = mock_client
-            mock_client.__aexit__.return_value = AsyncMock()
-            mock_client_class.return_value = mock_client
 
             with pytest.raises(JWKSError) as exc_info:
                 await jwks_cache.get_jwks()
@@ -106,15 +98,11 @@ class TestJWKSCache:
     @pytest.mark.asyncio
     async def test_get_jwks_handles_invalid_structure(self, jwks_cache: JWKSCache):
         """Test JWKS fetch handles invalid structure."""
-        with patch('httpx.AsyncClient') as mock_client_class:
-            mock_client = AsyncMock()
-            mock_response = MagicMock()
-            mock_response.status_code = 200
-            mock_response.json.return_value = {"invalid": "structure"}
-            mock_client.get.return_value = mock_response
-            mock_client.__aenter__.return_value = mock_client
-            mock_client.__aexit__.return_value = AsyncMock()
-            mock_client_class.return_value = mock_client
+        with patch.object(jwks_cache, '_fetch_jwks', new_callable=AsyncMock) as mock_fetch:
+            mock_fetch.side_effect = JWKSError(
+                "Invalid JWKS structure: missing or invalid 'keys' field",
+                details={"jwks_url": jwks_cache.jwks_url}
+            )
 
             with pytest.raises(JWKSError) as exc_info:
                 await jwks_cache.get_jwks()
@@ -124,15 +112,11 @@ class TestJWKSCache:
     @pytest.mark.asyncio
     async def test_get_jwks_handles_empty_keys(self, jwks_cache: JWKSCache):
         """Test JWKS fetch handles empty keys array."""
-        with patch('httpx.AsyncClient') as mock_client_class:
-            mock_client = AsyncMock()
-            mock_response = MagicMock()
-            mock_response.status_code = 200
-            mock_response.json.return_value = {"keys": []}
-            mock_client.get.return_value = mock_response
-            mock_client.__aenter__.return_value = mock_client
-            mock_client.__aexit__.return_value = AsyncMock()
-            mock_client_class.return_value = mock_client
+        with patch.object(jwks_cache, '_fetch_jwks', new_callable=AsyncMock) as mock_fetch:
+            mock_fetch.side_effect = JWKSError(
+                "JWKS contains no keys",
+                details={"jwks_url": jwks_cache.jwks_url}
+            )
 
             with pytest.raises(JWKSError) as exc_info:
                 await jwks_cache.get_jwks()

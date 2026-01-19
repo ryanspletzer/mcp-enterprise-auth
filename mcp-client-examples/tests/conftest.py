@@ -6,16 +6,125 @@ This module provides common fixtures used across all client tests:
 - Mock MCP server responses
 - Test configuration
 - JWT token generation
+- Dynamic module loading for client classes (to avoid import conflicts)
 """
 
 import hashlib
+import importlib.util
 import secrets
+import sys
 from base64 import urlsafe_b64encode
+from pathlib import Path
 from typing import Any, Dict
 from unittest.mock import MagicMock
 
 import pytest
 from httpx import Response
+
+
+# ============================================================================
+# Dynamic Module Loading Helpers
+# ============================================================================
+
+
+def load_client_module(module_name: str, client_dir: str):
+    """
+    Dynamically load a client module with a unique name to avoid caching conflicts.
+
+    Args:
+        module_name: Unique name for the module in sys.modules
+        client_dir: Directory name containing the client.py file
+
+    Returns:
+        The loaded module
+    """
+    client_path = Path(__file__).parent.parent / client_dir / "client.py"
+
+    if module_name in sys.modules:
+        return sys.modules[module_name]
+
+    spec = importlib.util.spec_from_file_location(module_name, client_path)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+# ============================================================================
+# Client Class Fixtures (dynamically loaded to avoid import conflicts)
+# ============================================================================
+
+
+@pytest.fixture(scope="session")
+def public_client_with_client_id_module():
+    """Dynamically load the public-client-with-client-id module."""
+    return load_client_module(
+        "mcp_public_client_with_creds",
+        "public-client-with-client-id"
+    )
+
+
+@pytest.fixture(scope="session")
+def MCPPublicClientWithCreds(public_client_with_client_id_module):
+    """Get MCPPublicClientWithCreds class from dynamically loaded module."""
+    return public_client_with_client_id_module.MCPPublicClientWithCreds
+
+
+@pytest.fixture(scope="session")
+def OAuthCallbackHandlerWithCreds(public_client_with_client_id_module):
+    """Get OAuthCallbackHandler class from public-client-with-client-id module."""
+    return public_client_with_client_id_module.OAuthCallbackHandler
+
+
+@pytest.fixture(scope="session")
+def public_client_without_client_id_module():
+    """Dynamically load the public-client-without-client-id module."""
+    return load_client_module(
+        "mcp_public_client_no_creds",
+        "public-client-without-client-id"
+    )
+
+
+@pytest.fixture(scope="session")
+def MCPPublicClient(public_client_without_client_id_module):
+    """Get MCPPublicClient class from dynamically loaded module."""
+    return public_client_without_client_id_module.MCPPublicClient
+
+
+@pytest.fixture(scope="session")
+def OAuthCallbackHandler(public_client_without_client_id_module):
+    """Get OAuthCallbackHandler class from public-client-without-client-id module."""
+    return public_client_without_client_id_module.OAuthCallbackHandler
+
+
+@pytest.fixture(scope="session")
+def confidential_client_module():
+    """Dynamically load the confidential-client module."""
+    return load_client_module(
+        "mcp_confidential_client",
+        "confidential-client"
+    )
+
+
+@pytest.fixture(scope="session")
+def MCPConfidentialClient(confidential_client_module):
+    """Get MCPConfidentialClient class from dynamically loaded module."""
+    return confidential_client_module.MCPConfidentialClient
+
+
+@pytest.fixture(scope="session")
+def service_principal_module():
+    """Dynamically load the service-principal module."""
+    return load_client_module(
+        "mcp_service_principal_client",
+        "service-principal"
+    )
+
+
+@pytest.fixture(scope="session")
+def MCPServicePrincipalClient(service_principal_module):
+    """Get MCPServicePrincipalClient class from dynamically loaded module."""
+    return service_principal_module.MCPServicePrincipalClient
 
 
 # ============================================================================

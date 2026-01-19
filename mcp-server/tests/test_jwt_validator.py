@@ -1,6 +1,7 @@
 """Tests for JWT validator module."""
 
 import pytest
+import time
 from datetime import datetime, timedelta
 from unittest.mock import AsyncMock, MagicMock, patch
 
@@ -33,13 +34,20 @@ class TestJWTValidator:
         self, jwt_validator, valid_user_token, user_jwt_claims, public_key, mock_jwks_cache_instance
     ):
         """Test validate_token with valid user token."""
+        # Fix temporal claims to use UTC epoch seconds correctly
+        claims = user_jwt_claims.copy()
+        now_epoch = int(time.time())
+        claims["nbf"] = now_epoch - 60  # 1 minute ago
+        claims["iat"] = now_epoch - 60  # 1 minute ago
+        claims["exp"] = now_epoch + 3600  # 1 hour from now
+
         # Mock jwt.decode to return claims (since we can't easily mock crypto validation)
         with patch('app.auth.jwt_validator.jwt.decode') as mock_decode:
-            mock_decode.return_value = user_jwt_claims
+            mock_decode.return_value = claims
 
             result = await jwt_validator.validate_token(valid_user_token)
 
-            assert result == user_jwt_claims
+            assert result == claims
             assert result["scp"] == "test.read test.write"
             mock_jwks_cache_instance.get_key_by_kid.assert_called_once()
 
@@ -111,6 +119,11 @@ class TestJWTValidator:
         """Test validate_token with wrong tenant ID raises error."""
         claims = user_jwt_claims.copy()
         claims["tid"] = "wrong-tenant-id"
+        # Use time.time() for UTC epoch seconds to avoid timezone issues
+        now_epoch = int(time.time())
+        claims["nbf"] = now_epoch - 60  # 1 minute ago
+        claims["iat"] = now_epoch - 60  # 1 minute ago
+        claims["exp"] = now_epoch + 3600  # 1 hour from now
 
         with patch('app.auth.jwt_validator.jwt.decode') as mock_decode:
             mock_decode.return_value = claims
@@ -127,6 +140,11 @@ class TestJWTValidator:
         """Test validate_token with missing required claims raises error."""
         claims = user_jwt_claims.copy()
         del claims["sub"]  # Remove required claim
+        # Use time.time() for UTC epoch seconds to avoid timezone issues
+        now_epoch = int(time.time())
+        claims["nbf"] = now_epoch - 60  # 1 minute ago
+        claims["iat"] = now_epoch - 60  # 1 minute ago
+        claims["exp"] = now_epoch + 3600  # 1 hour from now
 
         with patch('app.auth.jwt_validator.jwt.decode') as mock_decode:
             mock_decode.return_value = claims
@@ -142,8 +160,13 @@ class TestJWTValidator:
     ):
         """Test validate_token with iat in future raises error."""
         claims = user_jwt_claims.copy()
-        future_time = datetime.utcnow() + timedelta(hours=2)
-        claims["iat"] = int(future_time.timestamp())
+        # Use time.time() for UTC epoch seconds to avoid timezone issues
+        now_epoch = int(time.time())
+        # Set iat far in the future (beyond clock skew tolerance of 5 minutes)
+        claims["iat"] = now_epoch + 7200  # 2 hours in the future
+        # Set nbf in the past so it passes nbf validation first
+        claims["nbf"] = now_epoch - 60  # 1 minute ago
+        claims["exp"] = now_epoch + 10800  # 3 hours from now
 
         with patch('app.auth.jwt_validator.jwt.decode') as mock_decode:
             mock_decode.return_value = claims

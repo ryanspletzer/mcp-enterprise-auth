@@ -92,7 +92,7 @@ def public_key(private_key: str) -> str:
     )
 
     public = key.public_key()
-    return public.public_key_bytes(
+    return public.public_bytes(
         encoding=serialization.Encoding.PEM,
         format=serialization.PublicFormat.SubjectPublicKeyInfo
     ).decode('utf-8')

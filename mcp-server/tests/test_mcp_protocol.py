@@ -10,6 +10,7 @@ Tests cover:
 """
 
 import pytest
+from unittest.mock import patch, AsyncMock
 from fastapi.testclient import TestClient
 
 from app.main import create_app
@@ -34,6 +35,14 @@ def auth_headers(valid_user_token):
     return {"Authorization": f"Bearer {valid_user_token}"}
 
 
+@pytest.fixture
+def mock_jwt_validation(user_jwt_claims):
+    """Mock JWT validation to accept test tokens."""
+    with patch('app.auth.jwt_validator.JWTValidator.validate_token', new_callable=AsyncMock) as mock:
+        mock.return_value = user_jwt_claims
+        yield mock
+
+
 # ============================================================================
 # Initialize Tests
 # ============================================================================
@@ -41,7 +50,7 @@ def auth_headers(valid_user_token):
 
 @pytest.mark.mcp
 @pytest.mark.integration
-def test_initialize_success(client, auth_headers):
+def test_initialize_success(client, auth_headers, mock_jwt_validation):
     """Test successful MCP initialization."""
     request_data = {
         "protocolVersion": MCP_PROTOCOL_VERSION,
@@ -86,7 +95,7 @@ def test_initialize_without_auth(client):
 
 @pytest.mark.mcp
 @pytest.mark.integration
-def test_initialize_different_protocol_version(client, auth_headers):
+def test_initialize_different_protocol_version(client, auth_headers, mock_jwt_validation):
     """Test initialize with different protocol version (should still work)."""
     request_data = {
         "protocolVersion": "2023-01-01",  # Different version
@@ -109,7 +118,7 @@ def test_initialize_different_protocol_version(client, auth_headers):
 
 @pytest.mark.mcp
 @pytest.mark.integration
-def test_tools_list_success(client, auth_headers):
+def test_tools_list_success(client, auth_headers, mock_jwt_validation):
     """Test listing tools."""
     response = client.post("/mcp/tools/list", json={}, headers=auth_headers)
 
@@ -129,7 +138,7 @@ def test_tools_list_success(client, auth_headers):
 
 @pytest.mark.mcp
 @pytest.mark.integration
-def test_tools_list_contains_expected_tools(client, auth_headers):
+def test_tools_list_contains_expected_tools(client, auth_headers, mock_jwt_validation):
     """Test that tools list contains expected built-in tools."""
     response = client.post("/mcp/tools/list", json={}, headers=auth_headers)
 
@@ -149,7 +158,7 @@ def test_tools_list_contains_expected_tools(client, auth_headers):
 
 @pytest.mark.mcp
 @pytest.mark.integration
-def test_tool_call_get_weather(client, auth_headers):
+def test_tool_call_get_weather(client, auth_headers, mock_jwt_validation):
     """Test calling get_weather tool."""
     request_data = {
         "name": "get_weather",
@@ -173,7 +182,7 @@ def test_tool_call_get_weather(client, auth_headers):
 
 @pytest.mark.mcp
 @pytest.mark.integration
-def test_tool_call_calculate(client, auth_headers):
+def test_tool_call_calculate(client, auth_headers, mock_jwt_validation):
     """Test calling calculate tool."""
     request_data = {
         "name": "calculate",
@@ -193,7 +202,7 @@ def test_tool_call_calculate(client, auth_headers):
 
 @pytest.mark.mcp
 @pytest.mark.integration
-def test_tool_call_echo(client, auth_headers):
+def test_tool_call_echo(client, auth_headers, mock_jwt_validation):
     """Test calling echo tool."""
     request_data = {
         "name": "echo",
@@ -215,8 +224,8 @@ def test_tool_call_echo(client, auth_headers):
 
 @pytest.mark.mcp
 @pytest.mark.integration
-def test_tool_call_unknown_tool(client, auth_headers):
-    """Test calling unknown tool."""
+def test_tool_call_unknown_tool(client, auth_headers, mock_jwt_validation):
+    """Test calling unknown tool returns error response."""
     request_data = {
         "name": "unknown_tool",
         "arguments": {},
@@ -224,12 +233,16 @@ def test_tool_call_unknown_tool(client, auth_headers):
 
     response = client.post("/mcp/tools/call", json=request_data, headers=auth_headers)
 
-    assert response.status_code == 404
+    # MCP pattern: returns 200 with isError=True for unknown tools
+    assert response.status_code == 200
+    data = response.json()
+    assert data["isError"] is True
+    assert "not found" in data["content"][0]["text"].lower()
 
 
 @pytest.mark.mcp
 @pytest.mark.integration
-def test_tool_call_invalid_arguments(client, auth_headers):
+def test_tool_call_invalid_arguments(client, auth_headers, mock_jwt_validation):
     """Test calling tool with invalid arguments."""
     request_data = {
         "name": "calculate",
@@ -252,7 +265,7 @@ def test_tool_call_invalid_arguments(client, auth_headers):
 
 @pytest.mark.mcp
 @pytest.mark.integration
-def test_resources_list_success(client, auth_headers):
+def test_resources_list_success(client, auth_headers, mock_jwt_validation):
     """Test listing resources."""
     response = client.post("/mcp/resources/list", json={}, headers=auth_headers)
 
@@ -272,7 +285,7 @@ def test_resources_list_success(client, auth_headers):
 
 @pytest.mark.mcp
 @pytest.mark.integration
-def test_resources_list_contains_expected_resources(client, auth_headers):
+def test_resources_list_contains_expected_resources(client, auth_headers, mock_jwt_validation):
     """Test that resources list contains expected resources."""
     response = client.post("/mcp/resources/list", json={}, headers=auth_headers)
 
@@ -289,7 +302,7 @@ def test_resources_list_contains_expected_resources(client, auth_headers):
 
 @pytest.mark.mcp
 @pytest.mark.integration
-def test_resource_read_success(client, auth_headers):
+def test_resource_read_success(client, auth_headers, mock_jwt_validation):
     """Test reading a resource."""
     request_data = {
         "uri": "resource://documents/readme",
@@ -311,7 +324,7 @@ def test_resource_read_success(client, auth_headers):
 
 @pytest.mark.mcp
 @pytest.mark.integration
-def test_resource_read_json_resource(client, auth_headers):
+def test_resource_read_json_resource(client, auth_headers, mock_jwt_validation):
     """Test reading a JSON resource."""
     request_data = {
         "uri": "resource://config/server-info",
@@ -329,7 +342,7 @@ def test_resource_read_json_resource(client, auth_headers):
 
 @pytest.mark.mcp
 @pytest.mark.integration
-def test_resource_read_unknown_resource(client, auth_headers):
+def test_resource_read_unknown_resource(client, auth_headers, mock_jwt_validation):
     """Test reading unknown resource."""
     request_data = {
         "uri": "resource://unknown/resource",
@@ -347,7 +360,7 @@ def test_resource_read_unknown_resource(client, auth_headers):
 
 @pytest.mark.mcp
 @pytest.mark.integration
-def test_prompts_list_success(client, auth_headers):
+def test_prompts_list_success(client, auth_headers, mock_jwt_validation):
     """Test listing prompts."""
     response = client.post("/mcp/prompts/list", json={}, headers=auth_headers)
 
@@ -367,7 +380,7 @@ def test_prompts_list_success(client, auth_headers):
 
 @pytest.mark.mcp
 @pytest.mark.integration
-def test_prompts_list_contains_expected_prompts(client, auth_headers):
+def test_prompts_list_contains_expected_prompts(client, auth_headers, mock_jwt_validation):
     """Test that prompts list contains expected prompts."""
     response = client.post("/mcp/prompts/list", json={}, headers=auth_headers)
 
@@ -385,7 +398,7 @@ def test_prompts_list_contains_expected_prompts(client, auth_headers):
 
 @pytest.mark.mcp
 @pytest.mark.integration
-def test_prompt_get_greeting(client, auth_headers):
+def test_prompt_get_greeting(client, auth_headers, mock_jwt_validation):
     """Test getting greeting prompt."""
     request_data = {
         "name": "greeting",
@@ -409,7 +422,7 @@ def test_prompt_get_greeting(client, auth_headers):
 
 @pytest.mark.mcp
 @pytest.mark.integration
-def test_prompt_get_weather_query(client, auth_headers):
+def test_prompt_get_weather_query(client, auth_headers, mock_jwt_validation):
     """Test getting weather query prompt."""
     request_data = {
         "name": "weather_query",
@@ -431,7 +444,7 @@ def test_prompt_get_weather_query(client, auth_headers):
 
 @pytest.mark.mcp
 @pytest.mark.integration
-def test_prompt_get_unknown_prompt(client, auth_headers):
+def test_prompt_get_unknown_prompt(client, auth_headers, mock_jwt_validation):
     """Test getting unknown prompt."""
     request_data = {
         "name": "unknown_prompt",
@@ -477,7 +490,7 @@ def test_mcp_health_check():
 
 @pytest.mark.mcp
 @pytest.mark.integration
-def test_complete_mcp_flow(client, auth_headers):
+def test_complete_mcp_flow(client, auth_headers, mock_jwt_validation):
     """Test complete MCP flow: initialize, list, call."""
     # Step 1: Initialize
     init_response = client.post(

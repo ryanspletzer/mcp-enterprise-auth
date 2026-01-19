@@ -97,7 +97,8 @@ class TestDCREndpoints:
 
         assert response.status_code == 501  # Not implemented
         data = response.json()
-        assert "error" in data
+        assert "detail" in data
+        assert data["detail"]["error"] == "not_implemented"
 
 
 @pytest.mark.integration

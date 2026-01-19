@@ -11,16 +11,9 @@ Tests cover:
 - MCP API calls
 """
 
-import sys
-from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-
-# Add parent directory to path to import client module
-sys.path.insert(0, str(Path(__file__).parent.parent / "public-client-with-client-id"))
-
-from client import MCPPublicClientWithCreds
 
 
 # ============================================================================
@@ -29,7 +22,7 @@ from client import MCPPublicClientWithCreds
 
 
 @pytest.mark.unit
-def test_client_initialization(test_config):
+def test_client_initialization(test_config, MCPPublicClientWithCreds):
     """Test client initialization with configuration."""
     client = MCPPublicClientWithCreds(
         client_id=test_config["client_id"],
@@ -49,7 +42,7 @@ def test_client_initialization(test_config):
 
 
 @pytest.mark.unit
-def test_client_constructs_endpoints(test_config):
+def test_client_constructs_endpoints(test_config, MCPPublicClientWithCreds):
     """Test that client constructs Entra ID endpoints correctly."""
     client = MCPPublicClientWithCreds(
         client_id=test_config["client_id"],
@@ -68,7 +61,7 @@ def test_client_constructs_endpoints(test_config):
 
 
 @pytest.mark.unit
-def test_generate_pkce_pair():
+def test_generate_pkce_pair(MCPPublicClientWithCreds):
     """Test PKCE code verifier and challenge generation."""
     client = MCPPublicClientWithCreds(
         client_id="test-id",
@@ -121,6 +114,7 @@ async def test_exchange_code_for_token_success(
     mock_successful_token_response,
     mock_user_token,
     mock_refresh_token,
+    MCPPublicClientWithCreds,
 ):
     """Test successful token exchange."""
     client = MCPPublicClientWithCreds(
@@ -162,6 +156,7 @@ async def test_exchange_code_for_token_failure(
     mock_authorization_code,
     pkce_verifier,
     mock_failed_token_response,
+    MCPPublicClientWithCreds,
 ):
     """Test failed token exchange."""
     client = MCPPublicClientWithCreds(
@@ -194,6 +189,7 @@ async def test_refresh_access_token_success(
     mock_refresh_token,
     mock_successful_token_response,
     mock_user_token,
+    MCPPublicClientWithCreds,
 ):
     """Test successful token refresh."""
     client = MCPPublicClientWithCreds(
@@ -227,7 +223,7 @@ async def test_refresh_access_token_success(
 
 @pytest.mark.asyncio
 @pytest.mark.integration
-async def test_refresh_access_token_no_refresh_token(test_config):
+async def test_refresh_access_token_no_refresh_token(test_config, MCPPublicClientWithCreds):
     """Test refresh fails without refresh token."""
     client = MCPPublicClientWithCreds(
         client_id=test_config["client_id"],
@@ -246,6 +242,7 @@ async def test_refresh_access_token_failure(
     test_config,
     mock_refresh_token,
     mock_failed_token_response,
+    MCPPublicClientWithCreds,
 ):
     """Test failed token refresh."""
     client = MCPPublicClientWithCreds(
@@ -275,6 +272,7 @@ async def test_call_mcp_api_success(
     test_config,
     mock_user_token,
     mock_successful_health_response,
+    MCPPublicClientWithCreds,
 ):
     """Test successful MCP API call."""
     client = MCPPublicClientWithCreds(
@@ -302,7 +300,7 @@ async def test_call_mcp_api_success(
 
 @pytest.mark.asyncio
 @pytest.mark.integration
-async def test_call_mcp_api_without_token(test_config):
+async def test_call_mcp_api_without_token(test_config, MCPPublicClientWithCreds):
     """Test MCP API call without access token raises exception."""
     client = MCPPublicClientWithCreds(
         client_id=test_config["client_id"],
@@ -320,6 +318,7 @@ async def test_call_mcp_api_with_custom_headers(
     test_config,
     mock_user_token,
     mock_successful_health_response,
+    MCPPublicClientWithCreds,
 ):
     """Test MCP API call with custom headers."""
     client = MCPPublicClientWithCreds(
@@ -350,13 +349,11 @@ async def test_call_mcp_api_with_custom_headers(
 
 
 @pytest.mark.unit
-def test_callback_handler_state_validation():
+def test_callback_handler_state_validation(OAuthCallbackHandlerWithCreds):
     """Test that callback handler validates state parameter."""
-    from client import OAuthCallbackHandler
-
     # This is implicitly tested in the authorize flow
     # The handler stores the state for validation
-    assert hasattr(OAuthCallbackHandler, "state")
+    assert hasattr(OAuthCallbackHandlerWithCreds, "state")
 
 
 # ============================================================================
@@ -370,6 +367,7 @@ async def test_full_flow_authorization_to_api_call(
     test_config,
     mock_user_token,
     mock_successful_me_response_user,
+    MCPPublicClientWithCreds,
 ):
     """Test full flow from authorization to API call."""
     client = MCPPublicClientWithCreds(
@@ -402,6 +400,7 @@ async def test_token_refresh_then_api_call(
     mock_successful_token_response,
     mock_user_token,
     mock_successful_health_response,
+    MCPPublicClientWithCreds,
 ):
     """Test token refresh followed by API call."""
     client = MCPPublicClientWithCreds(

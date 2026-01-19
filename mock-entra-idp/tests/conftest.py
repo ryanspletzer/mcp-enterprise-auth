@@ -1,12 +1,38 @@
 """Pytest fixtures for mock Entra ID tests."""
 
+import os
 import secrets
 from typing import AsyncGenerator
 
 import pytest
 from fastapi.testclient import TestClient
 
-from app.config.settings import Settings
+# Set environment variables BEFORE importing app modules to ensure
+# the settings singleton uses test values
+os.environ.update({
+    "MOCK_TENANT_ID": "test-tenant-id",
+    "MOCK_IDP_HOST": "localhost",
+    "MOCK_IDP_PORT": "8001",
+    "MOCK_IDP_BASE_URL": "http://localhost:8001",
+    "ACCESS_TOKEN_TTL": "3600",
+    "REFRESH_TOKEN_TTL": "86400",
+    "AUTH_CODE_TTL": "600",
+    "MCP_SERVER_APP_ID": "api://test-mcp-server",
+    "DEFAULT_SCOPE": "api://test-mcp-server/.default",
+    "TEST_USERS": "testuser@example.com,admin@example.com",
+    # Use the same client IDs as the Settings defaults to ensure consistency
+    "VSCODE_CLIENT_ID": "11111111-1111-1111-1111-111111111111",
+    "CLAUDE_CODE_CLIENT_ID": "33333333-3333-3333-3333-333333333333",
+    "CONFIDENTIAL_CLIENT_ID": "66666666-6666-6666-6666-666666666666",
+    "CONFIDENTIAL_CLIENT_SECRET": "test-secret-123",
+    "SERVICE_PRINCIPAL_CLIENT_ID": "77777777-7777-7777-7777-777777777777",
+    "SERVICE_PRINCIPAL_CLIENT_SECRET": "test-sp-secret-456",
+    "LOG_LEVEL": "DEBUG",
+    "LOG_FORMAT": "console",
+    "STORAGE_BACKEND": "memory",
+})
+
+from app.config.settings import Settings, get_settings
 from app.crypto.jwt_issuer import JWTIssuer
 from app.crypto.key_manager import KeyManager
 from app.main import create_app
@@ -16,27 +42,7 @@ from app.storage.memory import InMemoryStorage
 @pytest.fixture
 def test_settings() -> Settings:
     """Test settings with known values."""
-    return Settings(
-        MOCK_TENANT_ID="test-tenant-id",
-        MOCK_IDP_HOST="localhost",
-        MOCK_IDP_PORT=8001,
-        MOCK_IDP_BASE_URL="http://localhost:8001",
-        ACCESS_TOKEN_TTL=3600,
-        REFRESH_TOKEN_TTL=86400,
-        AUTH_CODE_TTL=600,
-        MCP_SERVER_APP_ID="api://test-mcp-server",
-        DEFAULT_SCOPE="api://test-mcp-server/.default",
-        TEST_USERS="testuser@example.com,admin@example.com",
-        VSCODE_CLIENT_ID="test-vscode-client",
-        CLAUDE_CODE_CLIENT_ID="test-claude-client",
-        CONFIDENTIAL_CLIENT_ID="test-confidential-client",
-        CONFIDENTIAL_CLIENT_SECRET="test-secret",
-        SERVICE_PRINCIPAL_CLIENT_ID="test-sp-client",
-        SERVICE_PRINCIPAL_CLIENT_SECRET="test-sp-secret",
-        LOG_LEVEL="INFO",
-        LOG_FORMAT="console",
-        STORAGE_BACKEND="memory",
-    )
+    return get_settings()
 
 
 @pytest.fixture

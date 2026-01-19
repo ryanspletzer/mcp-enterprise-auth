@@ -10,17 +10,10 @@ Tests cover:
 - No user interaction scenarios
 """
 
-import sys
 import time
-from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-
-# Add parent directory to path to import client module
-sys.path.insert(0, str(Path(__file__).parent.parent / "service-principal"))
-
-from client import MCPServicePrincipalClient
 
 
 # ============================================================================
@@ -29,7 +22,7 @@ from client import MCPServicePrincipalClient
 
 
 @pytest.mark.unit
-def test_client_initialization(test_config):
+def test_client_initialization(test_config, MCPServicePrincipalClient):
     """Test client initialization with service principal credentials."""
     client = MCPServicePrincipalClient(
         client_id=test_config["client_id"],
@@ -49,7 +42,7 @@ def test_client_initialization(test_config):
 
 
 @pytest.mark.unit
-def test_client_constructs_token_endpoint(test_config):
+def test_client_constructs_token_endpoint(test_config, MCPServicePrincipalClient):
     """Test that client constructs token endpoint correctly."""
     client = MCPServicePrincipalClient(
         client_id=test_config["client_id"],
@@ -74,6 +67,7 @@ async def test_acquire_token_success(
     mock_successful_app_token_response,
     mock_app_token,
     mock_time,
+    MCPServicePrincipalClient,
 ):
     """Test successful app-only token acquisition."""
     client = MCPServicePrincipalClient(
@@ -108,7 +102,7 @@ async def test_acquire_token_success(
 
 @pytest.mark.asyncio
 @pytest.mark.integration
-async def test_acquire_token_failure(test_config):
+async def test_acquire_token_failure(test_config, MCPServicePrincipalClient):
     """Test failed token acquisition."""
     client = MCPServicePrincipalClient(
         client_id=test_config["client_id"],
@@ -136,6 +130,7 @@ async def test_acquire_token_failure(test_config):
 async def test_acquire_token_sets_expiration(
     test_config,
     mock_successful_app_token_response,
+    MCPServicePrincipalClient,
 ):
     """Test that token expiration is calculated correctly."""
     client = MCPServicePrincipalClient(
@@ -169,6 +164,7 @@ async def test_ensure_token_acquires_if_none(
     test_config,
     mock_successful_app_token_response,
     mock_app_token,
+    MCPServicePrincipalClient,
 ):
     """Test ensure_token acquires new token if none exists."""
     client = MCPServicePrincipalClient(
@@ -196,6 +192,7 @@ async def test_ensure_token_acquires_if_none(
 async def test_ensure_token_uses_cached_token(
     test_config,
     mock_app_token,
+    MCPServicePrincipalClient,
 ):
     """Test ensure_token uses cached token if not expired."""
     client = MCPServicePrincipalClient(
@@ -228,6 +225,7 @@ async def test_ensure_token_refreshes_if_expiring_soon(
     test_config,
     mock_successful_app_token_response,
     mock_app_token,
+    MCPServicePrincipalClient,
 ):
     """Test ensure_token refreshes token if expiring within 5 minutes."""
     client = MCPServicePrincipalClient(
@@ -261,6 +259,7 @@ async def test_ensure_token_refreshes_if_expired(
     test_config,
     mock_successful_app_token_response,
     mock_app_token,
+    MCPServicePrincipalClient,
 ):
     """Test ensure_token refreshes token if already expired."""
     client = MCPServicePrincipalClient(
@@ -299,6 +298,7 @@ async def test_call_mcp_api_success(
     test_config,
     mock_app_token,
     mock_successful_health_response,
+    MCPServicePrincipalClient,
 ):
     """Test successful MCP API call with app-only token."""
     client = MCPServicePrincipalClient(
@@ -335,6 +335,7 @@ async def test_call_mcp_api_auto_acquires_token(
     mock_successful_app_token_response,
     mock_app_token,
     mock_successful_health_response,
+    MCPServicePrincipalClient,
 ):
     """Test MCP API call automatically acquires token if needed."""
     client = MCPServicePrincipalClient(
@@ -370,6 +371,7 @@ async def test_call_mcp_api_json_method(
     test_config,
     mock_app_token,
     mock_successful_health_response,
+    MCPServicePrincipalClient,
 ):
     """Test MCP API call with JSON body."""
     client = MCPServicePrincipalClient(
@@ -430,6 +432,7 @@ async def test_full_flow_token_and_api_call(
     mock_successful_app_token_response,
     mock_app_token,
     mock_successful_me_response_app,
+    MCPServicePrincipalClient,
 ):
     """Test full flow from token acquisition to API call."""
     client = MCPServicePrincipalClient(
@@ -465,6 +468,7 @@ async def test_multiple_api_calls_with_token_caching(
     mock_successful_app_token_response,
     mock_app_token,
     mock_successful_health_response,
+    MCPServicePrincipalClient,
 ):
     """Test multiple API calls use cached token."""
     client = MCPServicePrincipalClient(
