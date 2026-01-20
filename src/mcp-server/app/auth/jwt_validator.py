@@ -1,6 +1,6 @@
 """JWT validation with comprehensive security checks."""
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any
 
 from jose import JWTError, jwt
@@ -165,13 +165,13 @@ class JWTValidator:
         Raises:
             TokenInvalidError: If temporal validation fails
         """
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         leeway = timedelta(seconds=self.clock_skew)
 
         # Validate exp (already done by jose, but double-check)
         exp = claims.get("exp")
         if exp:
-            exp_time = datetime.utcfromtimestamp(exp)
+            exp_time = datetime.fromtimestamp(exp, tz=timezone.utc)
             if exp_time + leeway < now:
                 raise TokenInvalidError(
                     "Token has expired",
@@ -181,7 +181,7 @@ class JWTValidator:
         # Validate nbf (not before)
         nbf = claims.get("nbf")
         if nbf:
-            nbf_time = datetime.utcfromtimestamp(nbf)
+            nbf_time = datetime.fromtimestamp(nbf, tz=timezone.utc)
             if nbf_time - leeway > now:
                 raise TokenInvalidError(
                     "Token not yet valid (nbf)",
@@ -191,7 +191,7 @@ class JWTValidator:
         # Validate iat (issued at) - ensure not too old and not in future
         iat = claims.get("iat")
         if iat:
-            iat_time = datetime.utcfromtimestamp(iat)
+            iat_time = datetime.fromtimestamp(iat, tz=timezone.utc)
             # Token should not be issued in the future
             if iat_time - leeway > now:
                 raise TokenInvalidError(

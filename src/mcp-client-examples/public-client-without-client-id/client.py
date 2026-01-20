@@ -33,6 +33,7 @@ class OAuthCallbackHandler(BaseHTTPRequestHandler):
 
     authorization_code: Optional[str] = None
     error: Optional[str] = None
+    state: Optional[str] = None
 
     def do_GET(self):
         """Handle OAuth callback."""
@@ -41,6 +42,7 @@ class OAuthCallbackHandler(BaseHTTPRequestHandler):
 
         if "code" in params:
             OAuthCallbackHandler.authorization_code = params["code"][0]
+            OAuthCallbackHandler.state = params.get("state", [None])[0]
             self.send_response(200)
             self.send_header("Content-type", "text/html")
             self.end_headers()
@@ -139,7 +141,9 @@ class MCPPublicClient:
 
             return dcr_response
 
-    def _start_callback_server(self, timeout: int = 300) -> Optional[str]:
+    def _start_callback_server(
+        self, expected_state: str, timeout: int = 300
+    ) -> Optional[str]:
         """Start local HTTP server to receive OAuth callback."""
         port = int(urlparse(self.redirect_uri).port or 8080)
         server = HTTPServer(("localhost", port), OAuthCallbackHandler)
@@ -155,10 +159,20 @@ class MCPPublicClient:
             logger.error("oauth_callback_error", error=OAuthCallbackHandler.error)
             raise Exception(f"OAuth error: {OAuthCallbackHandler.error}")
 
+        # Validate state parameter (CSRF protection)
+        if OAuthCallbackHandler.state != expected_state:
+            logger.error(
+                "state_mismatch",
+                expected=expected_state,
+                received=OAuthCallbackHandler.state,
+            )
+            raise Exception("State parameter mismatch - possible CSRF attack")
+
         code = OAuthCallbackHandler.authorization_code
         # Reset for next use
         OAuthCallbackHandler.authorization_code = None
         OAuthCallbackHandler.error = None
+        OAuthCallbackHandler.state = None
 
         return code
 
@@ -192,7 +206,7 @@ class MCPPublicClient:
 
         # Wait for callback
         logger.info("waiting_for_oauth_callback")
-        authorization_code = self._start_callback_server()
+        authorization_code = self._start_callback_server(expected_state=state)
 
         logger.info("authorization_code_received")
 

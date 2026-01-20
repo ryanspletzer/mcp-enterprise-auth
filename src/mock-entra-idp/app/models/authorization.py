@@ -1,6 +1,6 @@
 """Authorization code and session models."""
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Literal
 
 from pydantic import BaseModel, Field
@@ -17,7 +17,7 @@ class AuthorizationSession(BaseModel):
     code_challenge: str | None = Field(None, description="PKCE code challenge")
     code_challenge_method: str | None = Field(None, description="PKCE challenge method")
     user_id: str | None = Field(None, description="Authenticated user ID")
-    created_at: datetime = Field(default_factory=datetime.utcnow, description="Session creation time")
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), description="Session creation time")
     expires_at: datetime = Field(..., description="Session expiration time")
 
     @classmethod
@@ -33,7 +33,7 @@ class AuthorizationSession(BaseModel):
         ttl: int = 600,
     ) -> "AuthorizationSession":
         """Create new authorization session."""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         return cls(
             session_id=session_id,
             client_id=client_id,
@@ -48,7 +48,7 @@ class AuthorizationSession(BaseModel):
 
     def is_expired(self) -> bool:
         """Check if session is expired."""
-        return datetime.utcnow() > self.expires_at
+        return datetime.now(timezone.utc) > self.expires_at
 
     class Config:
         """Pydantic config."""
@@ -66,7 +66,7 @@ class AuthorizationCode(BaseModel):
     code_challenge: str | None = Field(None, description="PKCE code challenge")
     code_challenge_method: str | None = Field(None, description="PKCE challenge method")
     audience: str | None = Field(None, description="Token audience")
-    created_at: datetime = Field(default_factory=datetime.utcnow, description="Code creation time")
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), description="Code creation time")
     expires_at: datetime = Field(..., description="Code expiration time")
     used: bool = Field(default=False, description="Whether code has been used")
 
@@ -84,7 +84,7 @@ class AuthorizationCode(BaseModel):
         ttl: int = 600,
     ) -> "AuthorizationCode":
         """Create new authorization code."""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         return cls(
             code=code,
             client_id=client_id,
@@ -100,7 +100,7 @@ class AuthorizationCode(BaseModel):
 
     def is_expired(self) -> bool:
         """Check if code is expired."""
-        return datetime.utcnow() > self.expires_at
+        return datetime.now(timezone.utc) > self.expires_at
 
     class Config:
         """Pydantic config."""
@@ -114,7 +114,7 @@ class RefreshToken(BaseModel):
     client_id: str = Field(..., description="Client ID")
     user_id: str = Field(..., description="User ID")
     scope: str = Field(..., description="Granted scope")
-    created_at: datetime = Field(default_factory=datetime.utcnow, description="Token creation time")
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), description="Token creation time")
     expires_at: datetime = Field(..., description="Token expiration time")
     revoked: bool = Field(default=False, description="Whether token has been revoked")
 
@@ -128,7 +128,7 @@ class RefreshToken(BaseModel):
         ttl: int = 86400,
     ) -> "RefreshToken":
         """Create new refresh token."""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         return cls(
             token=token,
             client_id=client_id,
@@ -140,7 +140,7 @@ class RefreshToken(BaseModel):
 
     def is_expired(self) -> bool:
         """Check if token is expired."""
-        return datetime.utcnow() > self.expires_at
+        return datetime.now(timezone.utc) > self.expires_at
 
     class Config:
         """Pydantic config."""
