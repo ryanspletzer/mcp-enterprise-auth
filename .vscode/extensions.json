@@ -20,8 +20,6 @@
     // Environment files
     "mikestead.dotenv",
     // REST API testing
-    "humao.rest-client",
-    // General utilities
     "EditorConfig.EditorConfig",
     "streetsidesoftware.code-spell-checker",
     "usernamehw.errorlens"

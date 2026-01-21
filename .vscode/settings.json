@@ -4,6 +4,12 @@
   "python.analysis.typeCheckingMode": "basic",
   "python.analysis.autoImportCompletions": true,
   "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.exclude": [
+    "**/.venv/**",
+    "**/venv/**",
+    "**/__pycache__/**",
+    "**/node_modules/**"
+  ],
   // Formatting - align with pyproject.toml (black, line-length 100)
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff",
@@ -18,12 +24,7 @@
   },
   // Ruff settings (replaces black, isort, flake8)
   "ruff.lineLength": 100,
-  "ruff.lint.args": [
-    "--config=${workspaceFolder}/src/mcp-server/pyproject.toml"
-  ],
-  "ruff.format.args": [
-    "--config=${workspaceFolder}/src/mcp-server/pyproject.toml"
-  ],
+  "ruff.configuration": "${workspaceFolder}/src/mcp-server/pyproject.toml",
   // Testing
   "python.testing.pytestEnabled": true,
   "python.testing.unittestEnabled": false,
