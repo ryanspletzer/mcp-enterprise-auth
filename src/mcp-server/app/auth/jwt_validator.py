@@ -1,5 +1,6 @@
 """JWT validation with comprehensive security checks."""
 
+import secrets
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
@@ -230,6 +231,8 @@ class JWTValidator:
     def _validate_tenant(self, claims: dict[str, Any]) -> None:
         """Validate tenant ID matches expected tenant.
 
+        Uses constant-time comparison to prevent timing attacks.
+
         Args:
             claims: JWT claims
 
@@ -238,7 +241,14 @@ class JWTValidator:
         """
         tid = claims.get("tid")
 
-        if tid != self.expected_tenant_id:
+        if not tid:
+            raise TokenInvalidError(
+                "Missing tenant ID (tid) claim",
+                details={"expected_tenant": self.expected_tenant_id},
+            )
+
+        # Use constant-time comparison to prevent timing attacks (defense in depth)
+        if not secrets.compare_digest(str(tid), str(self.expected_tenant_id)):
             logger.warning(
                 "jwt_invalid_tenant",
                 expected=self.expected_tenant_id,

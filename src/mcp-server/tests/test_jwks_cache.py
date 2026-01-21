@@ -184,12 +184,12 @@ class TestJWKSCache:
 
     def test_cache_age_property(self, jwks_cache: JWKSCache):
         """Test cache_age property."""
-        from datetime import datetime
+        from datetime import datetime, timezone
 
         assert jwks_cache.cache_age is None
 
-        # Set last_fetch
-        jwks_cache._last_fetch = datetime.utcnow()
+        # Set last_fetch (use timezone-aware datetime to match implementation)
+        jwks_cache._last_fetch = datetime.now(timezone.utc)
 
         assert jwks_cache.cache_age is not None
         assert jwks_cache.cache_age.total_seconds() >= 0

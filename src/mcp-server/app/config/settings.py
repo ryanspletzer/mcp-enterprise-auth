@@ -4,7 +4,7 @@ import os
 from functools import lru_cache
 from typing import Literal, Optional
 
-from pydantic import Field, field_validator
+from pydantic import Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -31,14 +31,22 @@ class Settings(BaseSettings):
         description="JWKS endpoint URL (defaults to {AUTHORITY}/discovery/v2.0/keys)"
     )
 
-    def __init__(self, **kwargs):
-        """Initialize settings with computed defaults."""
-        super().__init__(**kwargs)
-        # Set defaults based on tenant ID if not provided
+    @model_validator(mode="after")
+    def set_computed_defaults(self) -> "Settings":
+        """Set computed defaults after validation."""
         if not self.ENTRA_AUTHORITY:
-            self.ENTRA_AUTHORITY = f"https://login.microsoftonline.com/{self.ENTRA_TENANT_ID}"
+            object.__setattr__(
+                self,
+                "ENTRA_AUTHORITY",
+                f"https://login.microsoftonline.com/{self.ENTRA_TENANT_ID}",
+            )
         if not self.ENTRA_JWKS_URL:
-            self.ENTRA_JWKS_URL = f"{self.ENTRA_AUTHORITY}/discovery/v2.0/keys"
+            object.__setattr__(
+                self,
+                "ENTRA_JWKS_URL",
+                f"{self.ENTRA_AUTHORITY}/discovery/v2.0/keys",
+            )
+        return self
 
     @property
     def ENTRA_OIDC_CONFIG_URL(self) -> str:
@@ -143,6 +151,21 @@ class Settings(BaseSettings):
     )
     JWKS_CACHE_TTL_SECONDS: int = Field(
         default=86400, description="JWKS cache TTL (24 hours)"
+    )
+    JWKS_FETCH_TIMEOUT_SECONDS: float = Field(
+        default=10.0, description="Timeout for JWKS fetch operations"
+    )
+    HTTP_CLIENT_TIMEOUT_SECONDS: float = Field(
+        default=30.0, description="Default HTTP client timeout"
+    )
+    HTTP_MAX_KEEPALIVE_CONNECTIONS: int = Field(
+        default=5, description="Max keepalive connections for HTTP client pool"
+    )
+    HTTP_MAX_CONNECTIONS: int = Field(
+        default=10, description="Max total connections for HTTP client pool"
+    )
+    HTTP_KEEPALIVE_EXPIRY_SECONDS: float = Field(
+        default=30.0, description="Keepalive expiry time for HTTP connections"
     )
     VALIDATE_TOKEN_VERSION: bool = Field(default=True, description="Validate token version")
     ALLOWED_TOKEN_VERSIONS: str = Field(default="2.0", description="Allowed token versions")

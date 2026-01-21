@@ -2,12 +2,43 @@
 
 import logging
 import sys
-from typing import Any
+from typing import Any, Protocol
 
 import structlog
 from pythonjsonlogger import jsonlogger
 
 from app.config import Settings
+
+
+class StructuredLogger(Protocol):
+    """Protocol for structured logger interface.
+
+    Provides type hints for structlog logger methods.
+    """
+
+    def debug(self, event: str, **kwargs: Any) -> None:
+        """Log a debug message."""
+        ...
+
+    def info(self, event: str, **kwargs: Any) -> None:
+        """Log an info message."""
+        ...
+
+    def warning(self, event: str, **kwargs: Any) -> None:
+        """Log a warning message."""
+        ...
+
+    def error(self, event: str, **kwargs: Any) -> None:
+        """Log an error message."""
+        ...
+
+    def critical(self, event: str, **kwargs: Any) -> None:
+        """Log a critical message."""
+        ...
+
+    def exception(self, event: str, **kwargs: Any) -> None:
+        """Log an exception with traceback."""
+        ...
 
 
 def setup_logging(settings: Settings) -> None:
@@ -75,13 +106,13 @@ def setup_logging(settings: Settings) -> None:
     logging.getLogger("httpcore").setLevel(logging.WARNING)
 
 
-def get_logger(name: str) -> Any:
+def get_logger(name: str) -> StructuredLogger:
     """Get a structured logger instance.
 
     Args:
         name: Logger name (usually __name__)
 
     Returns:
-        Structured logger instance
+        Structured logger instance with type hints for IDE support
     """
-    return structlog.get_logger(name)
+    return structlog.get_logger(name)  # type: ignore[return-value]

@@ -1,14 +1,23 @@
-"""Configuration settings for Mock Entra ID."""
+"""Configuration settings for Mock Entra ID.
 
+WARNING: This mock IdP is for TESTING and DEVELOPMENT only.
+It MUST NOT be used in production environments.
+"""
+
+import warnings
 from functools import lru_cache
 from typing import Literal
 
-from pydantic import Field
+from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    """Mock Entra ID configuration settings."""
+    """Mock Entra ID configuration settings.
+
+    WARNING: This mock IdP is for testing and development only.
+    Do NOT use in production - use actual Microsoft Entra ID.
+    """
 
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -16,6 +25,30 @@ class Settings(BaseSettings):
         case_sensitive=True,
         extra="ignore",
     )
+
+    # Environment Configuration - prevents accidental production use
+    ENVIRONMENT: Literal["test", "development", "local"] = Field(
+        default="development",
+        description="Environment mode - MUST be test, development, or local (NOT production)",
+    )
+
+    @field_validator("ENVIRONMENT")
+    @classmethod
+    def validate_environment(cls, v: str) -> str:
+        """Prevent running in production-like environments."""
+        if v.lower() in ("production", "prod", "live", "staging"):
+            raise ValueError(
+                "Mock IdP MUST NOT be used in production or staging environments. "
+                "Use actual Microsoft Entra ID for production deployments."
+            )
+        # Always warn that this is a mock IdP
+        warnings.warn(
+            f"Mock Entra ID is running in '{v}' mode. "
+            "This is for TESTING ONLY - do NOT use in production.",
+            UserWarning,
+            stacklevel=2,
+        )
+        return v
 
     # Mock IdP Configuration
     MOCK_TENANT_ID: str = Field(

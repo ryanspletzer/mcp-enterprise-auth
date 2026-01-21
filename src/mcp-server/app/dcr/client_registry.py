@@ -3,6 +3,8 @@
 Maps client types to pre-registered app credentials in Entra ID.
 """
 
+import re
+from functools import lru_cache
 from typing import Any, Optional
 
 from app.config import Settings
@@ -10,6 +12,20 @@ from app.dcr.client_detector import ClientType
 from app.utils.logging import get_logger
 
 logger = get_logger(__name__)
+
+
+@lru_cache(maxsize=32)
+def _compile_wildcard_pattern(pattern: str) -> re.Pattern[str]:
+    """Compile wildcard pattern to regex with caching.
+
+    Args:
+        pattern: Pattern with * wildcards (e.g., "http://localhost:*/callback")
+
+    Returns:
+        Compiled regex pattern
+    """
+    pattern_regex = pattern.replace("*", r"\d+")
+    return re.compile(f"^{pattern_regex}$")
 
 
 class ClientRegistry:
@@ -186,11 +202,8 @@ class ClientRegistry:
         # Check wildcard patterns (e.g., http://localhost:*/callback)
         for pattern in allowed_patterns:
             if "*" in pattern:
-                # Simple wildcard matching
-                pattern_regex = pattern.replace("*", r"\d+")
-                import re
-
-                if re.match(f"^{pattern_regex}$", redirect_uri):
+                compiled = _compile_wildcard_pattern(pattern)
+                if compiled.match(redirect_uri):
                     return True, None
 
         return False, f"Redirect URI not allowed for {client_info['name']}"

@@ -66,6 +66,27 @@ class ClientDetector:
         ],
     }
 
+    # Client name patterns - each entry is a list of substrings that must ALL match
+    # This data-driven approach makes adding new clients straightforward
+    CLIENT_NAME_PATTERNS: dict[ClientType, list[list[str]]] = {
+        ClientType.VSCODE: [
+            ["vscode"],
+            ["visual studio code"],
+            ["vs code"],
+        ],
+        ClientType.CLAUDE_DESKTOP: [
+            ["claude", "desktop"],
+        ],
+        ClientType.CLAUDE_CODE: [
+            ["claude", "code"],
+            ["claude", "cli"],
+        ],
+        ClientType.CHATGPT: [
+            ["chatgpt"],
+            ["openai"],
+        ],
+    }
+
     def detect(
         self,
         redirect_uri: Optional[str] = None,
@@ -167,6 +188,9 @@ class ClientDetector:
     def _detect_by_client_name(self, client_name: str) -> Optional[ClientType]:
         """Detect client type by client name.
 
+        Uses data-driven pattern matching for maintainability.
+        Each pattern is a list of substrings that must ALL be present.
+
         Args:
             client_name: Client name from request
 
@@ -175,16 +199,10 @@ class ClientDetector:
         """
         client_name_lower = client_name.lower()
 
-        if "vscode" in client_name_lower or "visual studio code" in client_name_lower or "vs code" in client_name_lower:
-            return ClientType.VSCODE
-        elif "claude" in client_name_lower and "desktop" in client_name_lower:
-            return ClientType.CLAUDE_DESKTOP
-        elif "claude" in client_name_lower and (
-            "code" in client_name_lower or "cli" in client_name_lower
-        ):
-            return ClientType.CLAUDE_CODE
-        elif "chatgpt" in client_name_lower or "openai" in client_name_lower:
-            return ClientType.CHATGPT
+        for client_type, pattern_groups in self.CLIENT_NAME_PATTERNS.items():
+            for pattern_parts in pattern_groups:
+                if all(part in client_name_lower for part in pattern_parts):
+                    return client_type
 
         return None
 

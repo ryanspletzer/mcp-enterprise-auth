@@ -1,5 +1,6 @@
 """Token type detection and permission validation."""
 
+import re
 from enum import Enum
 from typing import Any
 
@@ -8,6 +9,10 @@ from app.utils.exceptions import AuthorizationError
 from app.utils.logging import get_logger
 
 logger = get_logger(__name__)
+
+# Regex pattern for validating scope/role format
+# Allows alphanumeric characters, dots, underscores, hyphens, colons, and forward slashes
+_SCOPE_ROLE_PATTERN = re.compile(r"^[a-zA-Z0-9._\-:/]+$")
 
 
 class TokenType(str, Enum):
@@ -122,6 +127,20 @@ class TokenValidator:
                 details={"required_scopes": self.required_scopes},
             )
 
+        # Validate scope format (defense in depth)
+        for scope in scopes:
+            if not _SCOPE_ROLE_PATTERN.match(scope):
+                logger.warning(
+                    "invalid_scope_format",
+                    scope=scope,
+                    pattern="alphanumeric with ._-:/",
+                )
+                raise AuthorizationError(
+                    f"Invalid scope format: {scope}",
+                    error_code="invalid_scope",
+                    details={"scope": scope},
+                )
+
         # Validate scopes
         if self.validate_scopes_all:
             # Require ALL scopes (AND logic)
@@ -196,6 +215,20 @@ class TokenValidator:
                 error_code="missing_role",
                 details={"required_roles": self.required_roles},
             )
+
+        # Validate role format (defense in depth)
+        for role in roles:
+            if not _SCOPE_ROLE_PATTERN.match(role):
+                logger.warning(
+                    "invalid_role_format",
+                    role=role,
+                    pattern="alphanumeric with ._-:/",
+                )
+                raise AuthorizationError(
+                    f"Invalid role format: {role}",
+                    error_code="invalid_role",
+                    details={"role": role},
+                )
 
         # Validate roles (typically ANY role is sufficient, but configurable)
         if self.validate_roles_any:

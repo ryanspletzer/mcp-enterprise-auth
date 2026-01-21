@@ -1,7 +1,7 @@
 """Pytest fixtures and configuration for MCP server tests."""
 
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, AsyncGenerator, Dict
 from unittest.mock import AsyncMock, MagicMock
 
@@ -120,7 +120,7 @@ def jwks_response() -> Dict[str, Any]:
 @pytest.fixture
 def user_jwt_claims(test_settings: Settings) -> Dict[str, Any]:
     """User (delegated) JWT claims."""
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     return {
         "aud": test_settings.MCP_SERVER_APP_ID,
         "iss": f"{test_settings.ENTRA_AUTHORITY}/v2.0",
@@ -142,7 +142,7 @@ def user_jwt_claims(test_settings: Settings) -> Dict[str, Any]:
 @pytest.fixture
 def app_only_jwt_claims(test_settings: Settings) -> Dict[str, Any]:
     """App-only (service principal) JWT claims."""
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     return {
         "aud": test_settings.MCP_SERVER_APP_ID,
         "iss": f"{test_settings.ENTRA_AUTHORITY}/v2.0",
@@ -165,7 +165,7 @@ def app_only_jwt_claims(test_settings: Settings) -> Dict[str, Any]:
 def expired_jwt_claims(user_jwt_claims: Dict[str, Any]) -> Dict[str, Any]:
     """Expired JWT claims."""
     expired = user_jwt_claims.copy()
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     expired["exp"] = int((now - timedelta(hours=1)).timestamp())
     expired["iat"] = int((now - timedelta(hours=2)).timestamp())
     return expired
