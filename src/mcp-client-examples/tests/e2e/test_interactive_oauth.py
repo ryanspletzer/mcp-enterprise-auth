@@ -95,9 +95,9 @@ class TestPublicClientAuthCodePKCE:
         # Decode and verify token claims (without signature verification)
         claims = jwt.get_unverified_claims(token_result.access_token)
 
-        # Verify audience
-        assert claims.get("aud") == entra_config.mcp_server_app_id, (
-            f"Expected audience {entra_config.mcp_server_app_id}, "
+        # Verify audience (can be App ID URI or client ID)
+        assert claims.get("aud") in entra_config.valid_audiences, (
+            f"Expected audience in {entra_config.valid_audiences}, "
             f"got {claims.get('aud')}"
         )
 
@@ -183,8 +183,8 @@ class TestConfidentialClientAuthCode:
         # Decode and verify token claims
         claims = jwt.get_unverified_claims(token_result.access_token)
 
-        # Verify audience and tenant
-        assert claims.get("aud") == entra_config.mcp_server_app_id
+        # Verify audience and tenant (audience can be App ID URI or client ID)
+        assert claims.get("aud") in entra_config.valid_audiences
         assert claims.get("tid") == entra_config.tenant_id
 
         print(f"Confidential client token validated!")
@@ -229,9 +229,9 @@ class TestServicePrincipalClientCredentials:
         # Decode and verify token claims
         claims = jwt.get_unverified_claims(token_result.access_token)
 
-        # Verify audience and tenant
-        assert claims.get("aud") == entra_config.mcp_server_app_id, (
-            f"Expected audience {entra_config.mcp_server_app_id}"
+        # Verify audience and tenant (audience can be App ID URI or client ID)
+        assert claims.get("aud") in entra_config.valid_audiences, (
+            f"Expected audience in {entra_config.valid_audiences}, got {claims.get('aud')}"
         )
         assert claims.get("tid") == entra_config.tenant_id
 
@@ -241,8 +241,13 @@ class TestServicePrincipalClientCredentials:
             "Service principal should have MCP.ReadWrite.All role"
         )
 
-        # Verify idtyp indicates app-only token
-        assert claims.get("idtyp") == "app", "Token should be app-only (idtyp=app)"
+        # Verify this is an app-only token (idtyp=app if present, or no scp claim)
+        # Note: idtyp claim may not be present in all Entra ID configurations
+        if "idtyp" in claims:
+            assert claims.get("idtyp") == "app", "Token should be app-only (idtyp=app)"
+        else:
+            # If idtyp not present, verify it's an app token by absence of scp claim
+            assert "scp" not in claims, "App token should not have 'scp' claim"
 
         print(f"Service principal token validated!")
         print(f"  App ID: {claims.get('appid')}")

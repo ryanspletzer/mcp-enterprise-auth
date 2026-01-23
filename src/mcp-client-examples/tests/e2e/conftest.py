@@ -8,13 +8,106 @@ import base64
 import hashlib
 import os
 import secrets
+import threading
 from dataclasses import dataclass
+from http.server import HTTPServer, BaseHTTPRequestHandler
 from typing import Generator
 from urllib.parse import parse_qs, urlencode, urlparse
 
 import httpx
 import pytest
 from playwright.sync_api import Browser, BrowserContext, Page, sync_playwright
+
+
+# =============================================================================
+# Callback Server for OAuth Redirects
+# =============================================================================
+
+
+class OAuthCallbackHandler(BaseHTTPRequestHandler):
+    """HTTP handler that captures OAuth callback parameters."""
+
+    # Class-level storage for captured callback
+    captured_url: str | None = None
+    captured_params: dict | None = None
+
+    def do_GET(self):
+        """Handle GET request (OAuth callback)."""
+        # Parse the path
+        parsed = urlparse(self.path)
+
+        # Only capture params for the callback path, ignore favicon etc.
+        if parsed.path == "/callback":
+            # Store the full URL path (includes query string)
+            OAuthCallbackHandler.captured_url = self.path
+
+            # Parse query parameters
+            raw_params = parse_qs(parsed.query)
+
+            # Flatten single-value lists for easier access
+            OAuthCallbackHandler.captured_params = {
+                k: v[0] if len(v) == 1 else v
+                for k, v in raw_params.items()
+            }
+
+        # Send success response
+        self.send_response(200)
+        self.send_header("Content-type", "text/html")
+        self.end_headers()
+
+        html = """
+        <!DOCTYPE html>
+        <html>
+        <head><title>OAuth Callback</title></head>
+        <body>
+            <h1>Authentication Successful!</h1>
+            <p>You can close this window and return to the test.</p>
+            <script>window.close();</script>
+        </body>
+        </html>
+        """
+        self.wfile.write(html.encode())
+
+    def log_message(self, format, *args):
+        """Suppress default logging."""
+        pass
+
+
+class CallbackServer:
+    """Simple HTTP server to capture OAuth callbacks."""
+
+    def __init__(self, port: int = 8080):
+        self.port = port
+        self.server: HTTPServer | None = None
+        self.thread: threading.Thread | None = None
+
+    def start(self):
+        """Start the callback server in a background thread."""
+        # Reset captured data
+        OAuthCallbackHandler.captured_url = None
+        OAuthCallbackHandler.captured_params = None
+
+        self.server = HTTPServer(("localhost", self.port), OAuthCallbackHandler)
+        self.thread = threading.Thread(target=self.server.serve_forever)
+        self.thread.daemon = True
+        self.thread.start()
+
+    def stop(self):
+        """Stop the callback server."""
+        if self.server:
+            self.server.shutdown()
+            self.server = None
+        if self.thread:
+            self.thread.join(timeout=1)
+            self.thread = None
+
+    def get_captured_params(self) -> dict | None:
+        """Get the captured callback parameters."""
+        return OAuthCallbackHandler.captured_params
+
+    def get_captured_url(self) -> str | None:
+        """Get the captured callback URL."""
+        return OAuthCallbackHandler.captured_url
 
 
 @dataclass
@@ -24,6 +117,7 @@ class EntraConfig:
     tenant_id: str
     authority: str
     mcp_server_app_id: str
+    mcp_server_client_id: str  # The actual client ID (used as audience in tokens)
     generic_client_id: str
     confidential_client_id: str
     confidential_client_secret: str
@@ -49,6 +143,14 @@ class EntraConfig:
     def user_scopes(self) -> str:
         """User scopes for delegated access."""
         return f"{self.mcp_server_app_id}/mcp.read {self.mcp_server_app_id}/mcp.write"
+
+    @property
+    def valid_audiences(self) -> list[str]:
+        """Valid audience values for token validation.
+
+        Entra ID may return either the App ID URI or the client ID as the audience.
+        """
+        return [self.mcp_server_app_id, self.mcp_server_client_id]
 
 
 @dataclass
@@ -131,6 +233,7 @@ def entra_config() -> EntraConfig:
         tenant_id=get_required_env("ENTRA_TENANT_ID"),
         authority=get_required_env("ENTRA_AUTHORITY"),
         mcp_server_app_id=get_required_env("MCP_SERVER_APP_ID"),
+        mcp_server_client_id=get_required_env("MCP_SERVER_CLIENT_ID"),
         generic_client_id=get_required_env("GENERIC_CLIENT_ID"),
         confidential_client_id=get_required_env("CONFIDENTIAL_CLIENT_ID"),
         confidential_client_secret=get_required_env("CONFIDENTIAL_CLIENT_SECRET"),
@@ -204,6 +307,15 @@ def oauth_state() -> str:
 def redirect_uri() -> str:
     """Default redirect URI for testing."""
     return "http://localhost:8080/callback"
+
+
+@pytest.fixture
+def callback_server() -> Generator[CallbackServer, None, None]:
+    """Start a callback server to receive OAuth redirects."""
+    server = CallbackServer(port=8080)
+    server.start()
+    yield server
+    server.stop()
 
 
 # =============================================================================
@@ -390,10 +502,10 @@ def build_authorization_url(entra_config: EntraConfig):
 
 
 @pytest.fixture
-def wait_for_callback(redirect_uri: str):
+def wait_for_callback(redirect_uri: str, callback_server: CallbackServer):
     """Factory fixture to wait for OAuth callback and extract code.
 
-    Returns a function that waits for the page to navigate to the callback URL.
+    Uses a local HTTP server to receive the OAuth callback.
     """
 
     def _wait(page: Page, expected_state: str, timeout: int = 120000) -> AuthorizationResult:
@@ -410,22 +522,28 @@ def wait_for_callback(redirect_uri: str):
         Raises:
             ValueError: If state mismatch or error in callback.
         """
-        # Wait for redirect to callback URL
-        page.wait_for_url(f"{redirect_uri}*", timeout=timeout)
+        import time
 
-        # Parse callback URL
-        callback_url = page.url
-        parsed = urlparse(callback_url)
-        params = parse_qs(parsed.query)
+        # Wait for the callback server to receive the redirect
+        start_time = time.time()
+
+        while (time.time() - start_time) * 1000 < timeout:
+            params = callback_server.get_captured_params()
+            if params is not None:
+                break
+            time.sleep(0.5)
+
+        if params is None:
+            raise TimeoutError(f"Timed out waiting for callback at {redirect_uri}")
 
         # Check for errors
         if "error" in params:
-            error = params["error"][0]
-            error_description = params.get("error_description", ["Unknown error"])[0]
+            error = params.get("error", "unknown_error")
+            error_description = params.get("error_description", "Unknown error")
             raise ValueError(f"OAuth error: {error} - {error_description}")
 
         # Validate state
-        received_state = params.get("state", [None])[0]
+        received_state = params.get("state")
         if received_state != expected_state:
             raise ValueError(
                 f"State mismatch - CSRF attack detected. "
@@ -437,7 +555,7 @@ def wait_for_callback(redirect_uri: str):
             raise ValueError("No authorization code in callback")
 
         return AuthorizationResult(
-            code=params["code"][0],
+            code=params["code"],
             state=received_state,
             redirect_uri=redirect_uri,
         )

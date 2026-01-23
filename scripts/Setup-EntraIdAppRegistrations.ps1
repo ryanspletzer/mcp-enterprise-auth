@@ -539,7 +539,7 @@ MCP_SERVER_SCOPE_PREFIX=api://mcp-server-resource
 # -----------------------------------------------------------------------------
 # Authorization Requirements
 # -----------------------------------------------------------------------------
-REQUIRED_SCOPE=mcp.read mcp.write
+REQUIRED_SCOPE="mcp.read mcp.write"
 REQUIRED_ROLE=MCP.ReadWrite.All
 
 # -----------------------------------------------------------------------------
