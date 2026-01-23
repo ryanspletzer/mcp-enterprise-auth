@@ -413,3 +413,4 @@ For detailed flows, see:
 3. [Confidential Client Auth Flow](./03-confidential-client-auth-flow.md)
 4. [Service Principal Client Credentials Flow](./04-service-principal-client-credentials-flow.md)
 5. [JWT Validation Flow](./05-jwt-validation-flow.md)
+6. [Protected Resource Metadata](./06-protected-resource-metadata.md) (optional discovery)

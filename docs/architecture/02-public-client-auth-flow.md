@@ -3,6 +3,11 @@
 This flow is used for public clients
 (both those that obtained client_id via DCR and those that already have one).
 
+> **Optional Discovery Step**: Before initiating this flow,
+> clients can optionally discover the authorization server and required scopes
+> via Protected Resource Metadata.
+> See [06-protected-resource-metadata.md](./06-protected-resource-metadata.md).
+
 ```mermaid
 sequenceDiagram
     participant User

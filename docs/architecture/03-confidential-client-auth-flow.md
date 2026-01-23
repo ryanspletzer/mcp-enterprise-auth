@@ -3,6 +3,11 @@
 This flow is used for confidential clients that have both client_id and client_secret.
 Still uses Auth Code flow for user context, but authenticates the client itself.
 
+> **Optional Discovery Step**: Before initiating this flow,
+> clients can optionally discover the authorization server and required scopes
+> via Protected Resource Metadata.
+> See [06-protected-resource-metadata.md](./06-protected-resource-metadata.md).
+
 ```mermaid
 sequenceDiagram
     participant User

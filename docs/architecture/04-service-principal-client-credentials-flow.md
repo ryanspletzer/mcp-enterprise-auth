@@ -2,6 +2,11 @@
 
 This flow is for machine-to-machine scenarios where a service principal authenticates without user context.
 
+> **Optional Discovery Step**: Before initiating this flow,
+> services can optionally discover the authorization server and token endpoint
+> via Protected Resource Metadata.
+> See [06-protected-resource-metadata.md](./06-protected-resource-metadata.md).
+
 ```mermaid
 sequenceDiagram
     participant Service/App
