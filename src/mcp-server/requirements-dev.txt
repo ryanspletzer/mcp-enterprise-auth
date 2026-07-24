@@ -12,4 +12,4 @@ safety==3.0.1
 bandit==1.7.6
 
 # Performance testing
-locust==2.20.0
+locust==2.46.1
