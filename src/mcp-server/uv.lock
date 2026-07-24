@@ -646,14 +646,14 @@ wheels = [
 
 [[package]]
 name = "faker"
-version = "40.1.2"
+version = "40.35.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "tzdata", marker = "sys_platform == 'win32'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/5e/77/1c3ff07b6739b9a1d23ca01ec0a90a309a33b78e345a3eb52f9ce9240e36/faker-40.1.2.tar.gz", hash = "sha256:b76a68163aa5f171d260fc24827a8349bc1db672f6a665359e8d0095e8135d30", size = 1949802, upload-time = "2026-01-13T20:51:49.917Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/fe/a1/79278f517de8437a51af4cbce9cb86b0085fc22554e7ebffc6cb43bcb957/faker-40.35.0.tar.gz", hash = "sha256:13495348ec6f80d22c8c1654906ffeae336d485fea476544642ea24b120d9e13", size = 2025535, upload-time = "2026-07-22T17:18:42.589Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/46/ec/91a434c8a53d40c3598966621dea9c50512bec6ce8e76fa1751015e74cef/faker-40.1.2-py3-none-any.whl", hash = "sha256:93503165c165d330260e4379fd6dc07c94da90c611ed3191a0174d2ab9966a42", size = 1985633, upload-time = "2026-01-13T20:51:47.982Z" },
+    { url = "https://files.pythonhosted.org/packages/8c/c4/d217ea24d07fbdb00c81c83325fc814ee72ed93c70978ea5d4150604c305/faker-40.35.0-py3-none-any.whl", hash = "sha256:804224bc4ea6644256dd2ef5c951563bea318cb19be3505461c9c424c90181ec", size = 2062734, upload-time = "2026-07-22T17:18:40.919Z" },
 ]
 
 [[package]]
@@ -1318,7 +1318,7 @@ requires-dist = [
     { name = "black", marker = "extra == 'dev'", specifier = ">=24.1.1" },
     { name = "cachetools", specifier = ">=5.3.2" },
     { name = "cryptography", specifier = ">=42.0.0" },
-    { name = "faker", marker = "extra == 'dev'", specifier = ">=22.2.0" },
+    { name = "faker", marker = "extra == 'dev'", specifier = ">=40.35.0" },
     { name = "fastapi", specifier = ">=0.109.0" },
     { name = "flake8", marker = "extra == 'dev'", specifier = ">=7.0.0" },
     { name = "hiredis", specifier = ">=2.3.2" },
@@ -1352,7 +1352,7 @@ provides-extras = ["aws", "dev"]
 dev = [
     { name = "bandit", specifier = ">=1.7.6" },
     { name = "black", specifier = ">=24.1.1" },
-    { name = "faker", specifier = ">=22.2.0" },
+    { name = "faker", specifier = ">=40.35.0" },
     { name = "flake8", specifier = ">=7.0.0" },
     { name = "isort", specifier = ">=5.13.2" },
     { name = "mypy", specifier = ">=1.8.0" },
