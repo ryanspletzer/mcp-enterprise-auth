@@ -7,7 +7,7 @@ Example prompts demonstrating MCP prompt capabilities:
 - Data analysis prompts
 """
 
-from typing import Any, Dict, List
+from typing import Callable, Dict, List
 
 import structlog
 
@@ -24,12 +24,12 @@ logger = structlog.get_logger()
 class PromptRegistry:
     """Registry of available MCP prompts."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._prompts: Dict[str, Prompt] = {}
-        self._handlers: Dict[str, callable] = {}
+        self._handlers: Dict[str, Callable[[Dict[str, str]], PromptGetResponse]] = {}
         self._register_builtin_prompts()
 
-    def _register_builtin_prompts(self):
+    def _register_builtin_prompts(self) -> None:
         """Register all built-in prompts."""
 
         # Greeting prompt
@@ -124,7 +124,9 @@ class PromptRegistry:
                 arguments=[
                     PromptArgument(
                         name="content_type",
-                        description="Type of content to summarize (article, document, conversation)",
+                        description=(
+                            "Type of content to summarize (article, document, conversation)"
+                        ),
                         required=True,
                     ),
                     PromptArgument(
@@ -158,7 +160,9 @@ class PromptRegistry:
             troubleshoot_prompt,
         )
 
-    def register(self, prompt: Prompt, handler: callable):
+    def register(
+        self, prompt: Prompt, handler: Callable[[Dict[str, str]], PromptGetResponse]
+    ) -> None:
         """Register a prompt with its handler."""
         self._prompts[prompt.name] = prompt
         self._handlers[prompt.name] = handler
@@ -233,9 +237,15 @@ def weather_query_prompt(arguments: Dict[str, str]) -> PromptGetResponse:
     detail_level = arguments.get("detail_level", "basic")
 
     if detail_level == "detailed":
-        query = f"Please provide detailed weather information for {location}, including temperature, conditions, humidity, wind speed, and any weather alerts."
+        query = (
+            f"Please provide detailed weather information for {location}, "
+            "including temperature, conditions, humidity, wind speed, and any weather alerts."
+        )
     elif detail_level == "forecast":
-        query = f"Please provide a weather forecast for {location} for the next 5 days, including daily highs, lows, and conditions."
+        query = (
+            f"Please provide a weather forecast for {location} for the next 5 days, "
+            "including daily highs, lows, and conditions."
+        )
     else:
         query = f"What's the current weather in {location}?"
 
@@ -259,8 +269,13 @@ def code_review_prompt(arguments: Dict[str, str]) -> PromptGetResponse:
     focus_area = arguments.get("focus_area", "all")
 
     focus_instructions = {
-        "security": "Focus particularly on security vulnerabilities, input validation, and potential attack vectors.",
-        "performance": "Focus on performance optimizations, algorithmic efficiency, and resource usage.",
+        "security": (
+            "Focus particularly on security vulnerabilities, input validation, "
+            "and potential attack vectors."
+        ),
+        "performance": (
+            "Focus on performance optimizations, algorithmic efficiency, and resource usage."
+        ),
         "style": "Focus on code style, readability, naming conventions, and best practices.",
         "all": "Review for security, performance, style, and overall code quality.",
     }

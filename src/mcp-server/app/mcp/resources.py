@@ -24,12 +24,12 @@ logger = structlog.get_logger()
 class ResourceRegistry:
     """Registry of available MCP resources."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._resources: Dict[str, Resource] = {}
         self._content: Dict[str, str] = {}
         self._register_builtin_resources()
 
-    def _register_builtin_resources(self):
+    def _register_builtin_resources(self) -> None:
         """Register all built-in resources."""
 
         # README document
@@ -232,7 +232,7 @@ Access server documentation and configuration through MCP resources.
 5,Epsilon,38.7,B,2024-01-05T00:00:00Z""",
         )
 
-    def register(self, resource: Resource, content: str):
+    def register(self, resource: Resource, content: str) -> None:
         """Register a resource with its content."""
         self._resources[resource.uri] = resource
         self._content[resource.uri] = content

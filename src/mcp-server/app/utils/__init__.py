@@ -11,7 +11,7 @@ from app.utils.exceptions import (
     TokenExpiredError,
     TokenInvalidError,
 )
-from app.utils.logging import setup_logging, StructuredLogger
+from app.utils.logging import StructuredLogger, setup_logging
 
 __all__ = [
     "AuthenticationError",

@@ -33,7 +33,7 @@ class JWKSCache:
         self.cache_ttl = settings.JWKS_CACHE_TTL_SECONDS
 
         # TTL cache for JWKS
-        self._cache: TTLCache = TTLCache(maxsize=1, ttl=self.cache_ttl)
+        self._cache: TTLCache[str, dict[str, Any]] = TTLCache(maxsize=1, ttl=self.cache_ttl)
         self._lock = asyncio.Lock()
         self._last_fetch: Optional[datetime] = None
 
@@ -123,7 +123,7 @@ class JWKSCache:
             client = self._get_http_client()
             response = await client.get(self.jwks_url)
             response.raise_for_status()
-            jwks = response.json()
+            jwks: dict[str, Any] = response.json()
 
             # Validate JWKS structure
             if "keys" not in jwks or not isinstance(jwks["keys"], list):
@@ -190,7 +190,7 @@ class JWKSCache:
             JWKSError: If JWKS fetch fails
         """
         jwks = await self.get_jwks()
-        keys = jwks.get("keys", [])
+        keys: list[dict[str, Any]] = jwks.get("keys", [])
 
         for key in keys:
             if key.get("kid") == kid:

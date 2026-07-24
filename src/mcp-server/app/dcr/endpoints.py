@@ -189,7 +189,9 @@ async def register_client(
 @router.get(
     "/clients/{client_id}",
     summary="Get client information (not implemented)",
-    description="Standard DCR endpoint for retrieving client info. Not implemented in this emulation.",
+    description=(
+        "Standard DCR endpoint for retrieving client info. Not implemented in this emulation."
+    ),
 )
 async def get_client_info(client_id: str) -> dict[str, Any]:
     """Get client information (not implemented).

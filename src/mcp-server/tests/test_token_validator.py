@@ -35,9 +35,7 @@ class TestTokenValidator:
         token_type = token_validator.detect_token_type(claims)
         assert token_type == TokenType.APP_ONLY
 
-    def test_validate_user_permissions_with_valid_scopes(
-        self, token_validator, user_jwt_claims
-    ):
+    def test_validate_user_permissions_with_valid_scopes(self, token_validator, user_jwt_claims):
         """Test validate_permissions succeeds with valid user scopes."""
         result = token_validator.validate_permissions(user_jwt_claims, TokenType.USER)
 
@@ -47,9 +45,7 @@ class TestTokenValidator:
         assert result["user_id"] == "test-user-oid"
         assert result["user_principal"] == "testuser@example.com"
 
-    def test_validate_user_permissions_with_missing_scope(
-        self, token_validator, user_jwt_claims
-    ):
+    def test_validate_user_permissions_with_missing_scope(self, token_validator, user_jwt_claims):
         """Test validate_permissions fails with missing scope."""
         claims = user_jwt_claims.copy()
         claims["scp"] = "other.scope"
@@ -59,9 +55,7 @@ class TestTokenValidator:
 
         assert "must have" in str(exc_info.value).lower()
 
-    def test_validate_user_permissions_with_no_scopes(
-        self, token_validator, user_jwt_claims
-    ):
+    def test_validate_user_permissions_with_no_scopes(self, token_validator, user_jwt_claims):
         """Test validate_permissions fails when scp claim is missing."""
         claims = user_jwt_claims.copy()
         del claims["scp"]
@@ -71,22 +65,16 @@ class TestTokenValidator:
 
         assert "missing scope" in str(exc_info.value).lower()
 
-    def test_validate_app_permissions_with_valid_roles(
-        self, token_validator, app_only_jwt_claims
-    ):
+    def test_validate_app_permissions_with_valid_roles(self, token_validator, app_only_jwt_claims):
         """Test validate_permissions succeeds with valid app roles."""
-        result = token_validator.validate_permissions(
-            app_only_jwt_claims, TokenType.APP_ONLY
-        )
+        result = token_validator.validate_permissions(app_only_jwt_claims, TokenType.APP_ONLY)
 
         assert result["token_type"] == TokenType.APP_ONLY
         assert "Test.ReadWrite.All" in result["roles"]
         assert result["service_principal_id"] == "test-sp-oid"
         assert result["app_id"] == "test-sp-client-id"
 
-    def test_validate_app_permissions_with_missing_role(
-        self, token_validator, app_only_jwt_claims
-    ):
+    def test_validate_app_permissions_with_missing_role(self, token_validator, app_only_jwt_claims):
         """Test validate_permissions fails with missing role."""
         claims = app_only_jwt_claims.copy()
         claims["roles"] = ["Other.Role"]
@@ -96,9 +84,7 @@ class TestTokenValidator:
 
         assert "must have role" in str(exc_info.value).lower()
 
-    def test_validate_app_permissions_with_no_roles(
-        self, token_validator, app_only_jwt_claims
-    ):
+    def test_validate_app_permissions_with_no_roles(self, token_validator, app_only_jwt_claims):
         """Test validate_permissions fails when roles claim is missing."""
         claims = app_only_jwt_claims.copy()
         del claims["roles"]
@@ -121,9 +107,7 @@ class TestTokenValidator:
 
     def test_extract_identity_for_app_token(self, token_validator, app_only_jwt_claims):
         """Test extract_identity for app-only token."""
-        identity = token_validator.extract_identity(
-            app_only_jwt_claims, TokenType.APP_ONLY
-        )
+        identity = token_validator.extract_identity(app_only_jwt_claims, TokenType.APP_ONLY)
 
         assert identity["token_type"] == "app_only"
         assert identity["service_principal_id"] == "test-sp-oid"

@@ -2,7 +2,7 @@
 
 import os
 from datetime import datetime, timedelta, timezone
-from typing import Any, AsyncGenerator, Dict
+from typing import Any, Dict
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
@@ -10,28 +10,30 @@ from fastapi.testclient import TestClient
 from jose import jwt
 
 # Set test environment variables before importing app
-os.environ.update({
-    "ENTRA_TENANT_ID": "test-tenant-id",
-    "MCP_SERVER_APP_ID": "api://test-mcp-server",
-    "REQUIRED_SCOPE": "test.read test.write",
-    "REQUIRED_ROLE": "Test.ReadWrite.All",
-    "VSCODE_CLIENT_ID": "vscode-client-id",
-    "CLAUDE_DESKTOP_CLIENT_ID": "claude-desktop-client-id",
-    "CLAUDE_CODE_CLIENT_ID": "claude-code-client-id",
-    "CHATGPT_CLIENT_ID": "chatgpt-client-id",
-    "GENERIC_CLIENT_ID": "generic-client-id",
-    "ENABLE_MOCK_AUTH": "false",
-    "ENABLE_DCR_ENDPOINT": "true",
-    "LOG_LEVEL": "ERROR",  # Suppress logs during tests
-})
+os.environ.update(
+    {
+        "ENTRA_TENANT_ID": "test-tenant-id",
+        "MCP_SERVER_APP_ID": "api://test-mcp-server",
+        "REQUIRED_SCOPE": "test.read test.write",
+        "REQUIRED_ROLE": "Test.ReadWrite.All",
+        "VSCODE_CLIENT_ID": "vscode-client-id",
+        "CLAUDE_DESKTOP_CLIENT_ID": "claude-desktop-client-id",
+        "CLAUDE_CODE_CLIENT_ID": "claude-code-client-id",
+        "CHATGPT_CLIENT_ID": "chatgpt-client-id",
+        "GENERIC_CLIENT_ID": "generic-client-id",
+        "ENABLE_MOCK_AUTH": "false",
+        "ENABLE_DCR_ENDPOINT": "true",
+        "LOG_LEVEL": "ERROR",  # Suppress logs during tests
+    }
+)
 
-from app.config import Settings, get_settings
-from app.main import create_app
-
+from app.config import Settings, get_settings  # noqa: E402
+from app.main import create_app  # noqa: E402
 
 # ============================================================================
 # Settings Fixtures
 # ============================================================================
+
 
 @pytest.fixture
 def test_settings() -> Settings:
@@ -59,43 +61,37 @@ def mock_settings() -> Settings:
 # JWT & JWKS Fixtures
 # ============================================================================
 
+
 @pytest.fixture
 def private_key() -> str:
     """Generate RSA private key for testing."""
-    from cryptography.hazmat.primitives.asymmetric import rsa
-    from cryptography.hazmat.primitives import serialization
     from cryptography.hazmat.backends import default_backend
+    from cryptography.hazmat.primitives import serialization
+    from cryptography.hazmat.primitives.asymmetric import rsa
 
-    key = rsa.generate_private_key(
-        public_exponent=65537,
-        key_size=2048,
-        backend=default_backend()
-    )
+    key = rsa.generate_private_key(public_exponent=65537, key_size=2048, backend=default_backend())
 
     return key.private_bytes(
         encoding=serialization.Encoding.PEM,
         format=serialization.PrivateFormat.PKCS8,
-        encryption_algorithm=serialization.NoEncryption()
-    ).decode('utf-8')
+        encryption_algorithm=serialization.NoEncryption(),
+    ).decode("utf-8")
 
 
 @pytest.fixture
 def public_key(private_key: str) -> str:
     """Get public key from private key."""
-    from cryptography.hazmat.primitives import serialization
     from cryptography.hazmat.backends import default_backend
+    from cryptography.hazmat.primitives import serialization
 
     key = serialization.load_pem_private_key(
-        private_key.encode(),
-        password=None,
-        backend=default_backend()
+        private_key.encode(), password=None, backend=default_backend()
     )
 
     public = key.public_key()
     return public.public_bytes(
-        encoding=serialization.Encoding.PEM,
-        format=serialization.PublicFormat.SubjectPublicKeyInfo
-    ).decode('utf-8')
+        encoding=serialization.Encoding.PEM, format=serialization.PublicFormat.SubjectPublicKeyInfo
+    ).decode("utf-8")
 
 
 @pytest.fixture
@@ -111,7 +107,7 @@ def jwks_response() -> Dict[str, Any]:
                 "n": "test-modulus",
                 "e": "AQAB",
                 "x5c": ["test-cert"],
-                "issuer": "https://login.microsoftonline.com/test-tenant-id/v2.0"
+                "issuer": "https://login.microsoftonline.com/test-tenant-id/v2.0",
             }
         ]
     }
@@ -174,10 +170,9 @@ def expired_jwt_claims(user_jwt_claims: Dict[str, Any]) -> Dict[str, Any]:
 @pytest.fixture
 def create_jwt_token(private_key: str):
     """Factory fixture to create JWT tokens."""
+
     def _create_token(
-        claims: Dict[str, Any],
-        kid: str = "test-key-id-1",
-        algorithm: str = "RS256"
+        claims: Dict[str, Any], kid: str = "test-key-id-1", algorithm: str = "RS256"
     ) -> str:
         """Create a signed JWT token.
 
@@ -217,6 +212,7 @@ def expired_token(expired_jwt_claims: Dict[str, Any], create_jwt_token) -> str:
 # HTTP Client Fixtures
 # ============================================================================
 
+
 @pytest.fixture
 def mock_httpx_client():
     """Mock httpx AsyncClient for JWKS fetching."""
@@ -242,6 +238,7 @@ def mock_httpx_client():
 # FastAPI Test Client Fixtures
 # ============================================================================
 
+
 @pytest.fixture
 def client() -> TestClient:
     """FastAPI test client."""
@@ -253,6 +250,7 @@ def client() -> TestClient:
 async def async_client():
     """Async FastAPI test client."""
     from httpx import AsyncClient
+
     app = create_app()
     async with AsyncClient(app=app, base_url="http://test") as ac:
         yield ac
@@ -261,6 +259,7 @@ async def async_client():
 # ============================================================================
 # Auth Fixtures
 # ============================================================================
+
 
 @pytest.fixture
 def auth_headers(valid_user_token: str) -> Dict[str, str]:
@@ -277,6 +276,7 @@ def app_auth_headers(valid_app_token: str) -> Dict[str, str]:
 # ============================================================================
 # DCR Fixtures
 # ============================================================================
+
 
 @pytest.fixture
 def vscode_dcr_request() -> Dict[str, Any]:
@@ -316,10 +316,12 @@ def claude_code_user_agent() -> Dict[str, str]:
 # Mock Fixtures for External Dependencies
 # ============================================================================
 
+
 @pytest.fixture
 def mock_jwks_cache(public_key: str, jwks_response: Dict[str, Any]):
     """Mock JWKS cache."""
     from unittest.mock import AsyncMock
+
     from app.auth.jwks_cache import JWKSCache
 
     cache = AsyncMock(spec=JWKSCache)
@@ -331,6 +333,7 @@ def mock_jwks_cache(public_key: str, jwks_response: Dict[str, Any]):
 # ============================================================================
 # Test Data Helpers
 # ============================================================================
+
 
 @pytest.fixture
 def invalid_token() -> str:

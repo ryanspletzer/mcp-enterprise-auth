@@ -11,22 +11,21 @@ Implements all MCP protocol endpoints:
 - prompts/get: Get a prompt
 """
 
+import structlog
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
-
-import structlog
 
 from app.auth.middleware import AuthContext, get_auth_context
 
 from .models import (
+    MCP_PROTOCOL_VERSION,
     Implementation,
     InitializeRequest,
     InitializeResponse,
-    MCP_PROTOCOL_VERSION,
-    PromptsListRequest,
-    PromptsListResponse,
     PromptGetRequest,
     PromptGetResponse,
+    PromptsListRequest,
+    PromptsListResponse,
     ResourceReadRequest,
     ResourceReadResponse,
     ResourcesListRequest,
@@ -67,7 +66,11 @@ async def initialize(
         client_name=request.clientInfo.name,
         client_version=request.clientInfo.version,
         protocol_version=request.protocolVersion,
-        user_id=auth.identity.get("user_id") if auth.token_type == "user" else auth.identity.get("app_id"),
+        user_id=(
+            auth.identity.get("user_id")
+            if auth.token_type == "user"
+            else auth.identity.get("app_id")
+        ),
     )
 
     # Validate protocol version
@@ -91,7 +94,10 @@ async def initialize(
             name="MCP Server with Enterprise Auth",
             version="1.0.0",
         ),
-        instructions="This MCP server provides example tools, resources, and prompts with enterprise-grade OAuth authentication.",
+        instructions=(
+            "This MCP server provides example tools, resources, and prompts "
+            "with enterprise-grade OAuth authentication."
+        ),
     )
 
     logger.info("mcp_initialize_complete", server_capabilities=response.capabilities)
@@ -139,7 +145,11 @@ async def call_tool(
     logger.info(
         "tool_call_requested",
         tool_name=request.name,
-        user_id=auth.identity.get("user_id") if auth.token_type == "user" else auth.identity.get("app_id"),
+        user_id=(
+            auth.identity.get("user_id")
+            if auth.token_type == "user"
+            else auth.identity.get("app_id")
+        ),
     )
 
     try:
@@ -193,7 +203,11 @@ async def read_resource(
     logger.info(
         "resource_read_requested",
         resource_uri=request.uri,
-        user_id=auth.identity.get("user_id") if auth.token_type == "user" else auth.identity.get("app_id"),
+        user_id=(
+            auth.identity.get("user_id")
+            if auth.token_type == "user"
+            else auth.identity.get("app_id")
+        ),
     )
 
     try:
@@ -247,7 +261,11 @@ async def get_prompt(
     logger.info(
         "prompt_get_requested",
         prompt_name=request.name,
-        user_id=auth.identity.get("user_id") if auth.token_type == "user" else auth.identity.get("app_id"),
+        user_id=(
+            auth.identity.get("user_id")
+            if auth.token_type == "user"
+            else auth.identity.get("app_id")
+        ),
     )
 
     try:

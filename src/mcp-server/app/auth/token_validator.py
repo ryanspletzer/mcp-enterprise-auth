@@ -84,9 +84,7 @@ class TokenValidator:
         logger.debug("token_type_detected_user", scp=scp)
         return TokenType.USER
 
-    def validate_permissions(
-        self, claims: dict[str, Any], token_type: TokenType
-    ) -> dict[str, Any]:
+    def validate_permissions(self, claims: dict[str, Any], token_type: TokenType) -> dict[str, Any]:
         """Validate token permissions based on type.
 
         Args:
