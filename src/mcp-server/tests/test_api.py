@@ -1,8 +1,9 @@
 """Tests for API endpoints."""
 
+from unittest.mock import patch
+
 import pytest
 from fastapi.testclient import TestClient
-from unittest.mock import patch
 
 
 @pytest.mark.integration
@@ -40,9 +41,7 @@ class TestHealthEndpoints:
 class TestDCREndpoints:
     """Test DCR endpoints."""
 
-    def test_dcr_register_vscode(
-        self, client: TestClient, vscode_dcr_request, vscode_user_agent
-    ):
+    def test_dcr_register_vscode(self, client: TestClient, vscode_dcr_request, vscode_user_agent):
         """Test DCR registration for VS Code."""
         response = client.post(
             "/dcr/register",
@@ -131,8 +130,8 @@ class TestProtectedEndpoints:
     ):
         """Test /api/me with valid user token."""
         # Mock JWT validation
-        with patch('app.auth.jwt_validator.jwt.decode') as mock_decode:
-            with patch('app.auth.jwks_cache.JWKSCache.get_key_by_kid') as mock_get_key:
+        with patch("app.auth.jwt_validator.jwt.decode") as mock_decode:
+            with patch("app.auth.jwks_cache.JWKSCache.get_key_by_kid") as mock_get_key:
                 mock_decode.return_value = user_jwt_claims
                 mock_get_key.return_value = {"kid": "test-key-id-1"}
 

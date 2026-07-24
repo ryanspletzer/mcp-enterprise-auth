@@ -1,12 +1,12 @@
 """Tests for JWT validator module."""
 
-import pytest
 import time
-from datetime import datetime, timedelta
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, patch
 
-from app.auth.jwt_validator import JWTValidator
+import pytest
+
 from app.auth.jwks_cache import JWKSCache
+from app.auth.jwt_validator import JWTValidator
 from app.config import Settings
 from app.utils.exceptions import TokenExpiredError, TokenInvalidError
 
@@ -42,7 +42,7 @@ class TestJWTValidator:
         claims["exp"] = now_epoch + 3600  # 1 hour from now
 
         # Mock jwt.decode to return claims (since we can't easily mock crypto validation)
-        with patch('app.auth.jwt_validator.jwt.decode') as mock_decode:
+        with patch("app.auth.jwt_validator.jwt.decode") as mock_decode:
             mock_decode.return_value = claims
 
             result = await jwt_validator.validate_token(valid_user_token)
@@ -58,7 +58,7 @@ class TestJWTValidator:
         """Test validate_token with expired token raises TokenExpiredError."""
         from jose.exceptions import ExpiredSignatureError
 
-        with patch('app.auth.jwt_validator.jwt.decode') as mock_decode:
+        with patch("app.auth.jwt_validator.jwt.decode") as mock_decode:
             mock_decode.side_effect = ExpiredSignatureError("Token expired")
 
             with pytest.raises(TokenExpiredError):
@@ -91,7 +91,7 @@ class TestJWTValidator:
         """Test validate_token with wrong issuer raises error."""
         from jose.exceptions import JWTClaimsError
 
-        with patch('app.auth.jwt_validator.jwt.decode') as mock_decode:
+        with patch("app.auth.jwt_validator.jwt.decode") as mock_decode:
             mock_decode.side_effect = JWTClaimsError("Invalid issuer")
 
             with pytest.raises(TokenInvalidError) as exc_info:
@@ -106,7 +106,7 @@ class TestJWTValidator:
         """Test validate_token with wrong audience raises error."""
         from jose.exceptions import JWTClaimsError
 
-        with patch('app.auth.jwt_validator.jwt.decode') as mock_decode:
+        with patch("app.auth.jwt_validator.jwt.decode") as mock_decode:
             mock_decode.side_effect = JWTClaimsError("Invalid audience")
 
             with pytest.raises(TokenInvalidError):
@@ -125,7 +125,7 @@ class TestJWTValidator:
         claims["iat"] = now_epoch - 60  # 1 minute ago
         claims["exp"] = now_epoch + 3600  # 1 hour from now
 
-        with patch('app.auth.jwt_validator.jwt.decode') as mock_decode:
+        with patch("app.auth.jwt_validator.jwt.decode") as mock_decode:
             mock_decode.return_value = claims
 
             with pytest.raises(TokenInvalidError) as exc_info:
@@ -146,7 +146,7 @@ class TestJWTValidator:
         claims["iat"] = now_epoch - 60  # 1 minute ago
         claims["exp"] = now_epoch + 3600  # 1 hour from now
 
-        with patch('app.auth.jwt_validator.jwt.decode') as mock_decode:
+        with patch("app.auth.jwt_validator.jwt.decode") as mock_decode:
             mock_decode.return_value = claims
 
             with pytest.raises(TokenInvalidError) as exc_info:
@@ -168,7 +168,7 @@ class TestJWTValidator:
         claims["nbf"] = now_epoch - 60  # 1 minute ago
         claims["exp"] = now_epoch + 10800  # 3 hours from now
 
-        with patch('app.auth.jwt_validator.jwt.decode') as mock_decode:
+        with patch("app.auth.jwt_validator.jwt.decode") as mock_decode:
             mock_decode.return_value = claims
 
             with pytest.raises(TokenInvalidError) as exc_info:

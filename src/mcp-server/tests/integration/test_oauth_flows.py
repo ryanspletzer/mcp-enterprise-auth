@@ -249,9 +249,7 @@ class TestOIDCDiscoveryOnMCPServer:
         mcp_client_with_mock_jwks: TestClient,
     ):
         """Test MCP server exposes .well-known/oauth-authorization-server."""
-        response = mcp_client_with_mock_jwks.get(
-            "/.well-known/oauth-authorization-server"
-        )
+        response = mcp_client_with_mock_jwks.get("/.well-known/oauth-authorization-server")
 
         # Should return discovery document or redirect
         assert response.status_code in [200, 404]  # 404 acceptable if not implemented

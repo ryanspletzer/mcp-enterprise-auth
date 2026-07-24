@@ -2,7 +2,7 @@
 
 import logging
 import sys
-from typing import Any, Protocol
+from typing import Any, Protocol, cast
 
 import structlog
 from pythonjsonlogger import jsonlogger
@@ -59,6 +59,7 @@ def setup_logging(settings: Settings) -> None:
     handler = logging.StreamHandler(sys.stdout)
     handler.setLevel(log_level)
 
+    formatter: logging.Formatter
     if settings.LOG_FORMAT == "json":
         # JSON formatter for production
         formatter = jsonlogger.JsonFormatter(
@@ -115,4 +116,4 @@ def get_logger(name: str) -> StructuredLogger:
     Returns:
         Structured logger instance with type hints for IDE support
     """
-    return structlog.get_logger(name)  # type: ignore[return-value]
+    return cast(StructuredLogger, structlog.get_logger(name))

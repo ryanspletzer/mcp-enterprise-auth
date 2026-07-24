@@ -1,6 +1,6 @@
 """Authentication middleware for MCP server."""
 
-from typing import Any, Callable, Optional
+from typing import Any, Optional
 
 from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -64,7 +64,8 @@ class AuthContext:
     @property
     def subject(self) -> str:
         """Get subject claim (stable identifier)."""
-        return self.identity.get("subject", "")
+        subject: str = self.identity.get("subject", "")
+        return subject
 
 
 class AuthMiddleware:
@@ -311,7 +312,9 @@ async def require_app_token(auth: AuthContext = Depends(get_auth_context)) -> Au
             status_code=status.HTTP_403_FORBIDDEN,
             detail={
                 "error": "forbidden",
-                "error_description": "This endpoint requires an app-only token (application permissions)",
+                "error_description": (
+                    "This endpoint requires an app-only token (application permissions)"
+                ),
             },
         )
     return auth

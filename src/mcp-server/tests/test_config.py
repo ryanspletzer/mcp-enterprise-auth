@@ -1,6 +1,5 @@
 """Tests for configuration module."""
 
-import os
 import pytest
 from pydantic import ValidationError
 
@@ -25,7 +24,10 @@ class TestSettings:
 
     def test_entra_oidc_config_url_property(self, test_settings: Settings):
         """Test OIDC config URL is constructed correctly."""
-        expected = "https://login.microsoftonline.com/test-tenant-id/v2.0/.well-known/openid-configuration"
+        expected = (
+            "https://login.microsoftonline.com/test-tenant-id/v2.0/.well-known/"
+            "openid-configuration"
+        )
         assert test_settings.ENTRA_OIDC_CONFIG_URL == expected
 
     def test_entra_jwks_url_property(self, test_settings: Settings):

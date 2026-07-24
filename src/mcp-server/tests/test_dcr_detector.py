@@ -92,9 +92,7 @@ class TestClientDetector:
 
     def test_get_confidence_score_medium_for_user_agent(self, detector):
         """Test medium confidence for User-Agent match."""
-        client_type, confidence = detector.get_confidence_score(
-            user_agent="VSCode-MCP/1.0"
-        )
+        client_type, confidence = detector.get_confidence_score(user_agent="VSCode-MCP/1.0")
         assert client_type == ClientType.VSCODE
         assert 0.7 <= confidence < 0.9
 

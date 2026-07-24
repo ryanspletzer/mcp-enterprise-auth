@@ -1,10 +1,9 @@
 """Configuration settings for MCP server using Pydantic."""
 
-import os
 from functools import lru_cache
 from typing import Literal, Optional
 
-from pydantic import Field, field_validator, model_validator
+from pydantic import Field, ValidationInfo, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -24,11 +23,12 @@ class Settings(BaseSettings):
     ENTRA_TENANT_ID: str = Field(..., description="Entra ID tenant ID")
     ENTRA_AUTHORITY: str = Field(
         default="",
-        description="Entra ID authority URL (defaults to https://login.microsoftonline.com/{TENANT_ID})"
+        description=(
+            "Entra ID authority URL (defaults to https://login.microsoftonline.com/{TENANT_ID})"
+        ),
     )
     ENTRA_JWKS_URL: str = Field(
-        default="",
-        description="JWKS endpoint URL (defaults to {AUTHORITY}/discovery/v2.0/keys)"
+        default="", description="JWKS endpoint URL (defaults to {AUTHORITY}/discovery/v2.0/keys)"
     )
 
     @model_validator(mode="after")
@@ -56,9 +56,7 @@ class Settings(BaseSettings):
     # -------------------------------------------------------------------------
     # MCP Server Identity
     # -------------------------------------------------------------------------
-    MCP_SERVER_APP_ID: str = Field(
-        ..., description="MCP server app ID (audience claim in JWT)"
-    )
+    MCP_SERVER_APP_ID: str = Field(..., description="MCP server app ID (audience claim in JWT)")
     MCP_SERVER_SCOPE_PREFIX: Optional[str] = Field(
         None, description="Scope prefix (defaults to MCP_SERVER_APP_ID)"
     )
@@ -139,19 +137,13 @@ class Settings(BaseSettings):
     )
     MCP_SERVER_HOST: str = Field(default="0.0.0.0", description="Server host")
     MCP_SERVER_PORT: int = Field(default=8000, description="Server port")
-    MCP_SERVER_BASE_URL: str = Field(
-        default="http://localhost:8000", description="Public base URL"
-    )
+    MCP_SERVER_BASE_URL: str = Field(default="http://localhost:8000", description="Public base URL")
 
     # -------------------------------------------------------------------------
     # JWT Validation Configuration
     # -------------------------------------------------------------------------
-    JWT_CLOCK_SKEW_SECONDS: int = Field(
-        default=300, description="Clock skew tolerance (5 minutes)"
-    )
-    JWKS_CACHE_TTL_SECONDS: int = Field(
-        default=86400, description="JWKS cache TTL (24 hours)"
-    )
+    JWT_CLOCK_SKEW_SECONDS: int = Field(default=300, description="Clock skew tolerance (5 minutes)")
+    JWKS_CACHE_TTL_SECONDS: int = Field(default=86400, description="JWKS cache TTL (24 hours)")
     JWKS_FETCH_TIMEOUT_SECONDS: float = Field(
         default=10.0, description="Timeout for JWKS fetch operations"
     )
@@ -183,13 +175,11 @@ class Settings(BaseSettings):
     ENABLE_TOKEN_REVOCATION: bool = Field(default=False, description="Enable token revocation")
     REDIS_URL: Optional[str] = Field(None, description="Redis connection string")
     REDIS_PASSWORD: Optional[str] = Field(None, description="Redis password")
-    REVOCATION_CACHE_TTL_SECONDS: int = Field(
-        default=3600, description="Revocation cache TTL"
-    )
+    REVOCATION_CACHE_TTL_SECONDS: int = Field(default=3600, description="Revocation cache TTL")
 
     @field_validator("REDIS_URL")
     @classmethod
-    def validate_redis_url(cls, v: Optional[str], info) -> Optional[str]:
+    def validate_redis_url(cls, v: Optional[str], info: ValidationInfo) -> Optional[str]:
         """Validate Redis URL if revocation is enabled."""
         if info.data.get("ENABLE_TOKEN_REVOCATION") and not v:
             raise ValueError("REDIS_URL is required when ENABLE_TOKEN_REVOCATION is True")
@@ -241,9 +231,7 @@ class Settings(BaseSettings):
     # -------------------------------------------------------------------------
     UVICORN_WORKERS: int = Field(default=4, description="Number of Uvicorn workers")
     UVICORN_TIMEOUT: int = Field(default=60, description="Request timeout in seconds")
-    MAX_REQUEST_SIZE_BYTES: int = Field(
-        default=10485760, description="Max request size (10MB)"
-    )
+    MAX_REQUEST_SIZE_BYTES: int = Field(default=10485760, description="Max request size (10MB)")
 
     # -------------------------------------------------------------------------
     # Health Check Configuration
@@ -258,9 +246,7 @@ class Settings(BaseSettings):
     DEBUG_MODE: bool = Field(default=False, description="Debug mode (DO NOT enable in prod)")
     ENABLE_SWAGGER: bool = Field(default=True, description="Enable Swagger UI")
     SWAGGER_UI_PATH: str = Field(default="/docs", description="Swagger UI path")
-    ENABLE_MOCK_AUTH: bool = Field(
-        default=False, description="Mock auth (DO NOT enable in prod)"
-    )
+    ENABLE_MOCK_AUTH: bool = Field(default=False, description="Mock auth (DO NOT enable in prod)")
 
     # -------------------------------------------------------------------------
     # AWS-Specific Configuration
@@ -275,16 +261,14 @@ class Settings(BaseSettings):
     # Agent Core Specific Configuration
     # -------------------------------------------------------------------------
     AGENTCORE_API_KEY: Optional[str] = Field(None, description="Agent Core API key")
-    AGENTCORE_PATH_PREFIX: Optional[str] = Field(
-        None, description="Agent Core path prefix"
-    )
+    AGENTCORE_PATH_PREFIX: Optional[str] = Field(None, description="Agent Core path prefix")
 
     # -------------------------------------------------------------------------
     # Validation
     # -------------------------------------------------------------------------
     @field_validator("LOG_JWT_CLAIMS")
     @classmethod
-    def validate_log_jwt_claims(cls, v: bool, info) -> bool:
+    def validate_log_jwt_claims(cls, v: bool, info: ValidationInfo) -> bool:
         """Warn if JWT claims logging is enabled in production."""
         if v and not info.data.get("DEBUG_MODE"):
             import warnings

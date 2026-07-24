@@ -9,8 +9,9 @@ Tests cover:
 - Error handling
 """
 
+from unittest.mock import AsyncMock, patch
+
 import pytest
-from unittest.mock import patch, AsyncMock
 from fastapi.testclient import TestClient
 
 from app.main import create_app
@@ -38,7 +39,9 @@ def auth_headers(valid_user_token):
 @pytest.fixture
 def mock_jwt_validation(user_jwt_claims):
     """Mock JWT validation to accept test tokens."""
-    with patch('app.auth.jwt_validator.JWTValidator.validate_token', new_callable=AsyncMock) as mock:
+    with patch(
+        "app.auth.jwt_validator.JWTValidator.validate_token", new_callable=AsyncMock
+    ) as mock:
         mock.return_value = user_jwt_claims
         yield mock
 

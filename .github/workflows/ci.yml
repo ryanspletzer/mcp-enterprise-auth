@@ -168,8 +168,20 @@ jobs:
         docker build -t mcp-server:test .
 
     - name: Test Docker image
+      # Dummy values for the settings fields that have no defaults —
+      # this smoke test only proves the app factory runs inside the image.
       run: |
-        docker run --rm mcp-server:test python -c "from app.main import create_app; app = create_app(); print('✓ App created successfully')"
+        docker run --rm \
+          -e ENTRA_TENANT_ID=00000000-0000-0000-0000-000000000000 \
+          -e MCP_SERVER_APP_ID=api://mcp-server \
+          -e REQUIRED_SCOPE=mcp.read \
+          -e REQUIRED_ROLE=MCP.ReadWrite.All \
+          -e VSCODE_CLIENT_ID=11111111-1111-1111-1111-111111111111 \
+          -e CLAUDE_DESKTOP_CLIENT_ID=22222222-2222-2222-2222-222222222222 \
+          -e CLAUDE_CODE_CLIENT_ID=33333333-3333-3333-3333-333333333333 \
+          -e CHATGPT_CLIENT_ID=44444444-4444-4444-4444-444444444444 \
+          -e GENERIC_CLIENT_ID=55555555-5555-5555-5555-555555555555 \
+          mcp-server:test python -c "from app.main import create_app; app = create_app(); print('✓ App created successfully')"
 
   integration-test:
     name: Integration Tests

@@ -13,7 +13,7 @@ import math
 import random
 import uuid
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any, Callable, Dict, List
 
 import structlog
 
@@ -30,12 +30,12 @@ logger = structlog.get_logger()
 class ToolRegistry:
     """Registry of available MCP tools."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._tools: Dict[str, Tool] = {}
-        self._handlers: Dict[str, callable] = {}
+        self._handlers: Dict[str, Callable[[Dict[str, Any]], ToolCallResponse]] = {}
         self._register_builtin_tools()
 
-    def _register_builtin_tools(self):
+    def _register_builtin_tools(self) -> None:
         """Register all built-in tools."""
         self.register(
             Tool(
@@ -69,7 +69,9 @@ class ToolRegistry:
                     properties={
                         "expression": {
                             "type": "string",
-                            "description": "Mathematical expression to evaluate (e.g., '2 + 2', 'sqrt(16)')",
+                            "description": (
+                                "Mathematical expression to evaluate (e.g., '2 + 2', 'sqrt(16)')"
+                            ),
                         }
                     },
                     required=["expression"],
@@ -170,7 +172,7 @@ class ToolRegistry:
             random_number,
         )
 
-    def register(self, tool: Tool, handler: callable):
+    def register(self, tool: Tool, handler: Callable[[Dict[str, Any]], ToolCallResponse]) -> None:
         """Register a tool with its handler."""
         self._tools[tool.name] = tool
         self._handlers[tool.name] = handler
@@ -396,6 +398,7 @@ def random_number(arguments: Dict[str, Any]) -> ToolCallResponse:
             isError=True,
         )
 
+    number: float
     if is_integer:
         number = random.randint(int(min_val), int(max_val))
     else:

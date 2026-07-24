@@ -91,7 +91,7 @@ class JWTValidator:
 
             # Step 3: Verify signature and decode claims
             try:
-                claims = jwt.decode(
+                claims: dict[str, Any] = jwt.decode(
                     token,
                     key_data,
                     algorithms=["RS256"],
@@ -153,9 +153,7 @@ class JWTValidator:
 
         except Exception as e:
             logger.error("jwt_validation_unexpected_error", error=str(e), exc_info=True)
-            raise TokenInvalidError(
-                f"Unexpected error during JWT validation: {str(e)}"
-            ) from e
+            raise TokenInvalidError(f"Unexpected error during JWT validation: {str(e)}") from e
 
     def _validate_temporal_claims(self, claims: dict[str, Any]) -> None:
         """Validate temporal claims (exp, nbf, iat).

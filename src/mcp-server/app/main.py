@@ -1,10 +1,9 @@
 """Main FastAPI application for MCP server."""
 
-import sys
 from contextlib import asynccontextmanager
 from typing import Any, AsyncGenerator
 
-from fastapi import Depends, FastAPI, Request, status
+from fastapi import Depends, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from slowapi import Limiter, _rate_limit_exceeded_handler
@@ -13,7 +12,7 @@ from slowapi.middleware import SlowAPIMiddleware
 from slowapi.util import get_remote_address
 
 from app.auth.middleware import AuthContext, get_auth_context
-from app.config import Settings, get_settings
+from app.config import get_settings
 from app.dcr import dcr_router
 from app.discovery.endpoints import router as discovery_router
 from app.mcp import mcp_router
@@ -232,9 +231,7 @@ def create_app() -> FastAPI:
         return {
             "token_type": auth.token_type.value,
             "identity": auth.identity,
-            "permissions": {
-                k: v for k, v in auth.permissions.items() if k != "token_type"
-            },
+            "permissions": {k: v for k, v in auth.permissions.items() if k != "token_type"},
         }
 
     return app

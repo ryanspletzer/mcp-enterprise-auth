@@ -6,7 +6,6 @@ to run both servers in the same process.
 """
 
 import os
-import sys
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, Generator
 
@@ -54,7 +53,6 @@ def rsa_private_key_pem(rsa_private_key) -> str:
 @pytest.fixture(scope="module")
 def rsa_public_key_jwk(rsa_private_key) -> Dict[str, Any]:
     """Get public key in JWK format for JWKS endpoint."""
-    from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
     import base64
 
     public_key = rsa_private_key.public_key()
@@ -62,13 +60,15 @@ def rsa_public_key_jwk(rsa_private_key) -> Dict[str, Any]:
 
     # Convert to base64url encoding (no padding)
     def to_base64url(num: int, length: int) -> str:
-        return base64.urlsafe_b64encode(
-            num.to_bytes(length, byteorder="big")
-        ).decode("ascii").rstrip("=")
+        return (
+            base64.urlsafe_b64encode(num.to_bytes(length, byteorder="big"))
+            .decode("ascii")
+            .rstrip("=")
+        )
 
     # RSA modulus and exponent
     n = to_base64url(public_numbers.n, 256)  # 2048-bit key = 256 bytes
-    e = to_base64url(public_numbers.e, 3)    # exponent is typically small
+    e = to_base64url(public_numbers.e, 3)  # exponent is typically small
 
     return {
         "kty": "RSA",
@@ -83,9 +83,7 @@ def rsa_public_key_jwk(rsa_private_key) -> Dict[str, Any]:
 @pytest.fixture(scope="module")
 def mock_jwks(rsa_public_key_jwk: Dict[str, Any]) -> Dict[str, Any]:
     """Mock JWKS response containing our test public key."""
-    return {
-        "keys": [rsa_public_key_jwk]
-    }
+    return {"keys": [rsa_public_key_jwk]}
 
 
 # =============================================================================
@@ -96,6 +94,7 @@ def mock_jwks(rsa_public_key_jwk: Dict[str, Any]) -> Dict[str, Any]:
 @pytest.fixture(scope="module")
 def create_access_token(rsa_private_key_pem: str):
     """Factory fixture to create signed JWT access tokens."""
+
     def _create_token(
         subject: str = "test-subject",
         client_id: str = "test-client-id",
@@ -268,6 +267,7 @@ def mcp_client_with_mock_jwks(
 
     # Clear the settings cache to pick up new env vars
     from app.config import get_settings
+
     get_settings.cache_clear()
 
     try:
