@@ -1,0 +1,20 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: uv
+    directory: "/src/mcp-server"
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: uv
+    directory: "/src/mock-entra-idp"
+    schedule:
+      interval: weekly
