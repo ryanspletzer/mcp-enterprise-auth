@@ -42,7 +42,7 @@ dev = [
     "types-cachetools>=5.3.0.7",
     "black>=24.1.1",
     "isort>=5.13.2",
-    "flake8>=7.0.0",
+    "flake8>=7.3.0",
     "safety>=3.0.1",
     "bandit>=1.7.6",
 ]
@@ -122,7 +122,7 @@ dev = [
     "types-cachetools>=5.3.0.7",
     "black>=24.1.1",
     "isort>=5.13.2",
-    "flake8>=7.0.0",
+    "flake8>=7.3.0",
     "safety>=3.0.1",
     "bandit>=1.7.6",
     "ruff>=0.4.0",
