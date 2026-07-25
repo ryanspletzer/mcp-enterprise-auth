@@ -5,18 +5,13 @@ from typing import Annotated
 
 import structlog
 from fastapi import APIRouter, Depends, Form, HTTPException, Query, Request
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, Response
 from fastapi.templating import Jinja2Templates
 
 from app.config.settings import Settings, get_settings
 from app.storage.base import StorageBackend
 from app.storage.memory import get_storage
-from app.utils.exceptions import (
-    AccessDenied,
-    InvalidClient,
-    InvalidRequest,
-    UnsupportedResponseType,
-)
+from app.utils.exceptions import InvalidClient, InvalidRequest, UnsupportedResponseType
 from app.utils.pkce import validate_code_challenge_method
 from app.utils.validators import validate_redirect_uri, validate_scope
 
@@ -44,7 +39,7 @@ async def authorize(
     response_mode: str = Query("query", description="Response mode"),
     settings: Settings = Depends(get_settings),
     storage: StorageBackend = Depends(get_storage_dep),
-) -> HTMLResponse:
+) -> Response:
     """
     OAuth 2.0 authorization endpoint.
 
@@ -113,9 +108,13 @@ async def authorize(
         )
 
     except (InvalidClient, InvalidRequest, UnsupportedResponseType) as e:
-        logger.warning("authorization_request_failed", error=e.error, description=e.error_description)
+        logger.warning(
+            "authorization_request_failed", error=e.error, description=e.error_description
+        )
         # Return error to redirect_uri if possible, otherwise show error page
-        if redirect_uri and validate_redirect_uri(redirect_uri, client.redirect_uris if client else []):
+        if redirect_uri and validate_redirect_uri(
+            redirect_uri, client.redirect_uris if client else []
+        ):
             error_uri = f"{redirect_uri}?error={e.error}&error_description={e.error_description}"
             if state:
                 error_uri += f"&state={state}"
@@ -216,7 +215,7 @@ async def grant_consent(
     if consent != "approve":
         logger.info("consent_denied", session_id=session_id)
         redirect_uri = session.redirect_uri
-        redirect_uri += f"?error=access_denied&error_description=User denied consent"
+        redirect_uri += "?error=access_denied&error_description=User denied consent"
         if session.state:
             redirect_uri += f"&state={session.state}"
         return RedirectResponse(redirect_uri, status_code=303)

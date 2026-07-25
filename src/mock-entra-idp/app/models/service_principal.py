@@ -13,4 +13,5 @@ class ServicePrincipal(BaseModel):
 
     class Config:
         """Pydantic config."""
+
         from_attributes = True
