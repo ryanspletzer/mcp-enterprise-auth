@@ -38,12 +38,16 @@ dev = [
     "black>=24.1.1",
     "isort>=5.13.2",
     "mypy>=2.3.0",
+    "types-python-jose>=3.3.0",
     "ruff>=0.4.0",
 ]
 
 [tool.black]
 line-length = 100
-target-version = ['py314']
+# Keep the requires-python floor (3.11) in this list: a py314-only target
+# would let black emit PEP 758 paren-less `except` syntax that older
+# supported interpreters can't parse.
+target-version = ['py311', 'py312']
 include = '\.pyi?$'
 
 [tool.isort]
@@ -70,7 +74,8 @@ addopts = [
 ]
 
 [tool.mypy]
-python_version = "3.14"
+# Check against the requires-python floor, not the newest interpreter
+python_version = "3.11"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true

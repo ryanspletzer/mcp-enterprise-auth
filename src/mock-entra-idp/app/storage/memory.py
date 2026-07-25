@@ -1,7 +1,6 @@
 """In-memory storage backend."""
 
 import secrets
-from typing import Any
 
 import structlog
 

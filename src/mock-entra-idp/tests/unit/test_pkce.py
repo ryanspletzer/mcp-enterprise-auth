@@ -28,7 +28,10 @@ class TestPKCE:
         assert isinstance(verifier, str)
         assert len(verifier) == 43  # Default length
         # Should be URL-safe base64
-        assert all(c in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_" for c in verifier)
+        assert all(
+            c in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
+            for c in verifier
+        )
 
     def test_generate_code_verifier_custom_length(self):
         """Test code verifier generation with custom length."""
@@ -51,7 +54,10 @@ class TestPKCE:
         assert isinstance(challenge, str)
         assert len(challenge) == 43  # Base64url encoded SHA256 is 43 chars
         # Should be URL-safe base64
-        assert all(c in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_" for c in challenge)
+        assert all(
+            c in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
+            for c in challenge
+        )
 
     def test_generate_code_challenge_plain(self, code_verifier: str):
         """Test plain code challenge generation."""

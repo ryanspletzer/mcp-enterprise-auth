@@ -1,7 +1,6 @@
 """Authorization code and session models."""
 
 from datetime import datetime, timedelta, timezone
-from typing import Literal
 
 from pydantic import BaseModel, Field
 
@@ -13,11 +12,13 @@ class AuthorizationSession(BaseModel):
     client_id: str = Field(..., description="Client ID")
     redirect_uri: str = Field(..., description="Redirect URI")
     scope: str = Field(..., description="Requested scope")
-    state: str | None = Field(None, description="Client state parameter")
-    code_challenge: str | None = Field(None, description="PKCE code challenge")
-    code_challenge_method: str | None = Field(None, description="PKCE challenge method")
-    user_id: str | None = Field(None, description="Authenticated user ID")
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), description="Session creation time")
+    state: str | None = Field(default=None, description="Client state parameter")
+    code_challenge: str | None = Field(default=None, description="PKCE code challenge")
+    code_challenge_method: str | None = Field(default=None, description="PKCE challenge method")
+    user_id: str | None = Field(default=None, description="Authenticated user ID")
+    created_at: datetime = Field(
+        default_factory=lambda: datetime.now(timezone.utc), description="Session creation time"
+    )
     expires_at: datetime = Field(..., description="Session expiration time")
 
     @classmethod
@@ -52,6 +53,7 @@ class AuthorizationSession(BaseModel):
 
     class Config:
         """Pydantic config."""
+
         from_attributes = True
 
 
@@ -63,10 +65,12 @@ class AuthorizationCode(BaseModel):
     user_id: str = Field(..., description="User ID")
     scope: str = Field(..., description="Granted scope")
     redirect_uri: str = Field(..., description="Redirect URI")
-    code_challenge: str | None = Field(None, description="PKCE code challenge")
-    code_challenge_method: str | None = Field(None, description="PKCE challenge method")
-    audience: str | None = Field(None, description="Token audience")
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), description="Code creation time")
+    code_challenge: str | None = Field(default=None, description="PKCE code challenge")
+    code_challenge_method: str | None = Field(default=None, description="PKCE challenge method")
+    audience: str | None = Field(default=None, description="Token audience")
+    created_at: datetime = Field(
+        default_factory=lambda: datetime.now(timezone.utc), description="Code creation time"
+    )
     expires_at: datetime = Field(..., description="Code expiration time")
     used: bool = Field(default=False, description="Whether code has been used")
 
@@ -104,6 +108,7 @@ class AuthorizationCode(BaseModel):
 
     class Config:
         """Pydantic config."""
+
         from_attributes = True
 
 
@@ -114,7 +119,9 @@ class RefreshToken(BaseModel):
     client_id: str = Field(..., description="Client ID")
     user_id: str = Field(..., description="User ID")
     scope: str = Field(..., description="Granted scope")
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), description="Token creation time")
+    created_at: datetime = Field(
+        default_factory=lambda: datetime.now(timezone.utc), description="Token creation time"
+    )
     expires_at: datetime = Field(..., description="Token expiration time")
     revoked: bool = Field(default=False, description="Whether token has been revoked")
 
@@ -144,4 +151,5 @@ class RefreshToken(BaseModel):
 
     class Config:
         """Pydantic config."""
+
         from_attributes = True

@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends, Form, HTTPException
 
 from app.config.settings import Settings, get_settings
 from app.crypto.jwt_issuer import JWTIssuer, get_jwt_issuer
-from app.crypto.key_manager import KeyManager, get_key_manager
+from app.crypto.key_manager import get_key_manager
 from app.storage.base import StorageBackend
 from app.storage.memory import get_storage
 from app.utils.exceptions import InvalidClient, InvalidGrant, UnsupportedGrantType
@@ -293,10 +293,9 @@ async def handle_client_credentials_grant(
     if not sp:
         raise InvalidClient("Service principal not found")
 
-    # Parse scope to determine roles
-    # Default scope returns all roles
-    requested_scope = scope or settings.DEFAULT_SCOPE
-    roles = sp.roles  # In production, you'd filter based on requested_scope
+    # Default scope returns all roles; in production you'd filter based on
+    # the requested scope (scope or settings.DEFAULT_SCOPE)
+    roles = sp.roles
 
     # Client credentials always uses secret (1) or certificate (2)
     # For this mock, we're using secrets, so azpacr = 1

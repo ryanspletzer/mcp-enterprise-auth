@@ -1,7 +1,6 @@
 """Main FastAPI application for Mock Entra ID."""
 
 import logging
-import sys
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 
@@ -9,6 +8,7 @@ import structlog
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from structlog.typing import Processor
 
 from app.config.settings import get_settings
 from app.endpoints import authorize, discovery, token
@@ -16,7 +16,7 @@ from app.endpoints import authorize, discovery, token
 
 def setup_logging(log_level: str = "INFO", log_format: str = "json") -> None:
     """Configure structured logging."""
-    processors = [
+    processors: list[Processor] = [
         structlog.contextvars.merge_contextvars,
         structlog.processors.add_log_level,
         structlog.processors.TimeStamper(fmt="iso"),
@@ -68,7 +68,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     # Initialize storage (seeds clients, users, service principals)
     from app.storage.memory import get_storage
 
-    storage = get_storage(settings)
+    get_storage(settings)
     logger.info(
         "storage_initialized",
         backend=settings.STORAGE_BACKEND,
@@ -86,8 +86,7 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title="Mock Entra ID Token Issuer",
         description=(
-            "OAuth 2.0/OIDC token issuer that emulates Microsoft Entra ID "
-            "for testing and demos."
+            "OAuth 2.0/OIDC token issuer that emulates Microsoft Entra ID " "for testing and demos."
         ),
         version="0.1.0",
         lifespan=lifespan,
