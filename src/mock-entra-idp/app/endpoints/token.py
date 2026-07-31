@@ -126,9 +126,10 @@ async def handle_authorization_code_grant(
         raise InvalidClient("Client mismatch")
 
     # Validate client secret (for confidential clients)
-    if client.client_type == "confidential":
-        if not client_secret or client_secret != client.client_secret:
-            raise InvalidClient("Invalid client credentials")
+    if client.client_type == "confidential" and (
+        not client_secret or client_secret != client.client_secret
+    ):
+        raise InvalidClient("Invalid client credentials")
 
     # Validate redirect URI
     if redirect_uri != auth_code.redirect_uri:
@@ -220,9 +221,10 @@ async def handle_refresh_token_grant(
         raise InvalidClient("Client mismatch")
 
     # Validate client secret (for confidential clients)
-    if client.client_type == "confidential":
-        if not client_secret or client_secret != client.client_secret:
-            raise InvalidClient("Invalid client credentials")
+    if client.client_type == "confidential" and (
+        not client_secret or client_secret != client.client_secret
+    ):
+        raise InvalidClient("Invalid client credentials")
 
     # Get user
     user = await storage.get_user(refresh_token_obj.user_id)
