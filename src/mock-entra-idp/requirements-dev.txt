@@ -5,7 +5,7 @@ pytest-asyncio==1.4.0
 pytest-cov==4.1.0
 pytest-playwright==0.8.0
 playwright==1.40.0
-httpx==0.26.0
+httpx==0.28.1
 faker==22.2.0
 black==24.1.1
 isort==8.0.1
