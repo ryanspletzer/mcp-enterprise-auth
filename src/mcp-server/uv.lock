@@ -1322,7 +1322,7 @@ requires-dist = [
     { name = "fastapi", specifier = ">=0.109.0" },
     { name = "flake8", marker = "extra == 'dev'", specifier = ">=7.3.0" },
     { name = "hiredis", specifier = ">=2.3.2" },
-    { name = "httpx", specifier = ">=0.26.0" },
+    { name = "httpx", specifier = ">=0.28.1" },
     { name = "isort", marker = "extra == 'dev'", specifier = ">=5.13.2" },
     { name = "mcp", specifier = ">=0.9.0" },
     { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.8.0" },
