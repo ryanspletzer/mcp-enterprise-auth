@@ -65,7 +65,7 @@ Complete test suite and infrastructure for the MCP server implementation.
    - Swagger UI
    - 15+ integration test cases
 
-8. **pytest.ini** (~60 lines)
+8. **pyproject.toml** (`[tool.pytest.ini_options]` and `[tool.coverage.*]`)
    - Pytest configuration
    - Coverage settings
    - Test markers definition
