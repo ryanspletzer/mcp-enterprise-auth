@@ -104,9 +104,74 @@ ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 minversion = "7.0"
-addopts = "-ra -q --strict-markers --cov=app --cov-report=term-missing"
+
+# Test discovery
 testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+addopts = [
+    "-v",
+    # Show summary of all test outcomes
+    "-ra",
+    # Show local variables in tracebacks
+    "-l",
+    # Fail on unknown markers
+    "--strict-markers",
+    "--cov=app",
+    "--cov-report=term-missing",
+    "--cov-report=html:htmlcov",
+    "--cov-report=xml:coverage.xml",
+    # Show slowest tests
+    "--durations=10",
+]
+
+markers = [
+    "unit: Unit tests (fast, isolated)",
+    "integration: Integration tests (may require external services)",
+    "slow: Slow tests (may take >1s)",
+    "security: Security-related tests",
+    "jwt: JWT validation tests",
+    "dcr: DCR emulation tests",
+    "auth: Authentication tests",
+    "api: API endpoint tests",
+    "mcp: MCP protocol tests",
+]
+
 asyncio_mode = "auto"
+
+# coverage.py never reads pytest.ini, so these must live here (or in
+# .coveragerc / setup.cfg / tox.ini) to have any effect at all.
+[tool.coverage.run]
+source = ["app"]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__pycache__/*",
+    "*/venv/*",
+    "*/virtualenv/*",
+]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    # Don't complain about missing debug-only code
+    "def __repr__",
+    # Don't complain if tests don't hit defensive assertion code
+    "raise AssertionError",
+    "raise NotImplementedError",
+    # Don't complain if non-runnable code isn't run
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+    "@abc.abstractmethod",
+    # Don't complain about ellipsis in protocols
+    "\\.\\.\\.",
+]
 
 [dependency-groups]
 dev = [
