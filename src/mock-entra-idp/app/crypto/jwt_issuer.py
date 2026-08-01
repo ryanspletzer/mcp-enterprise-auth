@@ -1,7 +1,7 @@
 """JWT token issuer with Entra ID-compatible claims."""
 
 import secrets
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from typing import Any
 
 import structlog
@@ -59,7 +59,7 @@ class JWTIssuer:
         Returns:
             Token response dict with access_token, token_type, expires_in, scope
         """
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         exp = now + timedelta(seconds=self.settings.ACCESS_TOKEN_TTL)
 
         claims = {
@@ -142,7 +142,7 @@ class JWTIssuer:
         Returns:
             Token response dict with access_token, token_type, expires_in
         """
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         exp = now + timedelta(seconds=self.settings.ACCESS_TOKEN_TTL)
 
         claims = {

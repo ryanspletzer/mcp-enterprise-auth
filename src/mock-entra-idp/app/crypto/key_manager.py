@@ -2,7 +2,7 @@
 
 import base64
 import hashlib
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 import structlog
@@ -34,7 +34,7 @@ class KeyManager:
         self.keys[kid] = {
             "private_key": private_key,
             "public_key": private_key.public_key(),
-            "created_at": datetime.now(timezone.utc),
+            "created_at": datetime.now(UTC),
         }
         self.current_kid = kid
 
@@ -122,7 +122,7 @@ class KeyManager:
         self.keys[kid] = {
             "private_key": private_key,
             "public_key": private_key.public_key(),
-            "created_at": datetime.now(timezone.utc),
+            "created_at": datetime.now(UTC),
         }
 
         # Update current key
@@ -145,7 +145,7 @@ class KeyManager:
         Returns:
             Key ID (16-character hex string)
         """
-        timestamp = datetime.now(timezone.utc).isoformat()
+        timestamp = datetime.now(UTC).isoformat()
         return hashlib.sha256(timestamp.encode()).hexdigest()[:16]
 
     def _int_to_base64url(self, value: int) -> str:
