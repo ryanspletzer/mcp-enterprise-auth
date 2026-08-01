@@ -291,8 +291,8 @@ mcp-with-proper-enterprise-auth/
 ├── src/                               # Source code
 │   ├── mcp-server/                    # MCP Server implementation
 │   │   ├── Dockerfile
-│   │   ├── requirements.txt
 │   │   ├── pyproject.toml
+│   │   ├── uv.lock                    # Source of truth for CI and Docker
 │   │   │
 │   │   ├── app/
 │   │   │   ├── __init__.py

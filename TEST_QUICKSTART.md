@@ -264,7 +264,7 @@ pytest
 **Solution**: Install dependencies:
 
 ```bash
-pip install -r requirements.txt
+uv sync --extra dev
 ```
 
 ### Watch mode not working
