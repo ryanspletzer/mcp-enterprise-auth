@@ -39,7 +39,7 @@ dev = [
     "isort>=8.0.1",
     "mypy>=2.3.0",
     "types-python-jose>=3.3.0",
-    "ruff>=0.4.0",
+    "ruff>=0.16.0",
 ]
 
 [tool.black]
@@ -53,6 +53,28 @@ include = '\.pyi?$'
 [tool.isort]
 profile = "black"
 line_length = 100
+
+[tool.ruff]
+# Match black/isort so ruff's isort rule (I001) does not fight them over
+# import lines between 88 and 100 columns.
+line-length = 100
+# Check against the requires-python floor, not the newest interpreter
+target-version = "py311"
+
+[tool.ruff.lint.flake8-bugbear]
+# FastAPI's dependency-injection markers are called in argument defaults by
+# design; B008 would otherwise flag every route signature.
+extend-immutable-calls = [
+    "fastapi.Body",
+    "fastapi.Cookie",
+    "fastapi.Depends",
+    "fastapi.File",
+    "fastapi.Form",
+    "fastapi.Header",
+    "fastapi.Path",
+    "fastapi.Query",
+    "fastapi.Security",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
