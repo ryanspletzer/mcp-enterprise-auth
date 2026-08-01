@@ -284,16 +284,24 @@ uv cache prune --dry-run
 uv cache clean
 ```
 
-### Export requirements.txt
+### Why there is no requirements.txt
 
-If you need a requirements.txt file:
+`mcp-server` and `mock-entra-idp` do not keep a `requirements.txt`.
+`uv.lock` is the single source of truth:
+CI installs from it with `uv sync`,
+and both Dockerfiles install from it with `uv sync --frozen --no-dev`.
+
+That means the container holds exactly the resolution the tests ran against,
+down to transitive pins,
+and a hand-maintained pin list can no longer drift away from the lock.
+`--frozen` fails the build if the lock is stale
+rather than quietly resolving something else.
+
+If an external consumer genuinely needs a flat pin list,
+export one on demand rather than committing it:
 
 ```bash
-# Export dependencies
-uv pip compile pyproject.toml -o requirements.txt
-
-# Or use make command
-make uv-export
+uv export --no-dev --no-emit-project --no-hashes
 ```
 
 ## Troubleshooting

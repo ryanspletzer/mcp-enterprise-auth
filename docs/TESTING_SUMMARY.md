@@ -104,7 +104,7 @@ Complete test suite and infrastructure for the MCP server implementation.
 - **Artifacts**: Test results, coverage reports
 - **Codecov integration**
 
-#### Development Dependencies (requirements-dev.txt)
+#### Development Dependencies (the `dev` extra in pyproject.toml)
 
 - pytest-watch for watch mode
 - pytest-timeout for hanging tests
@@ -208,7 +208,7 @@ Complete test suite and infrastructure for the MCP server implementation.
 cd mcp-server
 
 # Install dependencies
-pip install -r requirements.txt -r requirements-dev.txt
+uv sync --extra dev
 
 # Run all tests
 make test

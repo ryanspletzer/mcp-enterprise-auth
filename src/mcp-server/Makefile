@@ -164,9 +164,6 @@ deps-tree: check-uv ## Show dependency tree
 uv-lock: check-uv ## Update uv.lock file
 	uv lock
 
-uv-export: check-uv ## Export requirements.txt from uv
-	uv pip compile pyproject.toml -o requirements.txt
-
 cov-report: ## Open coverage report in browser
 	open htmlcov/index.html || xdg-open htmlcov/index.html
 

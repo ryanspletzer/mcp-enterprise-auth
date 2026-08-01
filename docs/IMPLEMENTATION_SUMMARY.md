@@ -27,7 +27,7 @@ A production-ready FastAPI application that implements:
 - `src/mcp-server/app/utils/exceptions.py` - Custom exceptions (120+ lines)
 - `src/mcp-server/app/utils/logging.py` - Logging setup (90+ lines)
 - `src/mcp-server/app/mcp/__init__.py` - MCP protocol placeholder
-- `src/mcp-server/requirements.txt` - Python dependencies
+- `src/mcp-server/uv.lock` - Locked dependency resolution used by CI and Docker
 - `src/mcp-server/pyproject.toml` - Project metadata and tool configs
 
 ### Authentication Module (5 files)

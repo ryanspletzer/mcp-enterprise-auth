@@ -1,21 +1,32 @@
-FROM python:3.11-slim
+# Stage 1: Builder
+FROM python:3.11-slim AS builder
+
+# uv is pinned to the same version CI uses (see UV_VERSION in ci.yml)
+COPY --from=ghcr.io/astral-sh/uv:0.11.32 /uv /usr/local/bin/uv
 
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
+# Install the exact resolution recorded in uv.lock. --frozen fails the build
+# if the lock is stale rather than silently resolving something else, so the
+# image can only ever contain what CI tested.
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-dev --no-install-project
 
-# Copy requirements
-COPY requirements.txt .
+# Stage 2: Runtime
+FROM python:3.11-slim
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# The venv must live at the same path it was built at: its scripts and
+# pyvenv.cfg hold absolute paths.
+WORKDIR /app
+
+COPY --from=builder /app/.venv /app/.venv
 
 # Copy application code
 COPY app/ ./app/
 COPY .env.example .env
+
+ENV PATH=/app/.venv/bin:$PATH
+ENV PYTHONPATH=/app
 
 # Expose port
 EXPOSE 8001
