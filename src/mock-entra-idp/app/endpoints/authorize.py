@@ -98,9 +98,9 @@ async def authorize(
 
         # Render login page
         return templates.TemplateResponse(
+            request,
             "login.html",
             {
-                "request": request,
                 "session_id": session_id,
                 "client_name": client.name,
                 "scopes": scope.split(),
@@ -182,9 +182,9 @@ async def consent_page(
     )
 
     return templates.TemplateResponse(
+        request,
         "consent.html",
         {
-            "request": request,
             "session_id": session_id,
             "client_name": client.name,
             "user_name": user.name,
