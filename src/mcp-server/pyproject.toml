@@ -43,7 +43,7 @@ dev = [
     "black>=26.5.1",
     "isort>=5.13.2",
     "flake8>=7.3.0",
-    "safety>=3.0.1",
+    "safety>=3.8.1",
     "bandit>=1.7.6",
 ]
 
@@ -188,7 +188,7 @@ dev = [
     "black>=26.5.1",
     "isort>=5.13.2",
     "flake8>=7.3.0",
-    "safety>=3.0.1",
+    "safety>=3.8.1",
     "bandit>=1.7.6",
     "ruff>=0.4.0",
 ]
