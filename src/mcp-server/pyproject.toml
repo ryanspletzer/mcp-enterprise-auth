@@ -31,7 +31,7 @@ dependencies = [
 aws = ["aws-xray-sdk>=2.12.1"]
 dev = [
     "pytest>=9.1.1",
-    "pytest-asyncio>=0.23.3",
+    "pytest-asyncio>=1.4.0",
     "pytest-cov>=7.1.0",
     "pytest-watch>=4.2.0",
     "pytest-timeout>=2.2.0",
@@ -176,7 +176,7 @@ exclude_lines = [
 [dependency-groups]
 dev = [
     "pytest>=9.1.1",
-    "pytest-asyncio>=0.23.3",
+    "pytest-asyncio>=1.4.0",
     "pytest-cov>=7.1.0",
     "pytest-watch>=4.2.0",
     "pytest-timeout>=2.2.0",
