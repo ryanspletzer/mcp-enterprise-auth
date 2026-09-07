@@ -44,7 +44,7 @@ dev = [
     "isort>=5.13.2",
     "flake8>=7.3.0",
     "safety>=3.8.1",
-    "bandit>=1.7.6",
+    "bandit>=1.9.4",
 ]
 
 [build-system]
@@ -189,6 +189,6 @@ dev = [
     "isort>=5.13.2",
     "flake8>=7.3.0",
     "safety>=3.8.1",
-    "bandit>=1.7.6",
+    "bandit>=1.9.4",
     "ruff>=0.16.4",
 ]
