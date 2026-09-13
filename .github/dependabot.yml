@@ -18,3 +18,8 @@ updates:
     directory: "/src/mock-entra-idp"
     schedule:
       interval: weekly
+
+  - package-ecosystem: uv
+    directory: "/src/mcp-client-examples"
+    schedule:
+      interval: weekly
