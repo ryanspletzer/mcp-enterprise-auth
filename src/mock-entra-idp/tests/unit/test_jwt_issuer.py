@@ -1,7 +1,7 @@
 """Unit tests for JWTIssuer."""
 
+import jwt
 import pytest
-from jose import jwt
 
 from app.config.settings import Settings
 from app.crypto.jwt_issuer import JWTIssuer
@@ -29,7 +29,7 @@ class TestJWTIssuer:
         assert token_data["scope"] == "test.read test.write"
 
         # Decode token (without verification for testing)
-        claims = jwt.get_unverified_claims(token_data["access_token"])
+        claims = jwt.decode(token_data["access_token"], options={"verify_signature": False})
 
         # Verify standard claims
         assert claims["aud"] == "api://test-app"
@@ -75,7 +75,7 @@ class TestJWTIssuer:
         assert "scope" not in token_data
 
         # Decode token
-        claims = jwt.get_unverified_claims(token_data["access_token"])
+        claims = jwt.decode(token_data["access_token"], options={"verify_signature": False})
 
         # Verify app-only specific claims
         assert claims["idtyp"] == "app"  # Critical indicator

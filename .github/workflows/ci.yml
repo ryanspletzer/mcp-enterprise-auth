@@ -342,11 +342,7 @@ jobs:
       run: |
         uv export --no-dev --no-emit-project --format requirements-txt \
           --output-file /tmp/reqs.txt
-        # PYSEC-2026-1325 (ecdsa, transitive via python-jose) has no fixed
-        # release; upstream treats side-channel attacks as out of scope.
-        # These demos only use RS256 (RSA), so the ecdsa code path is never
-        # exercised. Revisit if python-jose swaps or drops the dependency.
-        uvx pip-audit -r /tmp/reqs.txt --ignore-vuln PYSEC-2026-1325
+        uvx pip-audit -r /tmp/reqs.txt
 
   summary:
     name: CI Summary

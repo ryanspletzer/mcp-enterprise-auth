@@ -9,9 +9,9 @@ Note: Tests that require actual mock IdP interaction are in a separate
 test module that runs both servers together.
 """
 
+import jwt
 import pytest
 from fastapi.testclient import TestClient
-from jose import jwt
 
 from tests.integration.conftest import (
     SHARED_APP_ID,
@@ -31,7 +31,7 @@ class TestTokenClaimsStructure:
     ):
         """Test user token has correct claims structure."""
         # Decode without verification to inspect claims
-        claims = jwt.get_unverified_claims(valid_user_token)
+        claims = jwt.decode(valid_user_token, options={"verify_signature": False})
 
         # Verify standard claims
         assert claims["aud"] == SHARED_APP_ID
@@ -54,7 +54,7 @@ class TestTokenClaimsStructure:
         valid_app_token: str,
     ):
         """Test app-only token has correct claims structure."""
-        claims = jwt.get_unverified_claims(valid_app_token)
+        claims = jwt.decode(valid_app_token, options={"verify_signature": False})
 
         # Verify standard claims
         assert claims["aud"] == SHARED_APP_ID

@@ -4,8 +4,7 @@ import secrets
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-from jose import JWTError, jwt
-from jose.exceptions import ExpiredSignatureError, JWTClaimsError
+import jwt
 
 from app.auth.jwks_cache import JWKSCache
 from app.config import Settings
@@ -91,12 +90,14 @@ class JWTValidator:
 
             # Step 3: Verify signature and decode claims
             try:
+                signing_key = jwt.PyJWK.from_dict(key_data).key
                 claims: dict[str, Any] = jwt.decode(
                     token,
-                    key_data,
+                    signing_key,
                     algorithms=["RS256"],
                     audience=self.expected_audience,
                     issuer=self.expected_issuer,
+                    leeway=self.clock_skew,
                     options={
                         "verify_signature": True,
                         "verify_exp": True,
@@ -104,23 +105,27 @@ class JWTValidator:
                         "verify_iat": True,
                         "verify_aud": True,
                         "verify_iss": True,
-                        "require_exp": True,
-                        "require_iat": True,
-                        "leeway": self.clock_skew,
+                        "require": ["exp", "iat"],
                     },
                 )
-            except ExpiredSignatureError as e:
+            except jwt.ExpiredSignatureError as e:
                 logger.warning("jwt_expired", kid=kid, error=str(e))
                 raise TokenExpiredError(details={"kid": kid}) from e
 
-            except JWTClaimsError as e:
+            except (
+                jwt.InvalidAudienceError,
+                jwt.InvalidIssuerError,
+                jwt.MissingRequiredClaimError,
+                jwt.ImmatureSignatureError,
+                jwt.InvalidIssuedAtError,
+            ) as e:
                 logger.warning("jwt_claims_error", kid=kid, error=str(e))
                 raise TokenInvalidError(
                     f"JWT claims validation failed: {str(e)}",
                     details={"kid": kid},
                 ) from e
 
-            except JWTError as e:
+            except jwt.PyJWTError as e:
                 logger.warning("jwt_validation_error", kid=kid, error=str(e))
                 raise TokenInvalidError(
                     f"JWT validation failed: {str(e)}",
@@ -167,7 +172,7 @@ class JWTValidator:
         now = datetime.now(timezone.utc)
         leeway = timedelta(seconds=self.clock_skew)
 
-        # Validate exp (already done by jose, but double-check)
+        # Validate exp (already done by PyJWT, but double-check)
         exp = claims.get("exp")
         if exp:
             exp_time = datetime.fromtimestamp(exp, tz=timezone.utc)

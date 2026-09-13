@@ -5,9 +5,9 @@ from datetime import datetime, timedelta, timezone
 from typing import Any, Dict
 from unittest.mock import AsyncMock, MagicMock
 
+import jwt
 import pytest
 from fastapi.testclient import TestClient
-from jose import jwt
 
 # Set test environment variables before importing app
 os.environ.update(
