@@ -56,10 +56,10 @@ class TestJWTValidator:
         self, jwt_validator, expired_token, mock_jwks_cache_instance
     ):
         """Test validate_token with expired token raises TokenExpiredError."""
-        from jose.exceptions import ExpiredSignatureError
+        import jwt
 
         with patch("app.auth.jwt_validator.jwt.decode") as mock_decode:
-            mock_decode.side_effect = ExpiredSignatureError("Token expired")
+            mock_decode.side_effect = jwt.ExpiredSignatureError("Token expired")
 
             with pytest.raises(TokenExpiredError):
                 await jwt_validator.validate_token(expired_token)
@@ -89,10 +89,10 @@ class TestJWTValidator:
         self, jwt_validator, token_wrong_issuer, user_jwt_claims, mock_jwks_cache_instance
     ):
         """Test validate_token with wrong issuer raises error."""
-        from jose.exceptions import JWTClaimsError
+        import jwt
 
         with patch("app.auth.jwt_validator.jwt.decode") as mock_decode:
-            mock_decode.side_effect = JWTClaimsError("Invalid issuer")
+            mock_decode.side_effect = jwt.InvalidIssuerError("Invalid issuer")
 
             with pytest.raises(TokenInvalidError) as exc_info:
                 await jwt_validator.validate_token(token_wrong_issuer)
@@ -104,10 +104,10 @@ class TestJWTValidator:
         self, jwt_validator, token_wrong_audience, mock_jwks_cache_instance
     ):
         """Test validate_token with wrong audience raises error."""
-        from jose.exceptions import JWTClaimsError
+        import jwt
 
         with patch("app.auth.jwt_validator.jwt.decode") as mock_decode:
-            mock_decode.side_effect = JWTClaimsError("Invalid audience")
+            mock_decode.side_effect = jwt.InvalidAudienceError("Invalid audience")
 
             with pytest.raises(TokenInvalidError):
                 await jwt_validator.validate_token(token_wrong_audience)

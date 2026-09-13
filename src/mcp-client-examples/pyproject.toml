@@ -7,7 +7,6 @@ requires-python = ">=3.11"
 dependencies = [
     "httpx>=0.26.0",
     "structlog>=24.1.0",
-    "python-jose[cryptography]>=3.3.0",
 ]
 
 [dependency-groups]
@@ -21,6 +20,7 @@ dev = [
     "black>=24.1.1",
     "flake8>=7.0.0",
     "mypy>=1.8.0",
+    "pyjwt[crypto]>=2.14.0",
 ]
 
 [build-system]

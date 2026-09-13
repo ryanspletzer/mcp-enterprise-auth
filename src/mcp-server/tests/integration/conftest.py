@@ -9,12 +9,12 @@ import os
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, Generator
 
+import jwt
 import pytest
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from fastapi.testclient import TestClient
-from jose import jwt
 
 # Shared configuration
 SHARED_TENANT_ID = "integration-test-tenant"

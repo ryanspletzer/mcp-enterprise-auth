@@ -4,8 +4,8 @@ import secrets
 from datetime import UTC, datetime, timedelta
 from typing import Any
 
+import jwt
 import structlog
-from jose import jwt
 
 from app.config.settings import Settings
 from app.crypto.key_manager import KeyManager

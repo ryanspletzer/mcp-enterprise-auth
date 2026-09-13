@@ -1,8 +1,8 @@
 """Integration tests for OAuth flows."""
 
+import jwt
 import pytest
 from fastapi.testclient import TestClient
-from jose import jwt
 
 
 @pytest.mark.integration
@@ -114,7 +114,7 @@ class TestTokenEndpoint:
         assert "refresh_token" not in token_data
 
         # Verify token claims
-        claims = jwt.get_unverified_claims(token_data["access_token"])
+        claims = jwt.decode(token_data["access_token"], options={"verify_signature": False})
         assert claims["idtyp"] == "app"
         assert "roles" in claims
         assert isinstance(claims["roles"], list)

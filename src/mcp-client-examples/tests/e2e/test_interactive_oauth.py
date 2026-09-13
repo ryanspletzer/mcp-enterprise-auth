@@ -12,8 +12,8 @@ Requirements:
 - Playwright browsers installed (script handles this automatically)
 """
 
+import jwt
 import pytest
-from jose import jwt
 from playwright.sync_api import Page
 
 from .conftest import (
@@ -93,7 +93,7 @@ class TestPublicClientAuthCodePKCE:
         assert token_result.token_type.lower() == "bearer"
 
         # Decode and verify token claims (without signature verification)
-        claims = jwt.get_unverified_claims(token_result.access_token)
+        claims = jwt.decode(token_result.access_token, options={"verify_signature": False})
 
         # Verify audience (can be App ID URI or client ID)
         assert claims.get("aud") in entra_config.valid_audiences, (
@@ -181,7 +181,7 @@ class TestConfidentialClientAuthCode:
         assert token_result.access_token, "No access token received"
 
         # Decode and verify token claims
-        claims = jwt.get_unverified_claims(token_result.access_token)
+        claims = jwt.decode(token_result.access_token, options={"verify_signature": False})
 
         # Verify audience and tenant (audience can be App ID URI or client ID)
         assert claims.get("aud") in entra_config.valid_audiences
@@ -227,7 +227,7 @@ class TestServicePrincipalClientCredentials:
         assert token_result.access_token, "No access token received"
 
         # Decode and verify token claims
-        claims = jwt.get_unverified_claims(token_result.access_token)
+        claims = jwt.decode(token_result.access_token, options={"verify_signature": False})
 
         # Verify audience and tenant (audience can be App ID URI or client ID)
         assert claims.get("aud") in entra_config.valid_audiences, (
@@ -298,7 +298,7 @@ class TestTokenValidation:
             code_verifier=pkce_pair.verifier,
         )
 
-        claims = jwt.get_unverified_claims(token_result.access_token)
+        claims = jwt.decode(token_result.access_token, options={"verify_signature": False})
 
         # Verify all required claims are present
         required_claims = ["iss", "aud", "tid", "exp", "nbf", "iat", "sub"]

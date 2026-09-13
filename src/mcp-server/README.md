@@ -8,7 +8,7 @@ with proper enterprise authentication via Microsoft Entra ID (Azure AD).
 The server is built with:
 
 - **FastAPI**: Modern, fast web framework
-- **python-jose**: JWT validation with cryptography
+- **PyJWT**: JWT validation with cryptography
 - **Pydantic**: Configuration management and validation
 - **Structlog**: Structured logging
 
@@ -337,6 +337,6 @@ export LOG_JWT_CLAIMS=true  # Shows full JWT claims (NEVER in production!)
 ## References
 
 - [FastAPI Documentation](https://fastapi.tiangolo.com/)
-- [python-jose Documentation](https://python-jose.readthedocs.io/)
+- [PyJWT Documentation](https://pyjwt.readthedocs.io/)
 - [Pydantic Settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/)
 - [Microsoft Identity Platform](https://docs.microsoft.com/en-us/azure/active-directory/develop/)

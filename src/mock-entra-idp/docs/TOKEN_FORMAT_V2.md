@@ -268,7 +268,7 @@ if "MCP.ReadWrite.All" not in roles:
 ## Example Token Validation
 
 ```python
-from jose import jwt
+import jwt
 from typing import Dict, Any
 
 def validate_v2_token(token: str, jwks_url: str, expected_audience: str) -> Dict[str, Any]:
@@ -279,12 +279,13 @@ def validate_v2_token(token: str, jwks_url: str, expected_audience: str) -> Dict
 
     # Fetch JWKS and get key
     jwks = fetch_jwks(jwks_url)
-    key = find_key_by_kid(jwks, header["kid"])
+    key_data = find_key_by_kid(jwks, header["kid"])
+    signing_key = jwt.PyJWK.from_dict(key_data).key
 
     # Decode and validate
     claims = jwt.decode(
         token,
-        key,
+        signing_key,
         algorithms=["RS256"],
         audience=expected_audience,
         options={
