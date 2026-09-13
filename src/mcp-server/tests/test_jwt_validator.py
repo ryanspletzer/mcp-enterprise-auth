@@ -107,7 +107,7 @@ class TestJWTValidator:
         import jwt
 
         with patch("app.auth.jwt_validator.jwt.decode") as mock_decode:
-            mock_decode.side_effect = jwt.InvalidAudienceError("Invalid audience")
+            mock_decode.side_effect = jwt.InvalidAudienceError("Audience doesn't match")
 
             with pytest.raises(TokenInvalidError):
                 await jwt_validator.validate_token(token_wrong_audience)
