@@ -8,7 +8,7 @@ This document summarizes all the artifacts created for the MCP with Proper Enter
 
 ### Root Level
 
-- **[CLAUDE.md](../CLAUDE.md)** -
+- **[AGENTS.md](../AGENTS.md)** -
   Comprehensive project documentation with architecture, configuration, and development roadmap
 - **[README.md](../README.md)** - Quick start guide and project overview
 - **[.env.example](../.env.example)** - Complete environment variable template with detailed comments
@@ -111,7 +111,7 @@ or any Mermaid-compatible viewer:
 
 ## Project Structure Defined
 
-The following project structure has been documented in CLAUDE.md:
+The following project structure has been documented in AGENTS.md:
 
 ```text
 mcp-with-proper-enterprise-auth/
@@ -183,7 +183,7 @@ mcp-with-proper-enterprise-auth/
 
 ## Development Roadmap
 
-Documented in CLAUDE.md:
+Documented in AGENTS.md:
 
 ### Phase 1: Core Implementation (NEXT)
 
@@ -283,7 +283,7 @@ Documented in CLAUDE.md:
 
 ### Documentation (9 files)
 
-- CLAUDE.md
+- AGENTS.md
 - README.md
 - docs/ARTIFACTS_SUMMARY.md
 - docs/architecture/00-complete-system-overview.md

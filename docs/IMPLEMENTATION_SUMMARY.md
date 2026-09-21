@@ -54,7 +54,7 @@ A production-ready FastAPI application that implements:
 
 ### Documentation (4 files already created)
 
-- `CLAUDE.md` - Comprehensive project documentation
+- `AGENTS.md` - Comprehensive project documentation
 - `README.md` - Project overview
 - `.env.example` - Environment variable template
 - `.gitignore` - Git ignore patterns
