@@ -251,7 +251,7 @@ docker-compose down -v
 
 - Check logs: `docker-compose logs -f mcp-server`
 - Enable debug mode: Set `DEBUG_MODE=true` in `.env`
-- Review documentation: [CLAUDE.md](./CLAUDE.md) and [docs/](./docs/)
+- Review documentation: [AGENTS.md](./AGENTS.md) and [docs/](./docs/)
 - Check Swagger UI: http://localhost:8000/docs
 
 ## Security Reminder

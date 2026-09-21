@@ -266,7 +266,7 @@ REDIRECT_URI=vscode://mcp-auth/callback
 
 ```text
 mcp-with-proper-enterprise-auth/
-├── CLAUDE.md                          # This file
+├── AGENTS.md                          # This file
 ├── README.md                          # Quick start guide
 ├── docker-compose.yml                 # Local development setup
 │

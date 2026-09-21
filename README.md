@@ -20,7 +20,7 @@ MCP Clients → MCP Server (DCR + JWT Validation) → Entra ID
  Claude, etc.)
 ```
 
-See [CLAUDE.md](./CLAUDE.md) for comprehensive documentation
+See [AGENTS.md](./AGENTS.md) for comprehensive documentation
 and [docs/architecture/](./docs/architecture/) for sequence diagrams.
 
 ## 🚀 Quick Start
@@ -119,7 +119,7 @@ python client.py
 
 ## 📖 Documentation
 
-- **[CLAUDE.md](./CLAUDE.md)** - Comprehensive project documentation
+- **[AGENTS.md](./AGENTS.md)** - Comprehensive project documentation
 - **[Architecture Diagrams](./docs/architecture/)** - Sequence diagrams for all flows
 - **[Setup Guides](./docs/setup/)** - Entra ID, local dev, deployment
 - **[API Documentation](./docs/api/)** - MCP server and DCR endpoints
