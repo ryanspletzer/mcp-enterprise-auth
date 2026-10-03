@@ -41,7 +41,7 @@ dev = [
     "types-redis>=4.6.0.20241004",
     "types-cachetools>=7.0.0.20260713",
     "black>=26.5.1",
-    "isort>=9.0.1",
+    "isort>=9.0.2",
     "flake8>=7.3.0",
     "bandit>=1.9.4",
 ]
@@ -182,7 +182,7 @@ dev = [
     "types-redis>=4.6.0.20241004",
     "types-cachetools>=7.0.0.20260713",
     "black>=26.5.1",
-    "isort>=9.0.1",
+    "isort>=9.0.2",
     "flake8>=7.3.0",
     "bandit>=1.9.4",
     "ruff>=0.16.6",
